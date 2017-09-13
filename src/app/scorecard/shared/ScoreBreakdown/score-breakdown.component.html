@@ -1,0 +1,12 @@
+<score-meter
+  *ngFor='let score of scores'
+  [label]='score.name'
+  [value]='score.value'
+  [maxValue]='maxValue'
+  ></score-meter>
+  <div
+  [hidden]='!showDetails'
+  class='toolTip'
+  [style.top]='toolTipTop'
+  [style.left]='toolTipLeft'
+  #toolTip>{{targetScore && targetScore.value || ""}}</div>

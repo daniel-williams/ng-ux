@@ -1,0 +1,69 @@
+{
+  "name": "angular-nimble",
+  "version": "1.0.0",
+  "author": {
+    "name": "Daniel James Williams",
+    "email": "mail@danielwilliams.us"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daniel-williams/angular-nimble"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch --content-base client/",
+    "start": "npm run dev",
+    "build:prod": "rimraf dist && webpack --config config/webpack.production.js --progress --profile --bail"
+  },
+  "keywords": [
+    "Angular",
+    "redux",
+    "seed",
+    "starter",
+    "webpack"
+  ],
+  "dependencies": {
+    "@angular-redux/router": "6.3.0",
+    "@angular-redux/store": "6.5.4",
+    "@angular/animations": "4.2.4",
+    "@angular/common": "4.2.4",
+    "@angular/compiler": "4.2.4",
+    "@angular/core": "4.2.4",
+    "@angular/forms": "4.2.4",
+    "@angular/http": "4.2.4",
+    "@angular/platform-browser": "4.2.4",
+    "@angular/platform-browser-dynamic": "4.2.4",
+    "@angular/platform-server": "4.2.4",
+    "@angular/router": "4.2.4",
+    "bootstrap.native": "^2.0.14",
+    "core-js": "2.4.1",
+    "file-loader": "^0.11.2",
+    "gsap": "^1.20.2",
+    "node-sass": "^4.5.3",
+    "redux": "3.6.0",
+    "rxjs": "^5.4.3",
+    "scrollmagic": "^2.0.5",
+    "zone.js": "0.8.12"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.43",
+    "@types/node": "^8.0.26",
+    "@types/redux": "3.6.31",
+    "@types/webpack": "^3.0.10",
+    "angular-router-loader": "^0.6.0",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^3.2.3",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.7",
+    "html-webpack-plugin": "^2.30.1",
+    "imports-loader": "^0.7.1",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.6",
+    "to-string-loader": "^1.1.5",
+    "typescript": "^2.5.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
+  }
+}

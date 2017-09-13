@@ -1,0 +1,52 @@
+.video-container {
+  position: relative;
+
+  width: 100%;
+  height: auto;
+
+  &:hover {
+    cursor: pointer;
+  }
+  .video-wrap {
+    line-height: 0;
+  }
+  .pause-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    div.overlay-background {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      background-color: white;
+
+      opacity: 0.6;
+      z-index: 1;
+    }
+  }
+
+  video {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+.clip-info {
+  font-size: 30px;
+  font-size: 3.0rem;
+  line-height: 1.5;
+
+  color: #232323;
+
+  z-index: 2;
+}

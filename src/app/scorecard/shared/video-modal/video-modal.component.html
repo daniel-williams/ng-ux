@@ -1,0 +1,17 @@
+<div *ngIf='showModal' class='video-modal-wrap'>
+  <div class='video-modal-overlay' (click)='closeModal($event)'
+    [@overlayState]='overlayState'
+    (@overlayState.done)='removeModal($event)'></div>
+  <div class='video-modal-aligner'>
+    <div class='video-modal-sizer'
+      [@videoState]='videoState'
+      (@videoState.done)='playVideo($event)'>
+      <video controls #video></video>
+    </div>
+  </div>
+</div>
+
+<div class='video-modal-trigger' (click)='openModal($event)'>
+  <div class="trigger-wrap"><img src="/assets/images/play_button.png"></div>
+  <ng-content></ng-content>
+</div>

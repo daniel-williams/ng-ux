@@ -1,0 +1,20 @@
+<!-- *note that Edge does not yet honor preload attribute, so set source dynamically to avoid problems with many (30+) video components all buffering at once -->
+<div class='video-container'>
+  <div *ngIf='!isPlaying' class='pause-overlay' (click)='activateVideo()'>
+    <div class='overlay-background'></div>
+     <!-- <div class='clip-info'>{{clipRange}}</div> -->
+  </div>
+  <div class='video-wrap'><video
+      #expVideo
+      controls
+      preload='none'
+      [poster]='poster'
+      (loadedmetadata)='loadedmetadata()'
+      (canplay)='canplay()'
+      (play)='play()'
+      (pause)='pause()'
+      (click)='toggleVideo()'
+      (timeupdate)='timeupdate()'>
+      <source src='' type='video/mp4' #expVideoSource>
+    </video></div>
+</div>

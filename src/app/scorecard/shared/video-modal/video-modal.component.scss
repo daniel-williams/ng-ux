@@ -1,0 +1,68 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+.video-modal-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 999999;
+
+  .video-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(128,128,128,0.7);
+  }
+  .video-modal-aligner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100vw;
+    height: 100vh;
+  }
+  .video-modal-sizer {
+    position: relative;
+    line-height: 0;
+    background-color: rgba(255,255,255,1.0);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+  video {
+    width: 90vw;
+    height: auto;
+    min-width: 300px;
+    max-width: 1200px;
+    max-height: 90vh;
+  }
+}
+
+.video-modal-trigger {
+  position: relative;
+  cursor: pointer;
+
+  .trigger-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    img {
+      width: auto;
+      max-width: 50%;
+      height: auto;
+      max-height: 50%;
+    }
+  }
+}

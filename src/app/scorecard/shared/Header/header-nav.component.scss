@@ -1,0 +1,66 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+ul {
+  display: flex;
+
+  margin-top: 10px;
+
+  justify-content: flex-end;
+  list-style: none;
+
+  li {
+    position: relative;
+    display: flex;
+
+    margin-left: 15px;
+
+    flex-direction: column;
+    align-content: flex-start;
+
+    a {
+      display: block;
+
+      padding: 10px 15px;
+
+      color: white;
+
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover,
+      &:active,
+      &:visited,
+      &:focus {
+        text-decoration: none;
+
+        color: white;
+      }
+      &:active {
+        background-color: rgba(255,255,255,0.1);
+      }
+    }
+    .hl {
+      display: block;
+
+      margin: 0 15px;
+      border-bottom: 1px solid transparent;
+      height: 0;
+
+      transition: all 0.2s ease-in-out;
+    }
+    a:hover + .hl {
+      border-bottom-color: white;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ul {
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}

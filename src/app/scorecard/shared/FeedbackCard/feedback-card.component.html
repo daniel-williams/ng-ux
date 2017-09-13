@@ -1,0 +1,38 @@
+<div class='card' [class.new]='card.new'>
+  <div class='card-inner'>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class='username'>{{card.username}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div>Avg.</div>
+        <div class='score-average'>{{card.scoreAverage}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class='scores'>
+          <score-breakdown [scores]='card.scores' [max]='5'></score-breakdown>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class='dimension-title'>Desirable</div>
+        <div class='dimension'>
+          <span [class.negative]='!term.isPositive' *ngFor='let term of card.terms;let i = index'>{{term.name}}<span *ngIf='i < card.terms.length - 1'>, </span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class='verbatim' [title]='card.verbatim' (click)='toggleComment(card)'>"{{card.verbatim | ellipsis : 100 : !card.toggle}}"</div>
+      </div>
+      <div class="col-xs-12">
+        <div class='video'>
+          <video-modal src={{card.videoUrl}}>
+            <img src={{card.videoPoster}} class='video-poster'>
+          </video-modal>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
