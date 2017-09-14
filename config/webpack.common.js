@@ -5,6 +5,7 @@ const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 
 module.exports = function (options) {
@@ -39,6 +40,10 @@ module.exports = function (options) {
           test: /\.html$/,
           use: 'raw-loader',
           exclude: [helpers.root('src/index.html')]
+        },
+        {
+          test: /\.css$/,
+          use: ['to-string-loader', 'css-loader'],
         },
         {
           test: /\.scss$/,
@@ -76,7 +81,16 @@ module.exports = function (options) {
         title: 'Angular Nimble Starter',
         favicon: 'client/assets/images/favicon.png',
         showErrors: true
-      })
+      }),
+      new ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        Popper: ['popper.js', 'default'],
+        // In case you imported plugins individually, you must also require them here:
+        // Util: "exports-loader?Util!bootstrap/js/dist/util",
+        // Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+      }),
     ],
   };
 };

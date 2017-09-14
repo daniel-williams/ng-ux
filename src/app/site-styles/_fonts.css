@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'segoeui';
+  src: url('./fonts/segoeui/segoeui.woff') format('woff'), url('./fonts/segoeui/segoeui.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*!
+ * @font-face {
+ *   font-family: 'segoeuil';
+ *   src: url('./fonts/segoeui/segoeuil.woff') format('woff'), url('./fonts/segoeui/segoeuil.ttf') format('truetype');
+ *   font-weight: normal;
+ *   font-style: normal;
+ * }
+ */
+
+/*!
+ * @font-face {
+ *   font-family: 'segoeuisb';
+ *   src: url('./fonts/segoeui/segoeuisb.woff') format('woff'), url('./fonts/segoeui/segoeuisb.ttf') format('truetype');
+ *   font-weight: normal;
+ *   font-style: normal;
+ * }
+ */
+
+/*!
+ * @font-face {
+ *   font-family: 'segoeuib';
+ *   src: url('./fonts/segoeui/segoeuib.woff') format('woff'), url('./fonts/segoeui/segoeuib.ttf') format('truetype');
+ *   font-weight: normal;
+ *   font-style: normal;
+ * }
+ */
