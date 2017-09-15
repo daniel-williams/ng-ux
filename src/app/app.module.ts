@@ -12,6 +12,7 @@ import { SiteNav } from './site-nav';
 import { SiteStyles } from './site-styles';
 
 import { AnimationService } from './shared/animation.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AnimationService } from './shared/animation.service';
     BrowserModule,
     FormsModule,
     HttpModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule,
 
     AppRoutingModule,

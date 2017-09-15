@@ -11,6 +11,3 @@ import 'rxjs';
 
 import 'scrollmagic';
 import 'gsap';
-import 'jquery';
-import 'popper.js';
-import 'bootstrap';

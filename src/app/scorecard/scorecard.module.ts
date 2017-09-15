@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
+
+import { SharedModule } from '../shared';
 
 import {
   EllipsisPipe,
@@ -21,7 +23,8 @@ import { ScorecardComponent } from './scorecard.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
+
     ScorecardRoutingModule,
     VideoModalModule,
   ],
