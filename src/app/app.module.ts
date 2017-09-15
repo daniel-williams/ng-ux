@@ -9,7 +9,6 @@ import { CoreModule } from './core';
 
 import { App } from './app.component';
 import { SiteNav } from './site-nav';
-import { SiteStyles } from './site-styles';
 
 import { AnimationService } from './shared/animation.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +30,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     App,
     SiteNav,
-    SiteStyles,
   ],
   providers: [
     AnimationService,

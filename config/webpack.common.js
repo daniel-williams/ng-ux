@@ -1,5 +1,5 @@
-var helpers = require('./helpers');
-var webpack = require('webpack');
+const helpers = require('./helpers');
+const webpack = require('webpack');
 
 const autoprefixer = require('autoprefixer');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
@@ -10,6 +10,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
+// Create multiple instances
+const extractBootstrapStyles = new ExtractTextPlugin('bootstrap.css');
+const extractVendorStyles = new ExtractTextPlugin('vendor.css');
+const extractSiteStyles = new ExtractTextPlugin('site.css');
 
 module.exports = function (options) {
   let ENV = JSON.stringify(options.env);
@@ -19,8 +23,10 @@ module.exports = function (options) {
       'polyfills': './src/polyfills.ts',
       'vendor': './src/vendor.ts',
       'app': './src/main.ts',
-      'vendorStyles': [
-        './node_modules/bootstrap/dist/css/bootstrap.css'
+      'extractedStyles': [
+        'node_modules/bootstrap/dist/css/bootstrap.css',
+        'styles/font-awesome.css',
+        'styles/site.scss',
       ],
     },
     resolve: {
@@ -29,7 +35,8 @@ module.exports = function (options) {
         'ScrollMagicGSAP': 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap',
         'ScrollToPlugin': 'gsap/src/uncompressed/plugins/ScrollToPlugin',
         'EasePack': 'gsap/src/uncompressed/easing/EasePack',
-        styles: helpers.root('client', 'assets', 'styles') /* import 'styles/example.scss' */
+        node_modules: helpers.root('node_modules'),
+        styles: helpers.root('client', 'assets', 'styles'),
       }
     },
     module: {
@@ -47,22 +54,42 @@ module.exports = function (options) {
           use: 'raw-loader',
           exclude: [helpers.root('src/index.html')]
         },
-        // Support for CSS as raw text
-        // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-        // all css in src/style will be bundled in an external css file
         {
+          // extract bootstrap styles
           test: /\.css$/,
-          use: ExtractTextPlugin.extract({
+          include: [helpers.root('node_modules', 'bootstrap')],
+          use: extractBootstrapStyles.extract({
             fallback: 'style-loader',
-            use: 'css-loader?postcss-loader'
+            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader'
+          }),
+        },
+        {
+          // extract vendor styles
+          test: /\.css$/,
+          include: [helpers.root('client', 'assets', 'styles')],
+          use: extractVendorStyles.extract({
+            fallback: 'style-loader',
+            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader'
+          }),
+        },
+        {
+          // extract global styles
+          test: /\.scss$/,
+          include: [helpers.root('client', 'assets', 'styles')],
+          use: extractSiteStyles.extract({
+            fallback: 'style-loader',
+            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader!sass-loader'
           })
         },
         {
+          // inline all other styles
           test: /\.scss$/,
+          include: [helpers.root('src', 'app')],
           use: [
             'to-string-loader',
-            'css-loader',
-            'sass-loader'
+            'css-loader?-autoprefixer',
+            'postcss-loader',
+            'sass-loader',
           ],
         },
         {
@@ -96,30 +123,16 @@ module.exports = function (options) {
         favicon: 'client/assets/images/favicon.png',
         showErrors: true
       }),
-      new ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        Popper: ['popper.js', 'default'],
-        // In case you imported plugins individually, you must also require them here:
-        // Util: "exports-loader?Util!bootstrap/js/dist/util",
-        // Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
-      }),
-      // Extract css files
-      // Reference: https://github.com/webpack/extract-text-webpack-plugin
-      new ExtractTextPlugin('site-unseen.css'),
       new webpack.LoaderOptionsPlugin({
-        /**
-         * PostCSS
-         * Reference: https://github.com/postcss/autoprefixer-core
-         * Add vendor prefixes to your css
-         */
         postcss: [
           autoprefixer({
             browsers: ['last 2 version']
           })
         ]
       }),
+      extractBootstrapStyles,
+      extractVendorStyles,
+      extractSiteStyles,
     ],
   };
 };
