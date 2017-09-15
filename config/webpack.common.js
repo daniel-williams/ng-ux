@@ -15,6 +15,28 @@ const extractBootstrapStyles = new ExtractTextPlugin('bootstrap.css');
 const extractVendorStyles = new ExtractTextPlugin('vendor.css');
 const extractSiteStyles = new ExtractTextPlugin('site.css');
 
+const postcssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    config: {
+      path: helpers.root('config', 'postcss.config.js')
+    }
+  }
+};
+
+const cssPipeline = [
+  'to-string-loader',
+  'css-loader?-autoprefixer',
+  postcssLoader,
+];
+
+const scssPipeline = [
+  'to-string-loader',
+  'css-loader?-autoprefixer',
+  postcssLoader,
+  'sass-loader',
+];
+
 module.exports = function (options) {
   let ENV = JSON.stringify(options.env);
 
@@ -60,7 +82,7 @@ module.exports = function (options) {
           include: [helpers.root('node_modules', 'bootstrap')],
           use: extractBootstrapStyles.extract({
             fallback: 'style-loader',
-            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader'
+            use: cssPipeline,
           }),
         },
         {
@@ -69,7 +91,7 @@ module.exports = function (options) {
           include: [helpers.root('client', 'assets', 'styles')],
           use: extractVendorStyles.extract({
             fallback: 'style-loader',
-            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader'
+            use: cssPipeline,
           }),
         },
         {
@@ -78,19 +100,14 @@ module.exports = function (options) {
           include: [helpers.root('client', 'assets', 'styles')],
           use: extractSiteStyles.extract({
             fallback: 'style-loader',
-            use: 'to-string-loader!css-loader?-autoprefixer!postcss-loader!sass-loader'
-          })
+            use: scssPipeline,
+          }),
         },
         {
           // inline all other styles
           test: /\.scss$/,
           include: [helpers.root('src', 'app')],
-          use: [
-            'to-string-loader',
-            'css-loader?-autoprefixer',
-            'postcss-loader',
-            'sass-loader',
-          ],
+          use: scssPipeline,
         },
         {
           test: /\.js/,
@@ -119,7 +136,6 @@ module.exports = function (options) {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         inject: 'body',
-        title: 'Angular Nimble Starter',
         favicon: 'client/assets/images/favicon.png',
         showErrors: true
       }),
