@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-// import 'styles/font-awesome.css';
 
 @Component({
   selector: 'app',

@@ -1,13 +1,13 @@
 {
-  "name": "angular-nimble",
+  "name": "UxScorecard",
   "version": "1.0.0",
   "author": {
     "name": "Daniel James Williams",
-    "email": "mail@danielwilliams.us"
+    "email": "v-wildan@microsoft.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/daniel-williams/angular-nimble"
+    "url": ""
   },
   "license": "MIT",
   "scripts": {
@@ -18,8 +18,6 @@
   "keywords": [
     "Angular",
     "redux",
-    "seed",
-    "starter",
     "webpack"
   ],
   "dependencies": {
