@@ -36,7 +36,6 @@
     "@angular/platform-server": "4.2.4",
     "@angular/router": "4.2.4",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
-    "autoprefixer": "^7.1.4",
     "core-js": "2.4.1",
     "rxjs": "^5.4.3",
     "zone.js": "0.8.12"
@@ -48,6 +47,7 @@
     "@types/webpack": "^3.0.10",
     "angular-router-loader": "^0.6.0",
     "angular2-template-loader": "^0.6.2",
+    "autoprefixer": "^7.1.4",
     "awesome-typescript-loader": "^3.2.3",
     "bootstrap": "4.0.0-beta",
     "copy-webpack-plugin": "^4.0.1",

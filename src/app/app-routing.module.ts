@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NameplateModule } from './nameplate';
 import { ScorecardModule } from './scorecard';
 
 const routes: Routes = [
@@ -9,6 +8,10 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadChildren: () => ScorecardModule,
+  },
+  {
+    path: 'lazy',
+    loadChildren: './lazy/lazy.module#LazyModule',
   },
   {
     path: '**',

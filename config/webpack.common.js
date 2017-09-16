@@ -11,9 +11,9 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 // Create multiple instances
-const extractBootstrapStyles = new ExtractTextPlugin('bootstrap.css');
-const extractVendorStyles = new ExtractTextPlugin('vendor.css');
-const extractSiteStyles = new ExtractTextPlugin('site.css');
+const extractBootstrapStyles = new ExtractTextPlugin('assets/bundles/bootstrap.[contenthash].css');
+const extractVendorStyles = new ExtractTextPlugin('assets/bundles/vendor.[contenthash].css');
+const extractSiteStyles = new ExtractTextPlugin('assets/bundles/site.[contenthash].css');
 
 const postcssLoader = {
   loader: 'postcss-loader',
@@ -115,7 +115,15 @@ module.exports = function (options) {
         },
         {
           test: /\.(otf|ttf|eot|woff2?|ico|svg)$/,
-          loader: 'file-loader?name=assets/bundles/[name].[hash].[ext]'
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'assets/bundles/[name].[hash].[ext]',
+                publicPath: '../../', // NOTE: https://github.com/webpack-contrib/file-loader/issues/160
+              }
+            },
+          ]
         },
       ]
     },
