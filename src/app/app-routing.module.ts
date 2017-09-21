@@ -10,10 +10,6 @@ const routes: Routes = [
     loadChildren: () => ScorecardModule,
   },
   {
-    path: 'lazy',
-    loadChildren: './lazy/lazy.module#LazyModule',
-  },
-  {
     path: '**',
     redirectTo: ''
   }

@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core';
 
 import { App } from './app.component';
-import { SiteNav } from './site-nav';
 
 import { AnimationService } from './shared/animation.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +28,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
   ],
   declarations: [
     App,
-    SiteNav,
   ],
   providers: [
     AnimationService,
