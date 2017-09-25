@@ -144,7 +144,7 @@ module.exports = function (options) {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         inject: 'body',
-        favicon: 'client/assets/images/favicon.png',
+        favicon: 'client/assets/images/favicon.ico',
         showErrors: true
       }),
       new webpack.LoaderOptionsPlugin({

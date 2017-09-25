@@ -5,7 +5,7 @@ import { studies } from './conductedStudies';
 import { AssociativeResponse, FeedbackCardData, StudyBrowser, StudyBrowserMap, StudyOptions } from '../types';
 
 
-const videoBaseUrl = '/assets/videos/exp-scorecard/';
+const videoBaseUrl = '/assets/videos/';
 
 @Injectable()
 export class UxScorecardService {
