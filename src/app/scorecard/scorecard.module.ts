@@ -1,23 +1,14 @@
 import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared';
 
-import {
-  EllipsisPipe,
-  ExpVideo,
-  FeedbackCard,
-  Header,
-  HeaderNav,
-  InfiniteScrollDirective,
-  PastStudies,
-  ScoreBreakdown,
-  ScoreMeter,
-  UxScorecardService,
-  VideoModalModule,
-} from './shared';
-
 import { ScorecardRoutingModule } from './scorecard-routing.module';
+import { UxScorecardService } from './ux-scorecard.service';
+
+import { Header, HeaderNav, PastStudies } from './header';
+import { FeedbackCard } from './feedback-card';
+import { ScoreBreakdown } from './score-breakdown';
+import { ScoreMeter } from './score-meter';
 import { ScorecardComponent } from './scorecard.component';
 
 
@@ -26,15 +17,11 @@ import { ScorecardComponent } from './scorecard.component';
     SharedModule,
 
     ScorecardRoutingModule,
-    VideoModalModule,
   ],
   declarations: [
-    EllipsisPipe,
-    ExpVideo,
     FeedbackCard,
     Header,
     HeaderNav,
-    InfiniteScrollDirective,
     PastStudies,
     ScoreBreakdown,
     ScoreMeter,
@@ -42,6 +29,6 @@ import { ScorecardComponent } from './scorecard.component';
   ],
   providers: [
     UxScorecardService,
-  ],
+  ]
 })
 export class ScorecardModule {}

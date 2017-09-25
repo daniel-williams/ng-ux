@@ -1,18 +1,11 @@
 import { Component, ElementRef, ViewEncapsulation, AfterViewInit, ChangeDetectorRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import {
-  Easing,
-  TimelineMax,
-  TweenMax,
-} from '../shared/animation.service';
+import { Easing, TimelineMax, TweenMax } from '../core';
+import { UxScorecardService } from './ux-scorecard.service';
+import { FeedbackCardData, Score } from './types';
 
-import {
-  FeedbackCard,
-  FeedbackCardData,
-  Score,
-  UxScorecardService,
-} from './shared';
+import { FeedbackCard } from './feedback-card';
 
 
 @Component({

@@ -9,7 +9,6 @@ import { CoreModule } from './core';
 
 import { App } from './app.component';
 
-import { AnimationService } from './shared/animation.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -29,8 +28,5 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     App,
   ],
-  providers: [
-    AnimationService,
-  ]
 })
 export class AppModule { }

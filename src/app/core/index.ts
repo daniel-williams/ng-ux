@@ -1,2 +1,2 @@
+export * from './animation.service';
 export * from './core.module';
-export * from './core.service';

@@ -4,25 +4,28 @@ import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { SharedService } from './shared.service';
-import { SharedCompModule } from './shared-comp';
+import { EllipsisPipe } from './ellipsis.pipe';
+import { InfiniteScrollDirective } from './infinite-scroll.directive';
+
+import { VideoModalModule } from './video-modal';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
-
-    SharedCompModule,
-  ],
-  exports: [
-    CommonModule,
     FormsModule,
     NgbModule,
-
-    SharedCompModule,
   ],
-  providers: [
-    SharedService,
-  ]
+  declarations: [
+    EllipsisPipe,
+    InfiniteScrollDirective,
+  ],
+  exports: [
+    EllipsisPipe,
+    InfiniteScrollDirective,
+    CommonModule,
+    FormsModule,
+    VideoModalModule,
+  ],
 })
 export class SharedModule {}

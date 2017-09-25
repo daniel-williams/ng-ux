@@ -1,17 +1,15 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { CoreService } from './core.service';
+import { AnimationService } from './animation.service';
+
 
 @NgModule({
   imports: [
-    CommonModule,
   ],
   exports: [
-
   ],
   providers: [
-    CoreService,
+    AnimationService,
   ]
 })
 export class CoreModule {
