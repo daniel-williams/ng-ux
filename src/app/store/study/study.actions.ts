@@ -18,6 +18,12 @@ export class StudyActions {
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
+  fetchStudies(): void {
+    this.ngRedux.dispatch({
+      type: StudyActions.FETCH_STUDIES,
+    });
+  }
+
   setStudy(payload: number): void {
     this.ngRedux.dispatch({
       type: StudyActions.SET_SELECTED_STUDY,

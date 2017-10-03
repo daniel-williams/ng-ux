@@ -13,7 +13,7 @@ export interface IStudyState {
   studyListStatus?: Status,
 }
 
-export const initialState: IStudyState = {
+export const initialStudyState: IStudyState = {
   error: null,
   showPanel: false,
   selectedStudy: null,
@@ -21,7 +21,7 @@ export const initialState: IStudyState = {
   studyListStatus: Status.notFetched,
 };
 
-export function studyReducer(state: IStudyState = initialState, action: Action) {
+export function studyReducer(state: IStudyState = initialStudyState, action: Action) {
   const { type, payload } = action;
 
   switch(type) {
@@ -31,7 +31,10 @@ export function studyReducer(state: IStudyState = initialState, action: Action) 
       });
     }
     case Actions.FETCH_STUDIES_SUCCESS: {
+      let selectedStudy = payload.length ? payload[0] : null;
+
       return mergeState(state, {
+        selectedStudy: selectedStudy,
         studyList: payload,
         studyListStatus: Status.fetched,
       });
