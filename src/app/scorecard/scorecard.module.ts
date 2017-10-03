@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared';
 
 import { ScorecardRoutingModule } from './scorecard-routing.module';
-import { UxScorecardService } from './ux-scorecard.service';
 
 import { Header, HeaderNav, PastStudies } from './header';
 import { FeedbackCard } from './feedback-card';
@@ -28,7 +27,6 @@ import { ScorecardComponent } from './scorecard.component';
     ScorecardComponent
   ],
   providers: [
-    UxScorecardService,
   ]
 })
 export class ScorecardModule {}

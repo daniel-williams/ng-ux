@@ -1,6 +1,8 @@
 <ul class="past-studies">
   <li>
-    <a (click)='toggleSelectionPanel()'>Past Studies</a>
-    <div class="hl"></div>
+    <a (click)='togglePanel($event)'>Past Studies</a>
+    <div class="panel" [class.shown]='showPanel'>
+      <div *ngFor='let study of studies' (click)='changeStudy(study.id)'>{{study.name}}</div>
+    </div>
   </li>
 </ul>

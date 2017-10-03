@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EllipsisPipe } from './ellipsis.pipe';
 import { InfiniteScrollDirective } from './infinite-scroll.directive';
-
+import { UxScorecardService } from './ux-scorecard.service';
 import { VideoModalModule } from './video-modal';
 
 
@@ -26,6 +26,9 @@ import { VideoModalModule } from './video-modal';
     CommonModule,
     FormsModule,
     VideoModalModule,
+  ],
+  providers: [
+    UxScorecardService,
   ],
 })
 export class SharedModule {}

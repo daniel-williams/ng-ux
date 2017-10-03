@@ -4,19 +4,22 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// redux related
+import { createStore, applyMiddleware, Store } from 'redux';
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
 import { NgReduxRouterModule, NgReduxRouter  } from '@angular-redux/router';
+import { createLogger } from 'redux-logger';
+import { createEpicMiddleware } from 'redux-observable';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core';
+import { SharedModule } from './shared';
 
 import { App } from './app.component';
 import { AppConstants } from './app.constants';
-import { IAppState, rootReducer, StudiesActions } from './store';
-
-
-const createLogger = require('redux-logger');
+import { IAppState, rootReducer, StudyActions, StudyEpics } from './store';
 
 
 @NgModule({
@@ -33,13 +36,15 @@ const createLogger = require('redux-logger');
 
     AppRoutingModule,
     CoreModule,
+    SharedModule,
   ],
   declarations: [
     App,
   ],
   providers: [
     AppConstants,
-    StudiesActions,
+    StudyActions,
+    StudyEpics,
   ]
 })
 export class AppModule {
@@ -48,13 +53,19 @@ export class AppModule {
   constructor(
     private appConstants: AppConstants,
     private ngRedux: NgRedux<IAppState>,
-    private ngReduxRouter: NgReduxRouter) {
+    private ngReduxRouter: NgReduxRouter,
+    private studyEpics: StudyEpics) {
 
-    if(appConstants.logRouteChanges) {
-      this.middleWare.push(createLogger());
-    }
+    const epicMiddleware = createEpicMiddleware(this.studyEpics.fetchStudies);
+    const loggerMiddleware = createLogger();
+    const store: Store<IAppState> = createStore(
+      rootReducer,
+      {},
+      applyMiddleware(...[epicMiddleware, loggerMiddleware])
+    )
 
-    this.ngRedux.configureStore(rootReducer, {}, this.middleWare, []);
+    // this.ngRedux.configureStore(rootReducer, {}, this.middleWare, []);
+    this.ngRedux.provideStore(store);
     this.ngReduxRouter.initialize();
   }
 }

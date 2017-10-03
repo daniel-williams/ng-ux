@@ -1,18 +1,17 @@
 import { routerReducer } from '@angular-redux/router';
 
 import { Action } from './Action';
-import { IStudiesState, studiesReducer } from './studies';
+import { IStudyState, studyReducer } from './study';
 
 
 export interface IAppState {
   router?: any;
-  studies?: IStudiesState;
+  study?: IStudyState;
 };
 
 export const rootReducer = (state: IAppState = {}, action: Action): IAppState => {
   return Object.assign({}, state, {
     router: routerReducer(state.router, action as any),
-
-    studies: studiesReducer(state.studies, action),
+    study: studyReducer(state.study, action),
   });
 }

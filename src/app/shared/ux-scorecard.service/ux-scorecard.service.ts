@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { studies } from './conductedStudies';
-import { AssociativeResponse, FeedbackCardData, StudyBrowser, StudyBrowserMap, StudyOptions } from '../types';
+import { AssociativeResponse, FeedbackCardData, StudyBrowser, StudyBrowserMap, StudyOptions } from '../../scorecard/types';
 
 
 const videoBaseUrl = '/assets/videos/';

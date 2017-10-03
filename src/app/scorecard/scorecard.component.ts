@@ -1,11 +1,14 @@
 import { Component, ElementRef, ViewEncapsulation, AfterViewInit, ChangeDetectorRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { NgRedux, select } from '@angular-redux/store';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Easing, TimelineMax, TweenMax } from '../core';
-import { UxScorecardService } from './ux-scorecard.service';
-import { FeedbackCardData, Score } from './types';
+import { UxScorecardService } from '../shared';
+import { IAppState, IStudyState, StudyActions } from '../store';
 
 import { FeedbackCard } from './feedback-card';
+import { FeedbackCardData, Score } from './types';
 
 
 @Component({
@@ -15,6 +18,7 @@ import { FeedbackCard } from './feedback-card';
   encapsulation: ViewEncapsulation.None,
 })
 export class ScorecardComponent {
+  @select() study$: Observable<IStudyState>;
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
   private feedbackCardData: FeedbackCardData[] = [];
@@ -27,20 +31,35 @@ export class ScorecardComponent {
   private studies: any = [];
   private browsers: any = [];
 
-  constructor(private scorecardService: UxScorecardService, private changeDetector: ChangeDetectorRef) {
+  constructor(private ngRedux: NgRedux<IAppState>, private scorecardService: UxScorecardService, private changeDetector: ChangeDetectorRef) {
     this.build = this.build.bind(this);
     this.simSort = this.simSort.bind(this);
     this.fetchMore = this.fetchMore.bind(this);
 
-    scorecardService.getStudies().then(studies => {
-      this.studies = studies;
-      scorecardService.getStudyBrowsers(this.studies[0].id).then(browsers => {
-        this.browsers = browsers;
-      });
-      scorecardService.getFeedbackCardData(this.studies[0].id, "").then(feedbackCardData => {
-        this.feedbackCardData = feedbackCardData;
-      });
+    this.study$.subscribe(x => {
+      this.studies = x.studyList;
+
+      if(this.studies.length) {
+        scorecardService.getStudyBrowsers(this.studies[0].id).then(browsers => {
+          this.browsers = browsers;
+        });
+        scorecardService.getFeedbackCardData(this.studies[0].id, "").then(feedbackCardData => {
+          this.feedbackCardData = feedbackCardData;
+        });
+      }
     });
+
+    ngRedux.dispatch({ type: StudyActions.FETCH_STUDIES });
+
+    // scorecardService.getStudies().then(studies => {
+    //   this.studies = studies;
+    //   scorecardService.getStudyBrowsers(this.studies[0].id).then(browsers => {
+    //     this.browsers = browsers;
+    //   });
+    //   scorecardService.getFeedbackCardData(this.studies[0].id, "").then(feedbackCardData => {
+    //     this.feedbackCardData = feedbackCardData;
+    //   });
+    // });
   }
 
   ngAfterViewInit() {

@@ -11,7 +11,7 @@ import {
   Study,
   StudyStep,
   TaskType,
-} from '../../types';
+} from '../../../scorecard/types';
 
 import { studyData } from './study.data.2017.07.07';
 

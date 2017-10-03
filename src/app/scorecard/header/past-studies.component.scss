@@ -3,31 +3,34 @@
   display: block;
 }
 
+.panel {
+  position: relative;
+  display: none;
+  padding: 20px;
+
+  &.shown {
+    display: block;
+  }
+}
+
 ul {
   display: flex;
-
   margin: 0;
   padding: 0;
-
   justify-content: flex-start;
   list-style: none;
 
   li {
     position: relative;
     display: flex;
-
     margin-left: 15px;
-
     flex-direction: column;
     align-content: flex-start;
 
     a {
       display: block;
-
       padding: 10px 15px;
-
       color: white;
-
       border-radius: 8px;
       cursor: pointer;
       user-select: none;
@@ -37,7 +40,6 @@ ul {
       &:visited,
       &:focus {
         text-decoration: none;
-
         color: white;
       }
       &:active {
@@ -46,11 +48,9 @@ ul {
     }
     .hl {
       display: block;
-
       margin: 0 15px;
       border-bottom: 1px solid transparent;
       height: 0;
-
       transition: all 0.2s ease-in-out;
     }
     a:hover + .hl {
