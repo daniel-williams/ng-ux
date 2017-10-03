@@ -1,0 +1,19 @@
+.panel {
+  position: absolute;
+  display: block;
+  top: 100%;
+  min-width: 200px;
+  padding: 10px 0;
+  margin-left: 15px;
+  color: black;
+  background-color: white;
+
+  .study-item {
+    padding: 5px 10px;
+
+    &:hover {
+      background-color: whitesmoke;
+      cursor: pointer;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { SharedModule } from '../shared';
 
 import { ScorecardRoutingModule } from './scorecard-routing.module';
 
-import { Header, HeaderNav, PastStudies } from './header';
+import { Header, HeaderNav, PastStudies, StudyPanel } from './header';
 import { FeedbackCard } from './feedback-card';
 import { ScoreBreakdown } from './score-breakdown';
 import { ScoreMeter } from './score-meter';
@@ -24,7 +24,8 @@ import { ScorecardComponent } from './scorecard.component';
     PastStudies,
     ScoreBreakdown,
     ScoreMeter,
-    ScorecardComponent
+    ScorecardComponent,
+    StudyPanel,
   ],
   providers: [
   ]

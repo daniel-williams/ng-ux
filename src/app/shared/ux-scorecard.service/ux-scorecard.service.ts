@@ -9,9 +9,6 @@ const videoBaseUrl = '/assets/videos/';
 
 @Injectable()
 export class UxScorecardService {
-  private browserMap: StudyBrowserMap = {};
-
-  constructor() {}
   
   getStudies(): Promise<StudyOptions[]> {
     return Promise.resolve(studies.map(x=> ({ id: x.id, name: x.title })));
@@ -19,34 +16,29 @@ export class UxScorecardService {
 
   getStudyBrowsers(id: number): Promise<StudyBrowser[]> {
     return new Promise((resolve, reject) => {
-      // resolve if cached
-      if(this.browserMap[id]) {
-        resolve(this.browserMap[id]);
-      } else {
-        this.browserMap[id] = [];
-      }
-
       let study = studies.find(x => x.id === id);
-
+      
       // gaurds
       if(!study) { reject(`Study with id "${id}" not found.`); }
       if(!study.data) { reject(`Study data missing for study with id "${id}".`); }
-
+      
       let totals: { [key: string]: number } = {};
-
+      
       Object.keys(study.data).forEach((participant: any) => {
         let browserName = study.data[participant].__browser;
-
+        
         totals[browserName] = !!totals[browserName]
-          ? ++totals[browserName]
-          : 1;
+        ? ++totals[browserName]
+        : 1;
       });
+      
+      let browsers: StudyBrowser[] = [];
 
       Object.keys(totals).forEach(key => {
-        this.browserMap[id].push({name: key, count: totals[key]});
+        browsers.push({name: key, count: totals[key]});
       });
 
-      resolve(this.browserMap[id]);
+      resolve(browsers);
     });
   }
 
