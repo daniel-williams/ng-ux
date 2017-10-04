@@ -31,7 +31,7 @@ import { Study, StudyOptions } from '../types';
 })
 export class StudyPanel {
   @Input() showPanel: boolean;
-  @Input() studies: Study[];
+  @Input() studyList: Study[];
   @Input() selectedStudy: StudyOptions;
 
   constructor(private studyActions: StudyActions) { }

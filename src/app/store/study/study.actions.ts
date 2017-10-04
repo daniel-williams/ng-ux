@@ -20,9 +20,9 @@ export class StudyActions {
   
   static SET_SELECTED_STUDY = 'SET_SELECTED_STUDY';
 
-  static TOGGLE_SHOW_PANEL = 'TOGGLE_SHOW_PANEL';
-  static OPEN_SHOW_PANEL = 'OPEN_SHOW_PANEL';
-  static CLOSE_SHOW_PANEL = 'CLOSE_SHOW_PANEL';
+  static TOGGLE_STUDY_PANEL = 'TOGGLE_STUDY_PANEL';
+  static OPEN_STUDY_PANEL = 'OPEN_STUDY_PANEL';
+  static CLOSE_STUDY_PANEL = 'CLOSE_STUDY_PANEL';
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
@@ -56,19 +56,19 @@ export class StudyActions {
 
   togglePanel(): void {
     this.ngRedux.dispatch({
-      type: StudyActions.TOGGLE_SHOW_PANEL,
+      type: StudyActions.TOGGLE_STUDY_PANEL,
     });
   }
 
   openPanel(): void {
     this.ngRedux.dispatch({
-      type: StudyActions.OPEN_SHOW_PANEL,
+      type: StudyActions.OPEN_STUDY_PANEL,
     });
   }
 
   closePanel(): void {
     this.ngRedux.dispatch({
-      type: StudyActions.CLOSE_SHOW_PANEL,
+      type: StudyActions.CLOSE_STUDY_PANEL,
     });
   }
 

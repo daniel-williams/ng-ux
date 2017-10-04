@@ -14,7 +14,7 @@ export class UxScorecardService {
     return Promise.resolve(studies.map(x=> ({ id: x.id, name: x.title })));
   }
 
-  getStudyBrowsers(id: number): Promise<StudyBrowser[]> {
+  fetchBrowsers(id: number): Promise<StudyBrowser[]> {
     return new Promise((resolve, reject) => {
       let study = studies.find(x => x.id === id);
       

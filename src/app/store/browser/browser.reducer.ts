@@ -49,17 +49,17 @@ export function browserReducer(state: IBrowserState = initialBrowserState, actio
         selectedBrowsers: payload,
       });
     }
-    case Actions.TOGGLE_SHOW_PANEL: {
+    case Actions.TOGGLE_BROWSER_PANEL: {
       return mergeState(state, {
         showPanel: !state.showPanel,
       });
     }
-    case Actions.CLOSE_SHOW_PANEL: {
+    case Actions.CLOSE_BROWSER_PANEL: {
       return mergeState(state, {
         showPanel: false,
       });
     }
-    case Actions.OPEN_SHOW_PANEL: {
+    case Actions.OPEN_BROWSER_PANEL: {
       return mergeState(state, {
         showPanel: true,
       });

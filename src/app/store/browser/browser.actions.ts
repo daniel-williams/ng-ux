@@ -13,16 +13,23 @@ export class BrowserActions {
   static SET_SELECTED_BROWSERS = 'SET_SELECTED_BROWSERS';
 
   static RESET = 'RESET';
-  static TOGGLE_SHOW_PANEL = 'TOGGLE_SHOW_PANEL';
-  static OPEN_SHOW_PANEL = 'OPEN_SHOW_PANEL';
-  static CLOSE_SHOW_PANEL = 'CLOSE_SHOW_PANEL';
+  static TOGGLE_BROWSER_PANEL = 'TOGGLE_BROWSER_PANEL';
+  static OPEN_BROWSER_PANEL = 'OPEN_BROWSER_PANEL';
+  static CLOSE_BROWSER_PANEL = 'CLOSE_BROWSER_PANEL';
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
-  setBrowsers(ids: string[]): void {
+  fetchBrowsers(id: number): void {
+    this.ngRedux.dispatch({
+      type: BrowserActions.FETCH_BROWSERS,
+      payload: id,
+    });
+  }
+
+  setBrowsers(names: string[]): void {
     this.ngRedux.dispatch({
       type: BrowserActions.SET_SELECTED_BROWSERS,
-      payload: ids,
+      payload: names,
     });
   }
 
@@ -30,5 +37,23 @@ export class BrowserActions {
     this.ngRedux.dispatch({
       type: BrowserActions.RESET,
     })
+  }
+
+  togglePanel(): void {
+    this.ngRedux.dispatch({
+      type: BrowserActions.TOGGLE_BROWSER_PANEL,
+    });
+  }
+
+  openPanel(): void {
+    this.ngRedux.dispatch({
+      type: BrowserActions.OPEN_BROWSER_PANEL,
+    });
+  }
+
+  closePanel(): void {
+    this.ngRedux.dispatch({
+      type: BrowserActions.CLOSE_BROWSER_PANEL,
+    });
   }
 }

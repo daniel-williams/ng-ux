@@ -70,17 +70,17 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
         topIssues: payload,
       });
     }
-    case Actions.TOGGLE_SHOW_PANEL: {
+    case Actions.TOGGLE_STUDY_PANEL: {
       return mergeState(state, {
         showPanel: !state.showPanel,
       });
     }
-    case Actions.CLOSE_SHOW_PANEL: {
+    case Actions.CLOSE_STUDY_PANEL: {
       return mergeState(state, {
         showPanel: false,
       });
     }
-    case Actions.OPEN_SHOW_PANEL: {
+    case Actions.OPEN_STUDY_PANEL: {
       return mergeState(state, {
         showPanel: true,
       });

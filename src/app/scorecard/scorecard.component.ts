@@ -40,9 +40,6 @@ export class ScorecardComponent {
       this.studies = x.studyList;
 
       if(this.studies.length) {
-        scorecardService.getStudyBrowsers(this.studies[0].id).then(browsers => {
-          this.browsers = browsers;
-        });
         scorecardService.getFeedbackCardData(this.studies[0].id, "").then(feedbackCardData => {
           this.feedbackCardData = feedbackCardData;
         });
@@ -50,16 +47,6 @@ export class ScorecardComponent {
     });
 
     ngRedux.dispatch({ type: StudyActions.FETCH_STUDIES });
-
-    // scorecardService.getStudies().then(studies => {
-    //   this.studies = studies;
-    //   scorecardService.getStudyBrowsers(this.studies[0].id).then(browsers => {
-    //     this.browsers = browsers;
-    //   });
-    //   scorecardService.getFeedbackCardData(this.studies[0].id, "").then(feedbackCardData => {
-    //     this.feedbackCardData = feedbackCardData;
-    //   });
-    // });
   }
 
   ngAfterViewInit() {
@@ -77,7 +64,6 @@ export class ScorecardComponent {
   }
 
   fetchMore(): Promise<any> {
-    // TODO djw: determine max records from study data
     if(this.cardData.length >= 30) {
       return Promise.reject(false);
     }
@@ -116,7 +102,6 @@ export class ScorecardComponent {
 
   build(): Promise<any> {
     let items = document.querySelectorAll('.grid-item.new');
-    // console.log('new items: ', items.length);
     let timeline = new TimelineMax({paused: true});
 
     for(var i = 0; i < items.length; i++) {

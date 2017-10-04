@@ -1,0 +1,6 @@
+<div class="container-fluid">
+  <div class='wrap' (mouseleave)='closePanel()'>
+    <button class='btn btn-primary dropdown-toggle' (click)='togglePanel($event)'>Compare browsers</button>
+    <browser-panel [showPanel]='showPanel' [browserList]='browserNames' [selectedBrowsers]='selectedBrowsers'></browser-panel>
+  </div>
+</div>

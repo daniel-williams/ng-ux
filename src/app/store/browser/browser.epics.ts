@@ -14,13 +14,10 @@ import { UxScorecardService } from '../../shared';
 export class BrowserEpics {
   constructor(private uxss: UxScorecardService) {}
 
-  // TODO: only fetch 
   fetchBrowsers = (action$: ActionsObservable<Action>, store: any) => {
-
     return action$.ofType(BrowserActions.FETCH_BROWSERS)
       .mergeMap(({payload}) => {
-        console.log('XXXXXXXXXXXXX', payload, store.getState());
-        return Observable.fromPromise(this.uxss.getStudyBrowsers(payload))
+        return Observable.fromPromise(this.uxss.fetchBrowsers(payload))
           .map(result => ({
             type: BrowserActions.FETCH_BROWSERS_SUCCESS,
             payload: result

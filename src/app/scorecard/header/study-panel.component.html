@@ -1,6 +1,0 @@
-<div *ngIf='showPanel'
-  class="panel"
-  [@panelState]='panelState'
-  (@panelState.done)='panelStateChanged($event)'>
-  <div *ngFor='let study of studies' (click)='changeStudy(study.id)' class='study-item'><i *ngIf='study.id === selectedStudy.id' class='fa fa-check'></i> {{study.name}}</div>
-</div>
