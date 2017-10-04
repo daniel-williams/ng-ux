@@ -9,6 +9,7 @@ interface IStudy {
   title: string;
   description?: string;
   insights?: string[];
+  topIssues?: string[];
   experiences?: Experience[];
   groups?: StudyGroup[];
   data?: any;
@@ -21,6 +22,7 @@ export class Study {
   public title: string;
   public description: string;
   public insights: string[];
+  public topIssues: string[];
   public experiences: Experience[];
   public groups: StudyGroup[];
   public data: any;
@@ -31,6 +33,7 @@ export class Study {
     this.title = data.title;
     this.description = data.description || data.title;
     this.insights = data.insights || [];
+    this.topIssues = data.topIssues || [];
     this.experiences = data.experiences || [];
     this.groups = data.groups || [];
     this.data = data.data || {};

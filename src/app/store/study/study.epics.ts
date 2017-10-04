@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Store } from 'redux';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -14,10 +15,7 @@ import { UxScorecardService } from '../../shared';
 export class StudyEpics {
   constructor(private uxss: UxScorecardService) {}
 
-  // TODO: only fetch 
-  fetchStudies = (action$: ActionsObservable<Action>, store: any) => {
-    const state = store.getState() as IAppState;
-
+  fetchStudies = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
     return action$.ofType(StudyActions.FETCH_STUDIES)
       .mergeMap(({payload}) => {
         return Observable.fromPromise(this.uxss.getStudies())
@@ -30,5 +28,35 @@ export class StudyEpics {
             payload: error
           }));
       });
+  }
+
+  fetchInsights = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
+    return action$.ofType(StudyActions.FETCH_INSIGHTS)
+    .mergeMap(({payload}) => {
+      return Observable.fromPromise(this.uxss.getStudyInsights(payload))
+        .map(result => ({
+          type: StudyActions.FETCH_INSIGHTS_SUCCESS,
+          payload: result
+        }))
+        .catch(error => Observable.of({
+          type: StudyActions.FETCH_INSIGHTS_FAILED,
+          payload: error
+        }));
+    });
+  }
+
+  fetchTopIssues = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
+    return action$.ofType(StudyActions.FETCH_TOP_ISSUES)
+    .mergeMap(({payload}) => {
+      return Observable.fromPromise(this.uxss.getStudyTopIssues(payload))
+        .map(result => ({
+          type: StudyActions.FETCH_TOP_ISSUES_SUCCESS,
+          payload: result
+        }))
+        .catch(error => Observable.of({
+          type: StudyActions.FETCH_TOP_ISSUES_FAILED,
+          payload: error
+        }));
+    });
   }
 }

@@ -66,7 +66,11 @@ export class AppModule {
     private studyEpics: StudyEpics) {
 
     // setup epics
-    const rootEpic = combineEpics(this.browserEpic.fetchBrowsers, this.studyEpics.fetchStudies);
+    const rootEpic = combineEpics(
+      this.browserEpic.fetchBrowsers,
+      this.studyEpics.fetchStudies,
+      this.studyEpics.fetchInsights,
+      this.studyEpics.fetchTopIssues);
 
     // setup redux middlewares
     const epicMiddleware = createEpicMiddleware(rootEpic);

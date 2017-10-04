@@ -7,25 +7,25 @@ import { BrowserActions, IAppState, Status, IStudyState, StudyActions } from '..
 import { Study, StudyOptions } from '../types';
 
 @Component({
-  selector: 'summary-insights',
-  templateUrl: './summary-insights.component.html',
-  styleUrls: ['./summary-insights.component.scss']
+  selector: 'top-issues',
+  templateUrl: './top-issues.component.html',
+  styleUrls: ['./top-issues.component.scss']
 })
-export class SummaryInsight implements OnDestroy {
+export class TopIssues implements OnDestroy {
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
-  @select(['study', 'insights']) insights$: Observable<string[]>;
+  @select(['study', 'topIssues']) topIssues$: Observable<string[]>;
 
   private subs: Subscription[] = [];
-  private insights: string[] = [];
+  private topIssues: string[] = [];
 
   constructor(private studyActions: StudyActions) {
 
     this.subs.push(this.selectedStudy$.subscribe(x => {
       if(!!x && typeof x.id === 'number') {
-        this.studyActions.fetchInsights(x.id);
+        this.studyActions.fetchTopIssues(x.id);
       }
     }));
-    this.subs.push(this.insights$.subscribe(x => this.insights = x));
+    this.subs.push(this.topIssues$.subscribe(x => this.topIssues = x));
   }
 
   ngOnDestroy() {

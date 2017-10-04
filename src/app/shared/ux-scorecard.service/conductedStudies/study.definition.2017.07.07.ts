@@ -119,6 +119,13 @@ let study = new Study({
   insights: [
     'Across the five core areas we looked at, most experiences in both Edge and Chrome were rated as highly usable and familiar. Chrome received slightly higher ratings overall, but generally by very small margins.'
   ],
+  topIssues: [
+    `Moving tabs between and within windows in Edge is more difficult than in Chrome`,
+    `Newsfeed on NTP has low usefulness for most users. are less desirable than Chrome's.`,
+    `App installation links on the NTP create usability problems for new users and funnel them out of Edge. are less desirable than Chrome's.`,
+    `Favorites in Edge are usable, but less desirable than bookmarks in Chrome. are less desirable than Chrome's.`,
+    `Edge's app icon and loutout are less desirable than Chrome's.`,
+  ],
   experiences: experiences,
   groups: [
     {

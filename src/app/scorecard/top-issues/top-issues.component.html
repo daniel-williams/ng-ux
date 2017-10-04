@@ -1,0 +1,14 @@
+<div class='container top-issues-wrap' *ngIf='topIssues.length'>
+    <div class='row'>
+      <div class='col'>
+        <div class='top-issues-title'>\ Top Issues</div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col'>
+        <ol class='top-issues'>
+          <li *ngFor='let topIssue of topIssues'>{{topIssue}}</li>
+        </ol>
+      </div>
+    </div>
+  </div>

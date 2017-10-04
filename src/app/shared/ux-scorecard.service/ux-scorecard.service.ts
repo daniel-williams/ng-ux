@@ -42,6 +42,30 @@ export class UxScorecardService {
     });
   }
 
+  getStudyInsights(id: number): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      let study = studies.find(x => x.id === id);
+      
+      // gaurds
+      if(!study) { reject(`Study with id "${id}" not found.`); }
+      if(!study.data) { reject(`Study data missing for study with id "${id}".`); }
+
+      resolve(study.insights || []);
+    });
+  }
+
+  getStudyTopIssues(id: number): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      let study = studies.find(x => x.id === id);
+      
+      // gaurds
+      if(!study) { reject(`Study with id "${id}" not found.`); }
+      if(!study.data) { reject(`Study data missing for study with id "${id}".`); }
+
+      resolve(study.topIssues || []);
+    });
+  }
+
   getFeedbackCardData(id: number, browser: string): Promise<FeedbackCardData[]> {
     return new Promise((resolve, reject) => {
       let result: FeedbackCardData[] = [];

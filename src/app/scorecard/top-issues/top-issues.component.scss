@@ -3,17 +3,22 @@
   display: block;
 }
 
-.insight-wrap {
+.top-issues-wrap {
   margin-bottom: 40px;
 
-  .insight-title {
+  .top-issues-title {
     font-size: 24px;
     font-weight: bold;
     line-height: 1.1;
     margin-bottom: 20px;
     color: #ef4835;
   }
-  .insight {
-    font-size: 30px;
+  .top-issues {
+    padding-left: 20px;
+
+    li {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
   }
 }

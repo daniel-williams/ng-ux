@@ -8,17 +8,26 @@ import { Status } from '../Status';
 export interface IStudyState {
   error?: string;
   showPanel?: boolean;
-  selectedStudy?: number;
+
   studyList?: Study[];
-  studyListStatus?: Status,
+  studyListStatus?: Status;
+  
+  selectedStudy?: number;
+  insights?: string[];
+  topIssues?: string[];
 }
 
 export const initialStudyState: IStudyState = {
   error: null,
   showPanel: false,
-  selectedStudy: null,
+
   studyList: [],
   studyListStatus: Status.notFetched,
+  
+  selectedStudy: null,
+  
+  insights: [],
+  topIssues: [],
 };
 
 export function studyReducer(state: IStudyState = initialStudyState, action: Action) {
@@ -49,6 +58,16 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
     case Actions.SET_SELECTED_STUDY: {
       return mergeState(state, {
         selectedStudy: payload,
+      });
+    }
+    case Actions.FETCH_INSIGHTS_SUCCESS: {
+      return mergeState(state, {
+        insights: payload,
+      });
+    }
+    case Actions.FETCH_TOP_ISSUES_SUCCESS: {
+      return mergeState(state, {
+        topIssues: payload,
       });
     }
     case Actions.TOGGLE_SHOW_PANEL: {

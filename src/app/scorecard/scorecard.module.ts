@@ -9,6 +9,8 @@ import { FeedbackCard } from './feedback-card';
 import { ScoreBreakdown } from './score-breakdown';
 import { ScoreMeter } from './score-meter';
 import { ScorecardComponent } from './scorecard.component';
+import { SummaryInsight } from './insights';
+import { TopIssues } from './top-issues';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { ScorecardComponent } from './scorecard.component';
     ScoreMeter,
     ScorecardComponent,
     StudyPanel,
+    SummaryInsight,
+    TopIssues,
   ],
   providers: [
   ]
