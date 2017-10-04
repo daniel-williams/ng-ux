@@ -32,7 +32,6 @@ export class PastStudies implements OnDestroy {
     this.subs.push(this.selectedStudy$.subscribe(x => {
       if(!!x && typeof x.id === 'number') {
         this.selectedStudy = x;
-        this.browserActions.reset();
       }
     }));
     this.subs.push(this.studyListStatus$.subscribe(x => {
