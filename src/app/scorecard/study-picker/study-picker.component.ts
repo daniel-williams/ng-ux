@@ -54,7 +54,9 @@ export class StudyPicker implements OnDestroy {
   }
 
   closePanel(evt: any) {
-    this.studyActions.closePanel();
+    if(this.showPanel) {
+      this.studyActions.closePanel();
+    }
   }
 
   ngOnDestroy() {

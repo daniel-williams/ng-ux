@@ -18,7 +18,7 @@ export class StudyEpics {
   fetchStudies = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
     return action$.ofType(StudyActions.FETCH_STUDIES)
       .mergeMap(({payload}) => {
-        return Observable.fromPromise(this.uxss.getStudies())
+        return Observable.fromPromise(this.uxss.fetchStudies())
           .map(result => ({
             type: StudyActions.FETCH_STUDIES_SUCCESS,
             payload: result
@@ -33,7 +33,7 @@ export class StudyEpics {
   fetchInsights = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
     return action$.ofType(StudyActions.FETCH_INSIGHTS)
     .mergeMap(({payload}) => {
-      return Observable.fromPromise(this.uxss.getStudyInsights(payload))
+      return Observable.fromPromise(this.uxss.fetchStudyInsights(payload))
         .map(result => ({
           type: StudyActions.FETCH_INSIGHTS_SUCCESS,
           payload: result
@@ -48,7 +48,7 @@ export class StudyEpics {
   fetchTopIssues = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
     return action$.ofType(StudyActions.FETCH_TOP_ISSUES)
     .mergeMap(({payload}) => {
-      return Observable.fromPromise(this.uxss.getStudyTopIssues(payload))
+      return Observable.fromPromise(this.uxss.fetchStudyTopIssues(payload))
         .map(result => ({
           type: StudyActions.FETCH_TOP_ISSUES_SUCCESS,
           payload: result

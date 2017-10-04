@@ -43,7 +43,9 @@ export class BrowserPicker implements OnDestroy {
   }
 
   closePanel() {
-    this.browserActions.closePanel();
+    if(this.showPanel) {
+      this.browserActions.closePanel();
+    }
   }
 
   ngOnDestroy() {
@@ -52,7 +54,6 @@ export class BrowserPicker implements OnDestroy {
 
   get browserNames(): string[] {
     let browserNames = this.browserList.map(x => x.name);
-    console.log('browserNames: ', browserNames, this.selectedBrowsers);
 
     return browserNames;
   }

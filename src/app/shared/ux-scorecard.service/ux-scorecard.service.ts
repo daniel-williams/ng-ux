@@ -10,7 +10,7 @@ const videoBaseUrl = '/assets/videos/';
 @Injectable()
 export class UxScorecardService {
   
-  getStudies(): Promise<StudyOptions[]> {
+  fetchStudies(): Promise<StudyOptions[]> {
     return Promise.resolve(studies.map(x=> ({ id: x.id, name: x.title })));
   }
 
@@ -42,7 +42,7 @@ export class UxScorecardService {
     });
   }
 
-  getStudyInsights(id: number): Promise<string[]> {
+  fetchStudyInsights(id: number): Promise<string[]> {
     return new Promise((resolve, reject) => {
       let study = studies.find(x => x.id === id);
       
@@ -54,7 +54,7 @@ export class UxScorecardService {
     });
   }
 
-  getStudyTopIssues(id: number): Promise<string[]> {
+  fetchStudyTopIssues(id: number): Promise<string[]> {
     return new Promise((resolve, reject) => {
       let study = studies.find(x => x.id === id);
       
@@ -66,7 +66,9 @@ export class UxScorecardService {
     });
   }
 
-  getFeedbackCardData(id: number, browser: string): Promise<FeedbackCardData[]> {
+  fetchFeedback(options: { id: number, browsers: string[] }): Promise<FeedbackCardData[]> {
+    let { id, browsers } = options;
+
     return new Promise((resolve, reject) => {
       let result: FeedbackCardData[] = [];
       let study = studies.find(x => x.id === id);

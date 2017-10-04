@@ -20,12 +20,16 @@ import { SharedModule } from './shared';
 import { App } from './app.component';
 import { AppConstants } from './app.constants';
 import {
-  BrowserEpics,
-  BrowserActions,
   IAppState,
   rootReducer,
+
+  BrowserActions,
+  BrowserEpics,
+  FeedbackActions,
+  FeedbackEpics,
   StudyActions,
-  StudyEpics } from './store';
+  StudyEpics,
+} from './store';
 
 
 @NgModule({
@@ -49,8 +53,11 @@ import {
   ],
   providers: [
     AppConstants,
+
     BrowserActions,
     BrowserEpics,
+    FeedbackActions,
+    FeedbackEpics,
     StudyActions,
     StudyEpics,
   ]
@@ -60,14 +67,16 @@ export class AppModule {
 
   constructor(
     private appConstants: AppConstants,
-    private browserEpic: BrowserEpics,
     private ngRedux: NgRedux<IAppState>,
     private ngReduxRouter: NgReduxRouter,
+    private browserEpics: BrowserEpics,
+    private feedbackEpics: FeedbackEpics,
     private studyEpics: StudyEpics) {
 
     // setup epics
     const rootEpic = combineEpics(
-      this.browserEpic.fetchBrowsers,
+      this.browserEpics.fetchBrowsers,
+      this.feedbackEpics.fetchFeedback,
       this.studyEpics.fetchStudies,
       this.studyEpics.fetchInsights,
       this.studyEpics.fetchTopIssues);

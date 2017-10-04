@@ -1,43 +1,5 @@
-
 <header></header>
-
 <summary-insights></summary-insights>
 <top-issues></top-issues>
-
 <browser-picker></browser-picker>
-
-<div id='experiences' class='container-fluid'>
-
-  <div class='row'>
-    <div class='col-12'>
-      <button
-        (click)='simSort()'
-        class='btn btn-default'
-        style='margin:20px;'
-        placement="top"
-        ngbTooltip="Tooltip on top"><i class='fa fa-refresh'></i> sim sort</button>
-    </div>
-  </div>
-
-  <div class='row'>
-    <div class="col-12">
-
-      <div
-        class='grid-layout-manager'
-        infinite-scroll
-        [immediate]='true'
-        [callback]="fetchMore"
-        [reset]='click$'>
-        <div class='grid-item-sizer' *ngFor='let card of cardData'>
-          <div class='grid-item new'>
-
-            <feedback-card [cardData]='card'></feedback-card>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
+<feedback-manager></feedback-manager>
