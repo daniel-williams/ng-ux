@@ -1,3 +1,9 @@
+:host,
+.feedback-manager {
+  position: relative;
+  display: block;
+}
+
 .grid-layout-manager {
   display: flex;
   overflow: hidden;
@@ -15,8 +21,6 @@
   }
   .grid-item {
     position: relative;
-    left: 300px;
-    opacity: 0;
   }
 }
 

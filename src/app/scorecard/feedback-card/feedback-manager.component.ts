@@ -1,10 +1,22 @@
-import { Component, OnDestroy, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import {
+  animate,
+  animateChild,
+  keyframes,
+  query,
+  stagger,
+  state,
+  style,
+  trigger,
+  transition,
+} from '@angular/animations';
+
 import { NgRedux, select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
-import { Easing, TimelineMax, TweenMax } from '../../core';
+
 import { FeedbackActions, Status } from '../../store';
 import { FeedbackCardData, StudyOptions } from '../types';
 
@@ -16,17 +28,33 @@ import { FeedbackCard } from './feedback-card.component';
   templateUrl: './feedback-manager.component.html',
   styleUrls: ['./feedback-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'feedback-manager',
+  },
+  animations: [
+    trigger('fade', [
+      transition(':enter', [style({opacity: 0}), animate('.6s ease')])
+    ]),
+    trigger('stagger', [
+      transition(':enter', [
+        query(':enter', stagger('3s', [animateChild()]), {optional: true})
+      ])
+    ])
+  ]
 })
 export class FeedbackManager implements OnDestroy {
-  @select(['feedback', 'feedbackCardDataList']) feedbackCardDataList$: Observable<FeedbackCardData[]>;
-  @select(['feedback', 'feedbackCardDataListStatus']) feedbackCardDataListStatus$: Observable<Status>;
+  @Input() study: number;
+  @Input() browser: string;
+
+  @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
+  @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
-  private feedbackCardDataList: FeedbackCardData[] = [];
-  private feedbackCardDataListStatus: Status = Status.notFetched;
+  private feedbackDataList: FeedbackCardData[] = [];
+  private feedbackDataListStatus: Status = Status.notFetched;
   private selectedStudy: number;
   private subs: Subscription[] = [];
 
@@ -35,31 +63,23 @@ export class FeedbackManager implements OnDestroy {
   private lastCardIndex = 0;
 
   constructor(private feedbackActions: FeedbackActions) {
-    this.subs.push(this.feedbackCardDataList$.subscribe(x => {
-      this.feedbackCardDataList = x;
-      this.simSort();
-    }));
-    this.subs.push(this.feedbackCardDataListStatus$.subscribe(x => this.feedbackCardDataListStatus = x));
-    this.subs.push(this.selectedStudy$.subscribe(x => {
-      if(!!x && typeof x.id === 'number') {
-        this.selectedStudy = x.id;
-      }
-    }));
-    this.subs.push(this.selectedBrowsers$.subscribe(x => {
-      if(!!x && x.length) {
-        this.feedbackActions.fetchFeedback({ id: this.selectedStudy, browsers: [] });
-      } else {
-        this.clearItems();
-      }
-    }));
-
     this.fetchMore = this.fetchMore.bind(this);
     this.clearItems = this.clearItems.bind(this);
     this.simSort = this.simSort.bind(this);
-    this.build = this.build.bind(this);
   }
 
   ngAfterViewInit() {
+    this.subs.push(this.feedbackDataList$.subscribe(x => {
+      let key = `${this.study}-${this.browser}`;
+
+      if(!!x && !!x[key] && this.feedbackDataList.length === 0) {
+        this.feedbackDataList = x[key];
+        this.simSort();
+      }
+    }));
+    
+    this.feedbackActions.fetchFeedback({ study: this.study, browser: this.browser });
+
     setTimeout(() => this.manualFetch$.subscribe(), 0);
 
     this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
@@ -87,58 +107,24 @@ export class FeedbackManager implements OnDestroy {
           fetchCount = Math.abs(30 - this.cardData.length + fetchCount);
         }
 
-        let newCards = this.feedbackCardDataList.slice(this.cardData.length, this.cardData.length + fetchCount);
+        let newCards = this.feedbackDataList.slice(this.cardData.length, this.cardData.length + fetchCount);
 
         this.cardData = this.cardData.concat(newCards);
         setTimeout(() => resolve(true), 0);
       }, 0);
     }).then(_ => {
-      return this.build();
+      // return this.build();
+      return Promise.resolve();
     });
   }
 
   clearItems() {
-    let items = document.querySelectorAll('.grid-item');
-    
-    TweenMax.to(items, .2, {
-      opacity: 0,
-      ease: Easing.Power4.easeIn,
-      onComplete: () => {
-        this.lastCardIndex = 0;
-        this.cardData = [];
-      }
-    });
+    this.cardData = [];
   }
 
   simSort() {
-    let items = document.querySelectorAll('.grid-item');
-
-    TweenMax.to(items, .2, {
-      opacity: 0,
-      ease: Easing.Power4.easeIn,
-      onComplete: () => {
-        this.lastCardIndex = 0;
-        this.cardData = [];
-        this.manualFetch$.next('reset');
-      }
-    });
-  }
-
-  build(): Promise<any> {
-    let items = document.querySelectorAll('.grid-item.new');
-    let timeline = new TimelineMax({paused: true});
-
-    for(var i = 0; i < items.length; i++) {
-      timeline.to(items[i], .3, {
-        opacity: 1,
-        left: 0,
-        ease: Easing.Power4.easeOut,
-        onComplete: (item: HTMLElement) => item.classList.remove('new'),
-        onCompleteParams: [items[i]]
-      }, (i * .1));
-    }
-
-    return this.timelinePromise(timeline);
+    this.cardData = [];
+    this.manualFetch$.next('reset');
   }
 
   getFetchCount(): number {
@@ -150,12 +136,5 @@ export class FeedbackManager implements OnDestroy {
       : maxFetchCount;
 
     return fetchCount;
-  }
-
-  timelinePromise(timeline: any): Promise<any> {
-     return new Promise(resolve => {
-        timeline.eventCallback("onComplete", () => resolve(true));
-        timeline.play();
-     });
   }
 }

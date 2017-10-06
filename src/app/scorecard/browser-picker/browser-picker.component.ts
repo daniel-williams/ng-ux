@@ -22,13 +22,17 @@ export class BrowserPicker implements OnDestroy {
 
   private showPanel: boolean = false;
   private browserList: StudyBrowser[] = [];
+  private browserNames: string[] = [];
   private browserListStatus: Status = Status.notFetched;
   private selectedBrowsers: string[] = [];
   private subs: Subscription[] = [];
 
   constructor(private browserActions: BrowserActions) {
     this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
-    this.subs.push(this.browserList$.subscribe(x => this.browserList = x));
+    this.subs.push(this.browserList$.subscribe(x => {
+      this.browserList = x;
+      this.browserNames = this.browserList.map(x => x.name);
+    }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => this.selectedBrowsers = x));
     this.subs.push(this.browserListStatus$.subscribe(x => this.browserListStatus = x));
     this.subs.push(this.selectedStudy$.subscribe(x => {
@@ -50,11 +54,5 @@ export class BrowserPicker implements OnDestroy {
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
-  }
-
-  get browserNames(): string[] {
-    let browserNames = this.browserList.map(x => x.name);
-
-    return browserNames;
   }
 }

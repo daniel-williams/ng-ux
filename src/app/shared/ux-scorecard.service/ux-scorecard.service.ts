@@ -66,16 +66,18 @@ export class UxScorecardService {
     });
   }
 
-  fetchFeedback(options: { id: number, browsers: string[] }): Promise<FeedbackCardData[]> {
-    let { id, browsers } = options;
+  fetchFeedback(options: { study: number, browser: string }): Promise<{ study: number, browser: string, feedback: FeedbackCardData[] }> {
+    let { study, browser } = options;
+
+    console.log('fetching feedback for study', study, browser);
 
     return new Promise((resolve, reject) => {
       let result: FeedbackCardData[] = [];
-      let study = studies.find(x => x.id === id);
-      let assocResponse = study.responses[0] as AssociativeResponse;
+      let targetStudy = studies.find(x => x.id === study);
+      let assocResponse = targetStudy.responses[0] as AssociativeResponse;
 
-      Object.keys(study.data).forEach((participant: any) => {
-        let data = study.data[participant];
+      Object.keys(targetStudy.data).forEach((participant: any) => {
+        let data = targetStudy.data[participant];
         if(data.__browser !== 'Edge' || data.__taskGroup !== 'groupA') { return; }
 
         let feedback: FeedbackCardData = new FeedbackCardData();
@@ -102,7 +104,11 @@ export class UxScorecardService {
         result.push(feedback);
       });
 
-      resolve(result);
+      resolve({
+        study,
+        browser,
+        feedback: result,
+      });
     });
   }
 

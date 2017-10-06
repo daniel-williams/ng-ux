@@ -1,0 +1,7 @@
+<div class='container-fluid' *ngIf='browserList.length'>
+  <div class="row">
+    <div class='col' *ngFor='let browser of browserList'>
+      <feedback-manager [study]='selectedStudy' [browser]='browser'></feedback-manager>
+    </div>
+  </div>
+</div>

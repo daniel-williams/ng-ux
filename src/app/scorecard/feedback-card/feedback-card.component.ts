@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, ViewChildren, QueryList } from '@angular/core';
 
+
 import { ScoreBreakdown } from '../score-breakdown';
 import { FeedbackCardData } from '../types';
 
 @Component({
   selector: 'feedback-card',
   templateUrl: './feedback-card.component.html',
-  styleUrls: ['./feedback-card.component.scss']
+  styleUrls: ['./feedback-card.component.scss'],
 })
 export class FeedbackCard {
   @Input('cardData') card: FeedbackCardData;

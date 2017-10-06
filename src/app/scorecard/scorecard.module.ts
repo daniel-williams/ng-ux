@@ -6,7 +6,7 @@ import { ScorecardRoutingModule } from './scorecard-routing.module';
 
 import { BrowserPanel, BrowserPicker } from './browser-picker';
 import { Header, HeaderNav } from './header';
-import { FeedbackCard, FeedbackManager } from './feedback-card';
+import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
 import { ScoreBreakdown } from './score-breakdown';
 import { ScoreMeter } from './score-meter';
 import { ScorecardComponent } from './scorecard.component';
@@ -22,6 +22,7 @@ import { TopIssues } from './top-issues';
     ScorecardRoutingModule,
   ],
   declarations: [
+    BrowserManager,
     BrowserPanel,
     BrowserPicker,
     FeedbackCard,

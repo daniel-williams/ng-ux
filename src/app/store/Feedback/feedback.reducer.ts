@@ -9,15 +9,15 @@ import { Status } from '../Status';
 export interface IFeedbackState {
   error?: string;
   showPanel?: boolean;
-  feedbackCardDataList?: FeedbackCardData[];
-  feedbackCardDataListStatus?: Status,
+  feedbackDataList?: { [key: string]: FeedbackCardData[] };
+  feedbackDataListStatus?: { [key: string]: Status },
 }
 
 export const initialFeedbackState: IFeedbackState = {
   error: null,
   showPanel: false,
-  feedbackCardDataList: [],
-  feedbackCardDataListStatus: Status.notFetched,
+  feedbackDataList: {},
+  feedbackDataListStatus: {},
 };
 
 export function feedbackReducer(state: IFeedbackState = initialFeedbackState, action: Action) {
@@ -25,21 +25,39 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
 
   switch(type) {
     case Actions.FETCH_FEEDBACK: {
+      let key = `${payload.study}-${payload.browser}`;
+      let feedbackDataList = Object.assign({}, state.feedbackDataList, {
+        [key]: [],
+      });
+      let feedbackDataListStatus = Object.assign({}, state.feedbackDataListStatus, {
+        [key]: Status.fetching,
+      });
       return mergeState(state, {
-        feedbackCardDataList: [],
-        feedbackCardDataListStatus: Status.fetching,
+        feedbackDataList: feedbackDataList,
+        feedbackDataListStatus: feedbackDataListStatus,
       });
     }
     case Actions.FETCH_FEEDBACK_SUCCESS: {
+      let key = `${payload.study}-${payload.browser}`;
+      let feedbackDataList = Object.assign({}, state.feedbackDataList, {
+        [key]: payload.feedback,
+      });
+      let feedbackDataListStatus = Object.assign({}, state.feedbackDataListStatus, {
+        [key]: Status.fetched,
+      });
       return mergeState(state, {
-        feedbackCardDataList: payload,
-        feedbackCardDataListStatus: Status.fetched,
+        feedbackDataList: feedbackDataList,
+        feedbackDataListStatus: feedbackDataListStatus,
       });
     }
     case Actions.FETCH_FEEDBACK_FAILED: {
+      let key = `${payload.study}-${payload.browser}`;
+      let feedbackDataListStatus = Object.assign({}, state.feedbackDataListStatus, {
+        [key]: Status.errorFetching,
+      });
       return mergeState(state, {
         error: payload,
-        feedbackCardDataListStatus: Status.errorFetching,
+        feedbackDataListStatus: feedbackDataListStatus,
       });
     }
     default: {

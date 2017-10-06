@@ -1,18 +1,13 @@
-<div id='experiences' class='container-fluid'>
-
-  <div class='row'>
-    <div class="col">
-      <div
-        class='grid-layout-manager'
-        infinite-scroll
-        [immediate]='true'
-        [callback]="fetchMore"
-        [reset]='manualFetch$'>
-        <div class='grid-item-sizer' *ngFor='let card of cardData'>
-          <div class='grid-item new'><feedback-card [cardData]='card'></feedback-card></div>
-        </div>
-      </div>
+<div
+  class='grid-layout-manager'
+  infinite-scroll
+  [immediate]='true'
+  [callback]="fetchMore"
+  [reset]='manualFetch$'
+  [@stagger]>
+  <div class='grid-item-sizer' *ngFor='let card of cardData' [@fade]>
+    <div class='grid-item'>
+      <feedback-card [cardData]='card'></feedback-card>
     </div>
   </div>
-  
 </div>
