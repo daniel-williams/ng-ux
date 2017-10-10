@@ -89,7 +89,7 @@ export class AppModule {
     const store: Store<IAppState> = createStore(
       rootReducer,
       {},
-      applyMiddleware(...[epicMiddleware, loggerMiddleware])
+      applyMiddleware(...[epicMiddleware])
     )
 
     this.ngRedux.provideStore(store);

@@ -45,6 +45,7 @@ import { FeedbackCard } from './feedback-card.component';
 export class FeedbackManager implements OnDestroy {
   @Input() study: number;
   @Input() browser: string;
+  @Input() browserCount: number;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
@@ -52,6 +53,8 @@ export class FeedbackManager implements OnDestroy {
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
+
+  private _resizeEvent$: Observable<any>;
 
   private feedbackDataList: FeedbackCardData[] = [];
   private feedbackDataListStatus: Status = Status.notFetched;
@@ -61,20 +64,28 @@ export class FeedbackManager implements OnDestroy {
   private manualFetch$ = new Subject();
   private cardData: FeedbackCardData[] = [];
   private lastCardIndex = 0;
+  private minCellSize = 350;
 
   constructor(private feedbackActions: FeedbackActions) {
     this.fetchMore = this.fetchMore.bind(this);
     this.clearItems = this.clearItems.bind(this);
-    this.simSort = this.simSort.bind(this);
+    this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
+
+    this._resizeEvent$ = Observable
+      .fromEvent(window, 'resize')
+      .throttleTime(200);
   }
 
   ngAfterViewInit() {
+    this.subs.push(this._resizeEvent$.subscribe(x => {
+      this._sizerStyle = null;
+    }));
     this.subs.push(this.feedbackDataList$.subscribe(x => {
       let key = `${this.study}-${this.browser}`;
 
       if(!!x && !!x[key] && this.feedbackDataList.length === 0) {
         this.feedbackDataList = x[key];
-        this.simSort();
+        this.resetFeedbackGrid();
       }
     }));
     
@@ -88,6 +99,12 @@ export class FeedbackManager implements OnDestroy {
       cards.forEach((x, index) => x.animate(index * .1 + .2));
       this.lastCardIndex += cards.length;
     });
+
+    
+  }
+
+  ngOnChanges() {
+    this._sizerStyle = null;
   }
 
   ngOnDestroy() {
@@ -122,19 +139,38 @@ export class FeedbackManager implements OnDestroy {
     this.cardData = [];
   }
 
-  simSort() {
+  resetFeedbackGrid() {
     this.cardData = [];
     this.manualFetch$.next('reset');
   }
 
   getFetchCount(): number {
-    let maxFetchCount = Math.floor(window.innerWidth / 350);
-    let shortfall = this.cardData.length % maxFetchCount;
+    let rowCount = Math.floor(window.innerWidth / (350 * this.browserCount));
+
+    let shortfall = this.cardData.length % rowCount;
 
     let fetchCount = shortfall > 0
-      ? maxFetchCount + (maxFetchCount - shortfall)
-      : maxFetchCount;
+      ? rowCount + (rowCount - shortfall)
+      : rowCount;
 
     return fetchCount;
+  }
+
+  private _sizerStyle: any = null;
+  get sizerStyle(): any {
+    if(!this._sizerStyle) {
+      let paneWidth = Math.floor(window.innerWidth /this.browserCount);
+      let minCellWidth = this.minCellSize;
+      let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellSize));
+      let cellWidth = '' + ((1 / cellCount) * 100) + '%';
+      console.log('Cell width calculation: ', paneWidth, minCellWidth, cellCount, cellWidth);
+
+      this._sizerStyle = {
+        width: cellWidth,
+      }
+
+      console.log(this._sizerStyle);
+    }
+    return this._sizerStyle;
   }
 }

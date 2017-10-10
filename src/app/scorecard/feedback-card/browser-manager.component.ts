@@ -18,22 +18,20 @@ export class BrowserManager implements OnDestroy {
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
-  private browserList: string[] = [];
   private selectedStudy: number;
+  private browserList: string[] = [];
+  private browserCount: number;
   private subs: Subscription[] = [];
 
   constructor(private browserActions: BrowserActions) {
-    console.log('browser manager init');
-
     this.subs.push(this.selectedStudy$.subscribe(x => {
-      console.log('browser manager selectedStudy: ', x, this.selectedStudy);
       if(!!x && typeof x.id === 'number') {
         this.selectedStudy = x.id;
       }
     }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
-      console.log('browser manager browserList: ', x, this.selectedStudy);
       this.browserList = x;
+      this.browserCount = x.length;
     }));
   }
 

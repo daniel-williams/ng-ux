@@ -5,7 +5,10 @@
   [callback]="fetchMore"
   [reset]='manualFetch$'
   [@stagger]>
-  <div class='grid-item-sizer' *ngFor='let card of cardData' [@fade]>
+  <div
+    class='grid-item-sizer'
+    [ngStyle]='sizerStyle'
+    *ngFor='let card of cardData' [@fade]>
     <div class='grid-item'>
       <feedback-card [cardData]='card'></feedback-card>
     </div>
