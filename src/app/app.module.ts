@@ -25,6 +25,8 @@ import {
 
   BrowserActions,
   BrowserEpics,
+  ExperiencesActions,
+  ExperiencesEpics,
   FeedbackActions,
   FeedbackEpics,
   StudyActions,
@@ -56,6 +58,8 @@ import {
 
     BrowserActions,
     BrowserEpics,
+    ExperiencesActions,
+    ExperiencesEpics,
     FeedbackActions,
     FeedbackEpics,
     StudyActions,
@@ -70,12 +74,14 @@ export class AppModule {
     private ngRedux: NgRedux<IAppState>,
     private ngReduxRouter: NgReduxRouter,
     private browserEpics: BrowserEpics,
+    private experiencesEpics: ExperiencesEpics,
     private feedbackEpics: FeedbackEpics,
     private studyEpics: StudyEpics) {
 
     // setup epics
     const rootEpic = combineEpics(
       this.browserEpics.fetchBrowsers,
+      this.experiencesEpics.fetchExperiences,
       this.feedbackEpics.fetchFeedback,
       this.studyEpics.fetchStudies,
       this.studyEpics.fetchInsights,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { studies } from './conductedStudies';
-import { AssociativeResponse, FeedbackCardData, StudyBrowser, StudyBrowserMap, StudyOptions } from '../../scorecard/types';
+import { AssociativeResponse, Experience, FeedbackCardData, StudyBrowser, StudyBrowserMap, StudyOptions } from '../../scorecard/types';
 
 
 const videoBaseUrl = '/assets/videos/';
@@ -69,8 +69,6 @@ export class UxScorecardService {
   fetchFeedback(options: { study: number, browser: string }): Promise<{ study: number, browser: string, feedback: FeedbackCardData[] }> {
     let { study, browser } = options;
 
-    console.log('fetching feedback for study', study, browser);
-
     return new Promise((resolve, reject) => {
       let result: FeedbackCardData[] = [];
       let targetStudy = studies.find(x => x.id === study);
@@ -112,4 +110,17 @@ export class UxScorecardService {
     });
   }
 
+  fetchExperiences(id: number): Promise<Experience[]> {
+    return new Promise((resolve, reject) => {
+      let study = studies.find(x => x.id === id);
+
+      // gaurds
+      if(!study) { reject(`Study with id "${id}" not found.`); }
+      if(!study.data) { reject(`Study data missing for study with id "${id}".`); }
+
+      let experiences: Experience[] = study.experiences;
+
+      resolve(experiences);
+    });
+  }
 }

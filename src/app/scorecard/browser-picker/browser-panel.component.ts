@@ -49,6 +49,17 @@ export class BrowserPanel {
       selected.push(name);
     }
 
+    selected.sort((a, b) => {
+      let aName = a.toLowerCase();
+      let bName = b.toLowerCase();
+      
+      return (aName === 'edge' || (aName < bName && bName !== 'edge'))
+        ? -1
+        : (bName === 'edge' || bName < aName)
+          ? 1
+          : 0;
+    });
+
     this.browserActions.setBrowsers(selected);
   }
 

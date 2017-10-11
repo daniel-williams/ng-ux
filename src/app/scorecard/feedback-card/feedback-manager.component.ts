@@ -49,8 +49,8 @@ export class FeedbackManager implements OnDestroy {
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
-  @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
+  // @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  // @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
@@ -58,7 +58,7 @@ export class FeedbackManager implements OnDestroy {
 
   private feedbackDataList: FeedbackCardData[] = [];
   private feedbackDataListStatus: Status = Status.notFetched;
-  private selectedStudy: number;
+  // private selectedStudy: number;
   private subs: Subscription[] = [];
 
   private manualFetch$ = new Subject();
@@ -157,6 +157,7 @@ export class FeedbackManager implements OnDestroy {
     return fetchCount;
   }
 
+  // TODO djw: move this logic into browser-manager and pass width in as prop
   private _sizerStyle: any = null;
   get sizerStyle(): any {
     if(!this._sizerStyle) {

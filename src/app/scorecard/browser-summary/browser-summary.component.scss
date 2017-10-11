@@ -1,0 +1,58 @@
+.summary-wrap {
+  margin-top: 40px;
+
+  .summary-table {
+    position: relative;
+    display: table;
+    border-collapse: collapse;
+    margin: 0 auto;
+
+    .summary-row {
+      position: relative;
+      display: table-row;
+
+      .summary-cell {
+        position: relative;
+        display: table-cell;
+        padding: 15px 50px;
+        min-width: 100px;
+        text-align: center;
+
+        &:nth-child(1) {
+          text-align: left;
+        }
+        &.name,
+        &.overall-score {
+          font-size: 36px;
+          font-weight: bold;
+        }
+        &.name {
+          color: white;
+        }
+        &.picker {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+      &:nth-child(2) .summary-cell:nth-child(1) {
+        background-color: #2f75bb;
+      }
+      &:nth-child(3) .summary-cell:nth-child(1) {
+        background-color: #fcb913;
+      }
+
+      &.item {
+        box-shadow: 4px 4px 8px 0 rgba(50, 50, 50, 0.18);
+
+        .summary-cell {
+          border: 1px solid #eeeeee;
+          transition: box-shadow 0.3s ease-in-out;
+
+          &:hover {
+            box-shadow: 0 6px 13px rgba(0,0,0,0.16);
+          }
+        }
+      }
+    }
+  }
+}

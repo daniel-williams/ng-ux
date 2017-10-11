@@ -5,6 +5,7 @@ import { SharedModule } from '../shared';
 import { ScorecardRoutingModule } from './scorecard-routing.module';
 
 import { BrowserPanel, BrowserPicker } from './browser-picker';
+import { BrowserSummary } from './browser-summary';
 import { Header, HeaderNav } from './header';
 import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
 import { ScoreBreakdown } from './score-breakdown';
@@ -18,13 +19,13 @@ import { TopIssues } from './top-issues';
 @NgModule({
   imports: [
     SharedModule,
-
     ScorecardRoutingModule,
   ],
   declarations: [
     BrowserManager,
     BrowserPanel,
     BrowserPicker,
+    BrowserSummary,
     FeedbackCard,
     FeedbackManager,
     Header,
@@ -37,7 +38,6 @@ import { TopIssues } from './top-issues';
     SummaryInsight,
     TopIssues,
   ],
-  providers: [
-  ]
+  providers: [],
 })
 export class ScorecardModule {}

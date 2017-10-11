@@ -30,7 +30,16 @@ export class BrowserPicker implements OnDestroy {
   constructor(private browserActions: BrowserActions) {
     this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
     this.subs.push(this.browserList$.subscribe(x => {
-      this.browserList = x;
+      this.browserList = x.sort((a, b) => {
+        let aName = a.name.toLowerCase();
+        let bName = b.name.toLowerCase();
+
+        return (aName === 'edge' || (aName < bName && bName !== 'edge'))
+          ? -1
+          : (bName === 'edge' || bName < aName)
+            ? 1
+            : 0;
+      });
       this.browserNames = this.browserList.map(x => x.name);
     }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => this.selectedBrowsers = x));

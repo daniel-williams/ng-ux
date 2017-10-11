@@ -21,10 +21,16 @@ export enum DimensionType {
 export enum ExperienceType {
   na = <any>null,
   favorites = <any>'Favorites',
-  tabManagement = <any>'Tab Management',
+  tabManagement = <any>'Tabs',
   appearance = <any>'Appearance',
-  newTabPage = <any>'New Tab Page',
-  searchAndNavigation = <any>'Search / Navigation'
+  newTabPage = <any>'NTP',
+  searchAndNavigation = <any>'Search'
+  // na = <any>null,
+  // favorites = <any>'Favorites',
+  // tabManagement = <any>'Tab Management',
+  // appearance = <any>'Appearance',
+  // newTabPage = <any>'New Tab Page',
+  // searchAndNavigation = <any>'Search / Navigation'
 }
 
 export enum ResponseType {

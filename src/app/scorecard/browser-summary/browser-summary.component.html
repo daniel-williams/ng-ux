@@ -1,0 +1,20 @@
+<div class='summary-wrap'>
+  <div class='container-fluid'>
+
+    <div class='summary-table'>
+      <div class='summary-row headings'>
+        <div class='summary-cell picker'>
+          <browser-picker></browser-picker>
+        </div>
+        <div class='summary-cell overall-score'></div>
+        <div class='summary-cell experience' *ngFor='let experience of experiences'>{{experience.name}}</div>
+      </div>
+      <div class='summary-row item' *ngFor='let browser of selectedBrowsers'>
+        <div class='summary-cell name'>{{browser}}</div>
+        <div class='summary-cell overall-score'>4.x</div>
+        <div class='summary-cell experience' *ngFor='let experience of experiences'>4.x</div>
+      </div>
+    </div>
+
+  </div>
+</div>
