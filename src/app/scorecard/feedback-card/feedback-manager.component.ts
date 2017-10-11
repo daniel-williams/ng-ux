@@ -84,8 +84,10 @@ export class FeedbackManager implements OnDestroy {
       let key = `${this.study}-${this.browser}`;
 
       if(!!x && !!x[key] && this.feedbackDataList.length === 0) {
+        console.log('data change');
         this.feedbackDataList = x[key];
-        this.resetFeedbackGrid();
+        // this.resetFeedbackGrid();
+        setTimeout(() => this.cardData = this.feedbackDataList, 0);
       }
     }));
     
@@ -130,7 +132,6 @@ export class FeedbackManager implements OnDestroy {
         setTimeout(() => resolve(true), 0);
       }, 0);
     }).then(_ => {
-      // return this.build();
       return Promise.resolve();
     });
   }
@@ -163,13 +164,10 @@ export class FeedbackManager implements OnDestroy {
       let minCellWidth = this.minCellSize;
       let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellSize));
       let cellWidth = '' + ((1 / cellCount) * 100) + '%';
-      console.log('Cell width calculation: ', paneWidth, minCellWidth, cellCount, cellWidth);
 
       this._sizerStyle = {
         width: cellWidth,
       }
-
-      console.log(this._sizerStyle);
     }
     return this._sizerStyle;
   }

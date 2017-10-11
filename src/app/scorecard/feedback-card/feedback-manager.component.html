@@ -1,10 +1,6 @@
+<h2 style='margin-top:25px;'>{{browser}}</h2>
 <div
-  class='grid-layout-manager'
-  infinite-scroll
-  [immediate]='true'
-  [callback]="fetchMore"
-  [reset]='manualFetch$'
-  [@stagger]>
+  class='grid-layout-manager'>
   <div
     class='grid-item-sizer'
     [ngStyle]='sizerStyle'
