@@ -1,0 +1,49 @@
+<section class='dimensions-wrap'>
+  <div class='container-fluid'>
+    <div class='title'>
+      <h1>Five Dimensions</h1>
+    </div>
+
+    <div class='definitions-wrap row no-gutters justify-content-center' [class.opened]='opened'>
+
+      <div class='col-md-2 d-lg-none'></div>
+      <div class='definition col-lg-2 col-md-4'>
+        <div class='definition-icon'><i class='fa fa-search'></i></div>
+        <div class='definition-title'>Findable</div>
+        <div class='definition-description'>Can users find the UI they need for a given task?</div>
+      </div>
+      <div class='definition col-lg-2 col-md-4'>
+        <div class='definition-icon'><i class='fa fa-mouse-pointer'></i></div>
+        <div class='definition-title'>Usable</div>
+        <div class='definition-description'>How easy is it to do a given task?</div>
+      </div>
+      <div class='col-md-2 d-lg-none'></div>
+
+      <div class='definition col-lg-2 col-md-4'>
+        <div class='definition-icon'><i class='fa fa-smile-o'></i></div>
+        <div class='definition-title'>Predictable</div>
+        <div class='definition-description'>Does the UI act the way users expect?</div>
+      </div>
+      <div class='definition col-lg-2 col-md-4'>
+        <div class='definition-icon'><i class='fa fa-thumbs-up'></i></div>
+        <div class='definition-title'>Useful</div>
+        <div class='definition-description'>How important is this experience to users?</div>
+      </div>
+      <div class='definition col-lg-2 col-md-4'>
+        <div class='definition-icon'><i class='fa fa-heart'></i></div>
+        <div class='definition-title'>Desirable</div>
+        <div class='definition-description'>What's the emotional resonance of the experience?</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class='toggle-wrap'>
+    <div class='toggle' (click)='toggleOpened()'>
+      <i class='fa' [ngClass]="{'fa-chevron-up':opened,'fa-chevron-down':!opened}"></i>
+    </div>
+  </div>
+  <div class='panel-toggle'></div>
+  
+</section>

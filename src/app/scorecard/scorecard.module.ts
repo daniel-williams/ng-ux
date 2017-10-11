@@ -6,8 +6,9 @@ import { ScorecardRoutingModule } from './scorecard-routing.module';
 
 import { BrowserPanel, BrowserPicker } from './browser-picker';
 import { BrowserSummary } from './browser-summary';
-import { Header, HeaderNav } from './header';
 import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
+import { DimensionDefinitions } from './dimension-definitions';
+import { Header, HeaderNav } from './header';
 import { ScoreBreakdown } from './score-breakdown';
 import { ScoreMeter } from './score-meter';
 import { ScorecardComponent } from './scorecard.component';
@@ -26,6 +27,7 @@ import { TopIssues } from './top-issues';
     BrowserPanel,
     BrowserPicker,
     BrowserSummary,
+    DimensionDefinitions,
     FeedbackCard,
     FeedbackManager,
     Header,
