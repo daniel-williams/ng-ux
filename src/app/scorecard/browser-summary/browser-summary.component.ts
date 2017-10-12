@@ -35,7 +35,6 @@ export class BrowserSummary implements OnDestroy {
     }));
     this.subs.push(this.experienceList$.subscribe(x => {
       this.experienceList = x;
-      console.log('experienceList changed', this.experienceList);
     }));
     this.subs.push(this.experienceListStatus$.subscribe(x => this.experienceListStatus = x));
   }

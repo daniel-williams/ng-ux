@@ -18,12 +18,16 @@ export class BrowserManager implements OnDestroy {
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
-  private selectedStudy: number;
-  private browserList: string[] = [];
   private browserCount: number;
+  private browserList: string[] = [];
+  private cellWidth: string = '100%';
+  private minCellWidth = 350;
+  private selectedStudy: number;
   private subs: Subscription[] = [];
 
   constructor(private browserActions: BrowserActions) {
+    this.calculateCellWidth = this.calculateCellWidth.bind(this);
+
     this.subs.push(this.selectedStudy$.subscribe(x => {
       if(!!x && typeof x.id === 'number') {
         this.selectedStudy = x.id;
@@ -32,7 +36,23 @@ export class BrowserManager implements OnDestroy {
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
       this.browserList = x;
       this.browserCount = x.length;
+      this.calculateCellWidth();
     }));
+
+    this.subs.push(Observable
+    .fromEvent(window, 'resize')
+    .throttleTime(200).subscribe(x => {
+      this.calculateCellWidth();
+    }));
+
+    this.calculateCellWidth();
+  }
+
+  calculateCellWidth(): void {
+    let paneWidth = Math.floor(window.innerWidth / this.browserCount);
+    let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellWidth));
+
+    this.cellWidth = '' + ((1 / cellCount) * 100) + '%';
   }
 
   ngOnDestroy() {

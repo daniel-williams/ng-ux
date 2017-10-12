@@ -45,7 +45,7 @@ import { FeedbackCard } from './feedback-card.component';
 export class FeedbackManager implements OnDestroy {
   @Input() study: number;
   @Input() browser: string;
-  @Input() browserCount: number;
+  @Input() cellWidth: string;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
@@ -54,7 +54,7 @@ export class FeedbackManager implements OnDestroy {
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
-  private _resizeEvent$: Observable<any>;
+  // private _resizeEvent$: Observable<any>;
 
   private feedbackDataList: FeedbackCardData[] = [];
   private feedbackDataListStatus: Status = Status.notFetched;
@@ -67,24 +67,23 @@ export class FeedbackManager implements OnDestroy {
   private minCellSize = 350;
 
   constructor(private feedbackActions: FeedbackActions) {
-    this.fetchMore = this.fetchMore.bind(this);
+    // this.fetchMore = this.fetchMore.bind(this);
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
-    this._resizeEvent$ = Observable
-      .fromEvent(window, 'resize')
-      .throttleTime(200);
+    // this._resizeEvent$ = Observable
+    //   .fromEvent(window, 'resize')
+    //   .throttleTime(200);
   }
 
   ngAfterViewInit() {
-    this.subs.push(this._resizeEvent$.subscribe(x => {
-      this._sizerStyle = null;
-    }));
+    // this.subs.push(this._resizeEvent$.subscribe(x => {
+    //   this._sizerStyle = null;
+    // }));
     this.subs.push(this.feedbackDataList$.subscribe(x => {
       let key = `${this.study}-${this.browser}`;
 
       if(!!x && !!x[key] && this.feedbackDataList.length === 0) {
-        console.log('data change');
         this.feedbackDataList = x[key];
         // this.resetFeedbackGrid();
         setTimeout(() => this.cardData = this.feedbackDataList, 0);
@@ -105,36 +104,36 @@ export class FeedbackManager implements OnDestroy {
     
   }
 
-  ngOnChanges() {
-    this._sizerStyle = null;
-  }
+  // ngOnChanges() {
+  //   this._sizerStyle = null;
+  // }
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  fetchMore(): Promise<any> {
-    if(this.cardData.length >= 30) {
-      return Promise.reject(false);
-    }
+  // fetchMore(): Promise<any> {
+  //   if(this.cardData.length >= 30) {
+  //     return Promise.reject(false);
+  //   }
 
-    let fetchCount = this.getFetchCount();
+  //   let fetchCount = this.getFetchCount();
 
-    return new Promise(resolve => {
-      setTimeout(() => {
-        if(this.cardData.length + fetchCount > 30) {
-          fetchCount = Math.abs(30 - this.cardData.length + fetchCount);
-        }
+  //   return new Promise(resolve => {
+  //     setTimeout(() => {
+  //       if(this.cardData.length + fetchCount > 30) {
+  //         fetchCount = Math.abs(30 - this.cardData.length + fetchCount);
+  //       }
 
-        let newCards = this.feedbackDataList.slice(this.cardData.length, this.cardData.length + fetchCount);
+  //       let newCards = this.feedbackDataList.slice(this.cardData.length, this.cardData.length + fetchCount);
 
-        this.cardData = this.cardData.concat(newCards);
-        setTimeout(() => resolve(true), 0);
-      }, 0);
-    }).then(_ => {
-      return Promise.resolve();
-    });
-  }
+  //       this.cardData = this.cardData.concat(newCards);
+  //       setTimeout(() => resolve(true), 0);
+  //     }, 0);
+  //   }).then(_ => {
+  //     return Promise.resolve();
+  //   });
+  // }
 
   clearItems() {
     this.cardData = [];
@@ -145,31 +144,31 @@ export class FeedbackManager implements OnDestroy {
     this.manualFetch$.next('reset');
   }
 
-  getFetchCount(): number {
-    let rowCount = Math.floor(window.innerWidth / (350 * this.browserCount));
+  // getFetchCount(): number {
+  //   let rowCount = Math.floor(window.innerWidth / (350 * this.browserCount));
 
-    let shortfall = this.cardData.length % rowCount;
+  //   let shortfall = this.cardData.length % rowCount;
 
-    let fetchCount = shortfall > 0
-      ? rowCount + (rowCount - shortfall)
-      : rowCount;
+  //   let fetchCount = shortfall > 0
+  //     ? rowCount + (rowCount - shortfall)
+  //     : rowCount;
 
-    return fetchCount;
-  }
+  //   return fetchCount;
+  // }
 
   // TODO djw: move this logic into browser-manager and pass width in as prop
-  private _sizerStyle: any = null;
-  get sizerStyle(): any {
-    if(!this._sizerStyle) {
-      let paneWidth = Math.floor(window.innerWidth /this.browserCount);
-      let minCellWidth = this.minCellSize;
-      let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellSize));
-      let cellWidth = '' + ((1 / cellCount) * 100) + '%';
+  // private _sizerStyle: any = null;
+  // get sizerStyle(): any {
+  //   if(!this._sizerStyle) {
+  //     let paneWidth = Math.floor(window.innerWidth /this.browserCount);
+  //     let minCellWidth = this.minCellSize;
+  //     let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellSize));
+  //     let cellWidth = '' + ((1 / cellCount) * 100) + '%';
 
-      this._sizerStyle = {
-        width: cellWidth,
-      }
-    }
-    return this._sizerStyle;
-  }
+  //     this._sizerStyle = {
+  //       width: cellWidth,
+  //     }
+  //   }
+  //   return this._sizerStyle;
+  // }
 }

@@ -3,7 +3,7 @@
   class='grid-layout-manager'>
   <div
     class='grid-item-sizer'
-    [ngStyle]='sizerStyle'
+    [ngStyle]='{width:cellWidth}'
     *ngFor='let card of cardData' [@fade]>
     <div class='grid-item'>
       <feedback-card [cardData]='card'></feedback-card>
