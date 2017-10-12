@@ -1,0 +1,17 @@
+<section id='experiences' class='experiences-wrap'>
+  <div class='container-fluid'>
+
+    <div class='title'>
+      <h1>Experiences</h1>
+    </div>
+
+    <div class='tab-wrap'>
+      <div *ngFor='let experience of experiences' class='tab' (click)='selectExperience(experience)'>
+        <div class='tab-content' [class.selected]='!!selectedExperience && selectedExperience.name === experience.name'>
+          <span class='title'>{{experience.name}}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

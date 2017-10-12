@@ -18,7 +18,7 @@ import { Subject } from 'rxjs/Subject';
 
 
 import { FeedbackActions, Status } from '../../store';
-import { FeedbackCardData, StudyOptions } from '../types';
+import { Experience, FeedbackCardData, StudyOptions } from '../types';
 
 import { FeedbackCard } from './feedback-card.component';
 
@@ -43,97 +43,69 @@ import { FeedbackCard } from './feedback-card.component';
   ]
 })
 export class FeedbackManager implements OnDestroy {
-  @Input() study: number;
+  @Input() study: StudyOptions;
   @Input() browser: string;
   @Input() cellWidth: string;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
-  // @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
-  // @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
+  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
-  // private _resizeEvent$: Observable<any>;
 
   private feedbackDataList: FeedbackCardData[] = [];
   private feedbackDataListStatus: Status = Status.notFetched;
-  // private selectedStudy: number;
   private subs: Subscription[] = [];
 
   private manualFetch$ = new Subject();
   private cardData: FeedbackCardData[] = [];
   private lastCardIndex = 0;
   private minCellSize = 350;
+  private dataKey = '';
 
   constructor(private feedbackActions: FeedbackActions) {
-    // this.fetchMore = this.fetchMore.bind(this);
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
-    // this._resizeEvent$ = Observable
-    //   .fromEvent(window, 'resize')
-    //   .throttleTime(200);
+    this.subs.push(this.selectedExperience$.subscribe(x => this.resetFeedbackGrid()));
   }
 
   ngAfterViewInit() {
-    // this.subs.push(this._resizeEvent$.subscribe(x => {
-    //   this._sizerStyle = null;
-    // }));
     this.subs.push(this.feedbackDataList$.subscribe(x => {
-      let key = `${this.study}-${this.browser}`;
-
-      if(!!x && !!x[key] && this.feedbackDataList.length === 0) {
-        this.feedbackDataList = x[key];
-        // this.resetFeedbackGrid();
+      if(x) {
+        this.feedbackDataList = x[this.dataKey] || [];
         setTimeout(() => this.cardData = this.feedbackDataList, 0);
       }
     }));
-    
-    this.feedbackActions.fetchFeedback({ study: this.study, browser: this.browser });
 
-    setTimeout(() => this.manualFetch$.subscribe(), 0);
+    this.feedbackActions.fetchFeedback({
+      study: this.study.id,
+      browser: this.browser
+    });
 
+    // call animate on feedback cards
     this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
+      console.log('feedbackCards changes fired');
       let cards = x.toArray().slice(this.lastCardIndex);
 
       cards.forEach((x, index) => x.animate(index * .1 + .2));
       this.lastCardIndex += cards.length;
     });
-
-    
   }
 
-  // ngOnChanges() {
-  //   this._sizerStyle = null;
-  // }
+  ngOnChanges() {
+    this.createDataKey();
+  }
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  // fetchMore(): Promise<any> {
-  //   if(this.cardData.length >= 30) {
-  //     return Promise.reject(false);
-  //   }
-
-  //   let fetchCount = this.getFetchCount();
-
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       if(this.cardData.length + fetchCount > 30) {
-  //         fetchCount = Math.abs(30 - this.cardData.length + fetchCount);
-  //       }
-
-  //       let newCards = this.feedbackDataList.slice(this.cardData.length, this.cardData.length + fetchCount);
-
-  //       this.cardData = this.cardData.concat(newCards);
-  //       setTimeout(() => resolve(true), 0);
-  //     }, 0);
-  //   }).then(_ => {
-  //     return Promise.resolve();
-  //   });
-  // }
+  createDataKey(): void {
+    let studyId = this.study && this.study.id || '';
+    this.dataKey = `${studyId}-${this.browser}`;
+  }
 
   clearItems() {
     this.cardData = [];
@@ -141,34 +113,8 @@ export class FeedbackManager implements OnDestroy {
 
   resetFeedbackGrid() {
     this.cardData = [];
-    this.manualFetch$.next('reset');
+    this.lastCardIndex = 0;
+    setTimeout(() => this.cardData = this.feedbackDataList, 0);
   }
 
-  // getFetchCount(): number {
-  //   let rowCount = Math.floor(window.innerWidth / (350 * this.browserCount));
-
-  //   let shortfall = this.cardData.length % rowCount;
-
-  //   let fetchCount = shortfall > 0
-  //     ? rowCount + (rowCount - shortfall)
-  //     : rowCount;
-
-  //   return fetchCount;
-  // }
-
-  // TODO djw: move this logic into browser-manager and pass width in as prop
-  // private _sizerStyle: any = null;
-  // get sizerStyle(): any {
-  //   if(!this._sizerStyle) {
-  //     let paneWidth = Math.floor(window.innerWidth /this.browserCount);
-  //     let minCellWidth = this.minCellSize;
-  //     let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellSize));
-  //     let cellWidth = '' + ((1 / cellCount) * 100) + '%';
-
-  //     this._sizerStyle = {
-  //       width: cellWidth,
-  //     }
-  //   }
-  //   return this._sizerStyle;
-  // }
 }

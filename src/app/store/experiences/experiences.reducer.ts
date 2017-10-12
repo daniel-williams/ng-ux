@@ -9,6 +9,8 @@ import { Status } from '../Status';
 export interface IExperienceState {
   error?: string;
   showPanel?: boolean;
+
+  selectedExperience?: Experience,
   experienceList?: { [key: string]: Experience[] };
   experienceListStatus?: { [key: string]: Status },
 }
@@ -16,6 +18,8 @@ export interface IExperienceState {
 export const initialExperienceState: IExperienceState = {
   error: null,
   showPanel: false,
+
+  selectedExperience: null,
   experienceList: {},
   experienceListStatus: {},
 };
@@ -59,6 +63,11 @@ export function experiencesReducer(state: IExperienceState = initialExperienceSt
       return mergeState(state, {
         error: payload.error,
         experienceListStatus: experienceListStatus,
+      });
+    }
+    case Actions.SET_SELECTED_EXPERIENCE: {
+      return mergeState(state, {
+        selectedExperience: payload,
       });
     }
     default: {

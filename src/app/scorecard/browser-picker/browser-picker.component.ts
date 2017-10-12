@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { BrowserActions, Status } from '../../store';
-import { StudyBrowser, StudyOptions } from '../types';
+import { StudyBrowser } from '../types';
 
 
 @Component({
@@ -18,14 +18,14 @@ export class BrowserPicker implements OnDestroy {
   @select(['browser', 'browserList'])  browserList$: Observable<StudyBrowser[]>;
   @select(['browser', 'browserListStatus'])  browserListStatus$: Observable<Status>;
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  
+  private subs: Subscription[] = [];
 
   private showPanel: boolean = false;
   private browserList: StudyBrowser[] = [];
   private browserNames: string[] = [];
   private browserListStatus: Status = Status.notFetched;
   private selectedBrowsers: string[] = [];
-  private subs: Subscription[] = [];
 
   constructor(private browserActions: BrowserActions) {
     this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
@@ -44,11 +44,6 @@ export class BrowserPicker implements OnDestroy {
     }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => this.selectedBrowsers = x));
     this.subs.push(this.browserListStatus$.subscribe(x => this.browserListStatus = x));
-    this.subs.push(this.selectedStudy$.subscribe(x => {
-      if(!!x && typeof x.id === 'number') {
-        this.browserActions.fetchBrowsers(x.id);
-      }
-    }));
   }
 
   togglePanel() {

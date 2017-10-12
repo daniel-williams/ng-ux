@@ -32,15 +32,12 @@ import { Study, StudyOptions } from '../types';
 export class StudyPanel {
   @Input() showPanel: boolean;
   @Input() studyList: Study[];
-  @Input() selectedStudy: StudyOptions;
+  @Input() study: StudyOptions;
 
   constructor(private studyActions: StudyActions) { }
 
-  changeStudy(id: number) {
-    this.studyActions.setStudy(id);
+  changeStudy(s: StudyOptions) {
+    this.studyActions.setStudy(s);
   }
 
-  panelStateChanged() {
-
-  }
 }

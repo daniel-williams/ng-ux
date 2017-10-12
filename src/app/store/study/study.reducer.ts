@@ -1,5 +1,5 @@
 import { Action } from '../Action';
-import { Study } from '../../scorecard/types';
+import { Study, StudyOptions } from '../../scorecard/types';
 
 import { StudyActions as Actions } from './study.actions';
 
@@ -12,7 +12,7 @@ export interface IStudyState {
   studyList?: Study[];
   studyListStatus?: Status;
   
-  selectedStudy?: number;
+  selectedStudy?: StudyOptions;
   insights?: string[];
   topIssues?: string[];
 }
@@ -40,10 +40,7 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
       });
     }
     case Actions.FETCH_STUDIES_SUCCESS: {
-      let selectedStudy = payload.length ? payload[0] : null;
-
       return mergeState(state, {
-        selectedStudy: selectedStudy,
         studyList: payload,
         studyListStatus: Status.fetched,
       });

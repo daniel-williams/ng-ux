@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store } from 'redux';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 
 import { Action, IAppState, Status, StudyActions } from '../';
 import { UxScorecardService } from '../../shared';
@@ -19,10 +15,26 @@ export class StudyEpics {
     return action$.ofType(StudyActions.FETCH_STUDIES)
       .mergeMap(({payload}) => {
         return Observable.fromPromise(this.uxss.fetchStudies())
-          .map(result => ({
-            type: StudyActions.FETCH_STUDIES_SUCCESS,
-            payload: result
-          }))
+          .flatMap(result => {
+            let actions: Action[] = [];
+            
+            actions.push({
+              type: StudyActions.FETCH_STUDIES_SUCCESS,
+              payload: result
+            });
+
+            // by default, set selected study to the last item (most recent)
+            if(result.length) {
+              let study = result[result.length - 1];
+
+              actions.push({
+                type: StudyActions.SET_SELECTED_STUDY,
+                payload: study
+              });
+            }
+
+            return actions;
+          })
           .catch(error => Observable.of({
             type: StudyActions.FETCH_STUDIES_FAILED,
             payload: error

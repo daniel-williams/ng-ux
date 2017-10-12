@@ -18,30 +18,27 @@ export class BrowserManager implements OnDestroy {
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
+  private subs: Subscription[] = [];
+  
   private browserCount: number;
   private browserList: string[] = [];
   private cellWidth: string = '100%';
   private minCellWidth = 350;
-  private selectedStudy: number;
-  private subs: Subscription[] = [];
+  private study: StudyOptions;
 
   constructor(private browserActions: BrowserActions) {
     this.calculateCellWidth = this.calculateCellWidth.bind(this);
 
-    this.subs.push(this.selectedStudy$.subscribe(x => {
-      if(!!x && typeof x.id === 'number') {
-        this.selectedStudy = x.id;
-      }
-    }));
+    this.subs.push(Observable
+      .fromEvent(window, 'resize')
+      .throttleTime(200).subscribe(x => {
+        this.calculateCellWidth();
+      }));
+
+    this.subs.push(this.selectedStudy$.subscribe(x => this.study = x));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
       this.browserList = x;
       this.browserCount = x.length;
-      this.calculateCellWidth();
-    }));
-
-    this.subs.push(Observable
-    .fromEvent(window, 'resize')
-    .throttleTime(200).subscribe(x => {
       this.calculateCellWidth();
     }));
 

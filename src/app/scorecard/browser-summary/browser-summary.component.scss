@@ -42,14 +42,14 @@
       }
 
       &.item {
-        box-shadow: 4px 4px 8px 0 rgba(50, 50, 50, 0.18);
+        box-shadow: 4px 4px 8px 0 rgba(50, 50, 50, 0.2);
 
         .summary-cell {
-          border: 1px solid #eeeeee;
+          border: 1px solid #d8dfe7;
           transition: box-shadow 0.3s ease-in-out;
 
           &:hover {
-            box-shadow: 0 6px 13px rgba(0,0,0,0.16);
+            box-shadow: 0 6px 13px rgba(0,0,0,0.4);
           }
         }
       }

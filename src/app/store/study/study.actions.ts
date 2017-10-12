@@ -1,11 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
+import { Observable, Subscription } from 'rxjs';
 
+import { StudyOptions } from '../../scorecard/types';
 import { IAppState } from '../';
+import { BrowserActions } from '../browser/browser.actions';
+import { ExperiencesActions } from '../experiences/experiences.actions';
 
 
 @Injectable()
-export class StudyActions {
+export class StudyActions implements OnDestroy {
+  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+
   static FETCH_STUDIES = 'FETCH_STUDIES';
   static FETCH_STUDIES_SUCCESS = 'FETCH_STUDIES_SUCCESS';
   static FETCH_STUDIES_FAILED = 'FETCH_STUDIES_FAILED';
@@ -24,7 +30,27 @@ export class StudyActions {
   static OPEN_STUDY_PANEL = 'OPEN_STUDY_PANEL';
   static CLOSE_STUDY_PANEL = 'CLOSE_STUDY_PANEL';
 
-  constructor(private ngRedux: NgRedux<IAppState>) {}
+  private subs: Subscription[] = [];
+
+  constructor(
+    private browserActions: BrowserActions,
+    private experiencesActions: ExperiencesActions,
+    private ngRedux: NgRedux<IAppState>) {
+
+    this.subs.push(this.selectedStudy$.subscribe(study => {
+      if(study) {
+        // perform fetches for study change
+        this.fetchInsights(study.id)
+        this.fetchTopIssues(study.id);
+        browserActions.fetchBrowsers(study.id);
+        experiencesActions.fetchExperiences(study.id);
+      }
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach(x => x.unsubscribe());
+  }
 
   fetchStudies(): void {
     this.ngRedux.dispatch({
@@ -32,12 +58,12 @@ export class StudyActions {
     });
   }
 
-  setStudy(payload: number): void {
+  setStudy(payload: StudyOptions): void {
     this.ngRedux.dispatch({
       type: StudyActions.SET_SELECTED_STUDY,
       payload: payload,
     });
-    this.closePanel();
+    this.closePanel();// move this to 
   }
 
   fetchInsights(id: number): void {
