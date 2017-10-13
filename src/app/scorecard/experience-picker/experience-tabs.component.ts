@@ -28,7 +28,6 @@ export class ExperienceTabs {
   constructor(private experiencesActions: ExperiencesActions, private ngRedux: NgRedux<IAppState>) {
     this.subs.push(this.selectedExperience$.subscribe(x => {
       this.selectedExperience = x;
-      console.log('selected experience: ', x);
     }));
     this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
     this.subs.push(this.experienceList$.subscribe(x => {

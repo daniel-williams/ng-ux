@@ -86,7 +86,6 @@ export class FeedbackManager implements OnDestroy {
 
     // call animate on feedback cards
     this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
-      console.log('feedbackCards changes fired');
       let cards = x.toArray().slice(this.lastCardIndex);
 
       cards.forEach((x, index) => x.animate(index * .1 + .2));

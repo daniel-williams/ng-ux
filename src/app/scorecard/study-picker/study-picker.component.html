@@ -1,6 +1,6 @@
 <ul class="study-picker">
   <li (mouseleave)='closePanel($event)'>
     <a (click)='togglePanel($event)'>Past Studies</a>
-    <study-panel [showPanel]='showPanel' [studyList]='studyList' [study]='study'></study-panel>
+    <study-panel [showPanel]='showPanel' [studyList]='studyList' [study]='selectedStudy'></study-panel>
   </li>
 </ul>

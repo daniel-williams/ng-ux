@@ -9,12 +9,17 @@
   background-color: white;
   box-shadow: 0 6px 13px rgba(0,0,0,0.16);
 
-  .study-item {
-    padding: 5px 10px;
+  .item {
+    padding: 5px 10px 5px 5px;
+    text-align: left;
 
     &:hover {
       background-color: whitesmoke;
       cursor: pointer;
+    }
+    i {
+      width: 20px;
+      margin-left: 10px;
     }
   }
 }

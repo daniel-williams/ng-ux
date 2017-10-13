@@ -1,7 +1,6 @@
 <div *ngIf='showPanel'
   class="panel"
-  [@panelState]='panelState'
-  (@panelState.done)='panelStateChanged($event)'>
+  [@panelState]='panelState'>
   <div *ngFor='let browser of browserList' (click)='toggleSelected(browser)' class='item'>
     <i class='fa' [ngClass]="{'fa-check': selectedBrowsers.includes(browser)}"></i>
     <span>{{browser}}</span>

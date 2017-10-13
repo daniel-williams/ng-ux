@@ -63,7 +63,6 @@ export class StudyActions implements OnDestroy {
       type: StudyActions.SET_SELECTED_STUDY,
       payload: payload,
     });
-    this.closePanel();// move this to 
   }
 
   fetchInsights(id: number): void {

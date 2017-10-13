@@ -62,7 +62,4 @@ export class BrowserPanel {
 
     this.browserActions.setBrowsers(selected);
   }
-
-  panelStateChanged() {
-  }
 }

@@ -1,5 +1,8 @@
 <div *ngIf='showPanel'
   class="panel"
   [@panelState]='panelState'>
-  <div *ngFor='let s of studyList' (click)='changeStudy(s)' class='study-item'><i *ngIf='s.id === study.id' class='fa fa-check'></i> {{s.name}}</div>
+  <div *ngFor='let s of studyList' (click)='changeStudy(s)' class='item'>
+    <i class='fa' [ngClass]="{'fa-check': s.id === study.id}"></i>
+    <span>{{s.name}}</span>
+  </div>
 </div>

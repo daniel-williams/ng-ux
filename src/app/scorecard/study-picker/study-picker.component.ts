@@ -20,7 +20,7 @@ export class StudyPicker implements OnDestroy {
 
   private showPanel: boolean = false;
   private studyList: Study[] = [];
-  private study: StudyOptions;
+  private selectedStudy: StudyOptions;
   private subs: Subscription[] = [];
 
   constructor(
@@ -29,7 +29,7 @@ export class StudyPicker implements OnDestroy {
 
     this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
     this.subs.push(this.studyList$.subscribe(x => this.studyList = x));
-    this.subs.push(this.selectedStudy$.subscribe(study => this.study = study));
+    this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
     this.subs.push(this.studyListStatus$.subscribe(x => {
       if(x === Status.notFetched) {
         this.studyActions.fetchStudies();
