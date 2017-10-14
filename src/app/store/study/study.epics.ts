@@ -11,13 +11,13 @@ import { UxScorecardService } from '../../shared';
 export class StudyEpics {
   constructor(private uxss: UxScorecardService) {}
 
-  fetchStudies = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
-    return action$.ofType(StudyActions.FETCH_STUDIES)
+  fetchStudyOptions = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
+    return action$.ofType(StudyActions.FETCH_STUDY_OPTIONS)
       .mergeMap(({payload}) => {
-        return Observable.fromPromise(this.uxss.fetchStudies())
+        return Observable.fromPromise(this.uxss.fetchStudyOptions())
           .flatMap(result => {
             let actions: Action[] = [];
-            
+
             actions.push({
               type: StudyActions.FETCH_STUDIES_SUCCESS,
               payload: result
@@ -25,7 +25,8 @@ export class StudyEpics {
 
             // by default, set selected study to the last item (most recent)
             if(result.length) {
-              let study = result[result.length - 1];
+              // let study = result[result.length - 1];
+              let study = result[0]; // until we have all data for lastest study
 
               actions.push({
                 type: StudyActions.SET_SELECTED_STUDY,

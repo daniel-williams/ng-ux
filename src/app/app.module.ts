@@ -83,7 +83,7 @@ export class AppModule {
       this.browserEpics.fetchBrowsers,
       this.experiencesEpics.fetchExperiences,
       this.feedbackEpics.fetchFeedback,
-      this.studyEpics.fetchStudies,
+      this.studyEpics.fetchStudyOptions,
       this.studyEpics.fetchInsights,
       this.studyEpics.fetchTopIssues);
 

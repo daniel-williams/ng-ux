@@ -32,7 +32,7 @@ export class StudyPicker implements OnDestroy {
     this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
     this.subs.push(this.studyListStatus$.subscribe(x => {
       if(x === Status.notFetched) {
-        this.studyActions.fetchStudies();
+        this.studyActions.fetchStudyOptions();
       }
     }));
   }

@@ -11,7 +11,7 @@ export interface IStudyState {
 
   studyList?: Study[];
   studyListStatus?: Status;
-  
+
   selectedStudy?: StudyOptions;
   insights?: string[];
   topIssues?: string[];
@@ -23,9 +23,9 @@ export const initialStudyState: IStudyState = {
 
   studyList: [],
   studyListStatus: Status.notFetched,
-  
+
   selectedStudy: null,
-  
+
   insights: [],
   topIssues: [],
 };
@@ -34,7 +34,7 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
   const { type, payload } = action;
 
   switch(type) {
-    case Actions.FETCH_STUDIES: {
+    case Actions.FETCH_STUDY_OPTIONS: {
       return mergeState(state, {
         studyListStatus: Status.fetching,
       });

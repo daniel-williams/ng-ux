@@ -80,7 +80,7 @@ export class FeedbackManager implements OnDestroy {
     }));
 
     this.feedbackActions.fetchFeedback({
-      study: this.study.id,
+      studyId: this.study.id,
       browser: this.browser
     });
 

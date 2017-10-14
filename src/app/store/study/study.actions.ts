@@ -12,7 +12,7 @@ import { ExperiencesActions } from '../experiences/experiences.actions';
 export class StudyActions implements OnDestroy {
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
-  static FETCH_STUDIES = 'FETCH_STUDIES';
+  static FETCH_STUDY_OPTIONS = 'FETCH_STUDY_OPTIONS';
   static FETCH_STUDIES_SUCCESS = 'FETCH_STUDIES_SUCCESS';
   static FETCH_STUDIES_FAILED = 'FETCH_STUDIES_FAILED';
 
@@ -23,7 +23,7 @@ export class StudyActions implements OnDestroy {
   static FETCH_TOP_ISSUES = 'FETCH_TOP_ISSUES';
   static FETCH_TOP_ISSUES_SUCCESS = 'FETCH_TOP_ISSUES_SUCCESS';
   static FETCH_TOP_ISSUES_FAILED = 'FETCH_TOP_ISSUES_FAILED';
-  
+
   static SET_SELECTED_STUDY = 'SET_SELECTED_STUDY';
 
   static TOGGLE_STUDY_PANEL = 'TOGGLE_STUDY_PANEL';
@@ -52,9 +52,9 @@ export class StudyActions implements OnDestroy {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  fetchStudies(): void {
+  fetchStudyOptions(): void {
     this.ngRedux.dispatch({
-      type: StudyActions.FETCH_STUDIES,
+      type: StudyActions.FETCH_STUDY_OPTIONS,
     });
   }
 

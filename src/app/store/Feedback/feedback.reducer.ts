@@ -38,7 +38,7 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
       });
     }
     case Actions.FETCH_FEEDBACK_SUCCESS: {
-      let key = `${payload.study}-${payload.browser}`;
+      let key = `${payload.studyId}-${payload.browser}`;
       let feedbackDataList = Object.assign({}, state.feedbackDataList, {
         [key]: payload.feedback,
       });
@@ -51,7 +51,7 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
       });
     }
     case Actions.FETCH_FEEDBACK_FAILED: {
-      let key = `${payload.study}-${payload.browser}`;
+      let key = `${payload.studyId}-${payload.browser}`;
       let feedbackDataListStatus = Object.assign({}, state.feedbackDataListStatus, {
         [key]: Status.errorFetching,
       });
