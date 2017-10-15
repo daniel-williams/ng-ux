@@ -31,6 +31,8 @@ import {
   FeedbackEpics,
   StudyActions,
   StudyEpics,
+  TaskActions,
+  TaskEpics,
 } from './store';
 
 
@@ -64,6 +66,8 @@ import {
     FeedbackEpics,
     StudyActions,
     StudyEpics,
+    TaskActions,
+    TaskEpics,
   ]
 })
 export class AppModule {
@@ -76,7 +80,8 @@ export class AppModule {
     private browserEpics: BrowserEpics,
     private experiencesEpics: ExperiencesEpics,
     private feedbackEpics: FeedbackEpics,
-    private studyEpics: StudyEpics) {
+    private studyEpics: StudyEpics,
+    private taskEpics: TaskEpics) {
 
     // setup epics
     const rootEpic = combineEpics(
@@ -85,7 +90,8 @@ export class AppModule {
       this.feedbackEpics.fetchFeedback,
       this.studyEpics.fetchStudyOptions,
       this.studyEpics.fetchInsights,
-      this.studyEpics.fetchTopIssues);
+      this.studyEpics.fetchTopIssues,
+      this.taskEpics.fetchTasks);
 
     // setup redux middlewares
     const epicMiddleware = createEpicMiddleware(rootEpic);
@@ -95,7 +101,7 @@ export class AppModule {
     const store: Store<IAppState> = createStore(
       rootReducer,
       {},
-      applyMiddleware(...[epicMiddleware])
+      applyMiddleware(...[epicMiddleware, loggerMiddleware])
     )
 
     this.ngRedux.provideStore(store);

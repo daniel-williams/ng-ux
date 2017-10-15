@@ -16,33 +16,33 @@ import {
 import { studyData } from './study.data.2017.07.07';
 
 
-export const yesNoMaybeResponse = new CompletedResponse([
+const yesNoMaybeResponse = new CompletedResponse([
   new NVPair("Yes", 1),
   new NVPair("No", -1),
   new NVPair("Maybe", 0),
 ]);
-export const timeOnTaskResponse = new GradedResponse([
+const timeOnTaskResponse = new GradedResponse([
   new NVPair("Much longer than I expected", 1),
   new NVPair("Somewhat longer than I expected", 2),
   new NVPair("About as I expected", 3),
   new NVPair("Somewhat faster than I expected", 4),
   new NVPair("Much faster than I expected", 5),
 ]);
-export const agreementResponse = new GradedResponse([
+const agreementResponse = new GradedResponse([
   new NVPair("Strongly disagree", 1),
   new NVPair("Somewhat disagree", 2),
   new NVPair("Neutral, neither agree or disagree", 3),
   new NVPair("Somewhat agree", 4),
   new NVPair("Strongly agree", 5),
 ]);
-export const satisfactionResponse = new GradedResponse([
+const satisfactionResponse = new GradedResponse([
   new NVPair("Very dissatisfied", 1),
   new NVPair("Somewhat dissatisfied", 2),
   new NVPair("Neither satisfied nor dissatisfied", 3),
   new NVPair("Somewhat satisfied", 4),
   new NVPair("Very satisfied", 5),
 ]);
-export const desirableResponse = new AssociativeResponse([
+const desirableResponse = new AssociativeResponse([
   new NBPair("Calm", true),
   new NBPair("Creative", true),
   new NBPair("Cutting-edge", true),
@@ -64,10 +64,12 @@ export const desirableResponse = new AssociativeResponse([
 
 let experiences: Experience[] = [
   new Experience({
+    id: 1,
     name: ExperienceType.searchAndNavigation,
     summary: "Search and navigation experiences are robust in both browsers. The scenario around checking the weather got lower scores for Edge because of the inclusion of the Weather Channel app in the default Top Sites on the New Tab Page."
   }),
   new Experience({
+    id: 2,
     name: ExperienceType.tabManagement,
     summary: "Tab management is an area where Edge received significantly lower scores than Chrome. Both reordering tabs in a window and moving them to a new window were more difficult and less desirable in Edge. Closing tabs was extremely easy in both browsers, although Edge got slightly dinged for including a warning before closing all tabs, which was seen by some users as unnecessary.",
     insights: [
@@ -78,6 +80,7 @@ let experiences: Experience[] = [
     ]
   }),
   new Experience({
+    id: 3,
     name: ExperienceType.favorites,
     summary: "Favorites and Bookmarks were highly usable in both Edge and Chrome. However, Favorites in Edge got a lower percentage of positive ratings for desirability, driven by comments that the Favorites UI felt old and complicated.",
     insights: [
@@ -88,6 +91,7 @@ let experiences: Experience[] = [
     ]
   }),
   new Experience({
+    id: 4,
     name: ExperienceType.newTabPage,
     summary: "Experiences on the New Tab Page were generally seen as highly usable. Finding news on the NTP was seen significantly more desirable in Edge, but also got low ratings for usefulness across both browsers.",
     insights: [
@@ -100,6 +104,7 @@ let experiences: Experience[] = [
     ]
   }),
   new Experience({
+    id: 5,
     name: ExperienceType.appearance,
     summary: "Chrome's icon and layout were significantly more desirable than Edge's, driven by participants who felt the design was creative and professional. However, Edge's menu design was more desirable than Chrome's, driven by users who felt it was professional and calm.",
     insights: [

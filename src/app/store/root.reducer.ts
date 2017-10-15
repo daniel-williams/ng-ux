@@ -6,6 +6,7 @@ import { IBrowserState, browserReducer } from './browser';
 import { IExperienceState, experiencesReducer } from './experiences';
 import { IFeedbackState, feedbackReducer } from './feedback';
 import { IStudyState, studyReducer } from './study';
+import { ITaskState, taskReducer } from './task';
 
 
 export interface IAppState {
@@ -13,6 +14,7 @@ export interface IAppState {
   experiences?: IExperienceState,
   feedback?: IFeedbackState;
   study?: IStudyState;
+  task?: ITaskState;
 
   router?: any;
 };
@@ -23,6 +25,7 @@ export const rootReducer = (state: IAppState = {}, action: Action): IAppState =>
     experiences: experiencesReducer(state.experiences, action),
     feedback: feedbackReducer(state.feedback, action),
     study: studyReducer(state.study, action),
+    task: taskReducer(state.task, action),
 
     router: routerReducer(state.router, action as any),
   });

@@ -36,10 +36,6 @@ export class StudyPanel {
 
   constructor(private studyActions: StudyActions) { }
 
-  ngOnChanges() {
-    console.log('study changes: ', this.study, this.studyList);
-  }
-
   changeStudy(s: StudyOptions) {
     this.studyActions.setStudy(s);
   }

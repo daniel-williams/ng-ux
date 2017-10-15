@@ -6,3 +6,4 @@ export * from './browser';
 export * from './experiences';
 export * from './feedback';
 export * from './study';
+export * from './task';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { studies } from './conductedStudies';
-import { AssociativeResponse, Experience, FeedbackCardData, Study, StudyBrowser, StudyBrowserMap, StudyOptions } from '../../scorecard/types';
+import { AssociativeResponse, Experience, FeedbackCardData, Study, StudyBrowser, StudyBrowserMap, StudyOptions, StepType, StudyStep } from '../../scorecard/types';
 
 
 const videoBaseUrl = '/assets/videos/';
@@ -71,6 +71,33 @@ export class UxScorecardService {
 
       if(study) {
         resolve(study.experiences || []);
+      }
+
+      reject();
+    });
+  }
+
+  fetchTasks(studyId: number, experienceId: number): Promise<StudyStep[]> {
+    return new Promise((resolve, reject) => {
+      let study = this.getStudy(studyId);
+
+      if(study) {
+        let experience = study.experiences.find(x => x.id === experienceId);
+
+        if(experience) {
+          let experienceType = experience.name;
+          let tasks: StudyStep[] = [];
+
+          study.groups.forEach(group => {
+            group.studySteps.forEach(step => {
+              if(step.type === StepType.instruction && step.experienceType === experienceType) {
+                tasks.push(step);
+              }
+            });
+          });
+
+          resolve(tasks || []);
+        }
       }
 
       reject();

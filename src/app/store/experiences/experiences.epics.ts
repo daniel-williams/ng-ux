@@ -19,20 +19,36 @@ export class ExperiencesEpics {
   fetchExperiences = (action$: ActionsObservable<Action>, store: any) => {
     return action$.ofType(ExperiencesActions.FETCH_EXPERIENCES)
       .mergeMap(({payload}) => {
-        let studyId: number = payload;
+        let { studyId } = payload;
 
         return Observable.fromPromise(this.uxss.fetchExperiences(studyId))
-          .map(result => ({
-            type: ExperiencesActions.FETCH_EXPERIENCES_SUCCESS,
-            payload: {
-              study: studyId,
-              experiences: result
+          .flatMap(result => {
+            let actions: Action[] = [];
+
+            actions.push({
+              type: ExperiencesActions.FETCH_EXPERIENCES_SUCCESS,
+              payload: {
+                studyId,
+                experiences: result
+              }
+            });
+
+            // by default, set selected to first item
+            if(result.length) {
+              let experience = result[0];
+
+              actions.push({
+                type: ExperiencesActions.SET_SELECTED_EXPERIENCE,
+                payload: experience
+              });
             }
-          }))
+
+            return actions;
+          })
           .catch(error => Observable.of({
             type: ExperiencesActions.FETCH_EXPERIENCES_FAILED,
             payload: {
-              study: studyId,
+              studyId,
               error: error
             }
           }));

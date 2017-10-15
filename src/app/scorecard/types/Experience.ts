@@ -7,6 +7,7 @@ interface ITopIssue {
 }
 
 interface IExperience {
+  id: number;
   name: ExperienceType;
   summary: string;
   insights?: string[];
@@ -14,12 +15,14 @@ interface IExperience {
 }
 
 export class Experience {
+  public id: number;
   public name: ExperienceType;
   public summary: string;
   public insights: string[];
   public topIssues: ITopIssue[];
 
   constructor(data: IExperience) {
+    this.id = data.id;
     this.name = data.name;
     this.summary = data.summary;
     this.insights = data.insights || [];
