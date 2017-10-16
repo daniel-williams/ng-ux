@@ -1,3 +1,4 @@
+export * from './BrowserScore';
 export * from './enums';
 export * from './Experience';
 export * from './FeedbackCardData';

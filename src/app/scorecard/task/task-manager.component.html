@@ -1,0 +1,22 @@
+<div class='container-fluid task-manager' *ngIf='taskList && taskList.length'>
+  <div class="row" style='padding-bottom: 25px;'>
+    <div class='col-3' *ngFor="let task of taskList">
+      <task-card [task]='task'></task-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <section class='feedback-wrap'>
+          <div class='feedback-heading'>
+            <h2>Visiting an existing Favorite</h2>
+            <div>Visit a lasagna recipe site from your Favorites</div>
+          </div>
+
+          <div style='padding:100px 15px;background-color:white'>
+            <browser-manager></browser-manager>
+          </div>
+
+        </section>
+    </div>
+  </div>
+</div>

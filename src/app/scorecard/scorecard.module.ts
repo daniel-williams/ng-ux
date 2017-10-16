@@ -15,6 +15,7 @@ import { ScoreMeter } from './score-meter';
 import { ScorecardComponent } from './scorecard.component';
 import { StudyPanel, StudyPicker  } from './study-picker';
 import { SummaryInsight } from './insights';
+import { TaskCard, TaskManager } from './task';
 import { TopIssues } from './top-issues';
 
 
@@ -40,6 +41,8 @@ import { TopIssues } from './top-issues';
     StudyPanel,
     StudyPicker,
     SummaryInsight,
+    TaskCard,
+    TaskManager,
     TopIssues,
   ],
   providers: [],
