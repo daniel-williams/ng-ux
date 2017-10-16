@@ -35,7 +35,7 @@ module.exports = function (options) {
         }
       }),
       new CopyWebpackPlugin([
-        { from: './client/assets', to: './assets' }
+        { from: './client/assets', to: './assets', ignore: ['*.mp4'] }
       ])
     ]
   });

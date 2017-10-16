@@ -16,7 +16,7 @@
     "remote": "cross-env NODE_ENV=remote npm run webpack-dev-server",
     "build:stag": "cross-env NODE_ENV=staging npm run webpack-build",
     "build:prod": "cross-env NODE_ENV=production npm run webpack-build",
-    "webpack-build": "rimraf dist && webpack --config config/webpack.production.js --progress --profile --bail",
+    "webpack-build": "rimraf dist && webpack --config config/webpack.build.js --progress --profile --bail",
     "webpack-dev-server": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch --content-base client/"
   },
   "keywords": [
