@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { GlobalActions } from '../../store';
 import { AnimationService } from '../../core';
 
 
@@ -12,7 +13,7 @@ export class HeaderNav {
 
   private controller: any;
 
-  constructor(private a: AnimationService) {
+  constructor(private a: AnimationService, private actions: GlobalActions) {
     this.controller = AnimationService.CreateController();
   }
 
@@ -21,5 +22,10 @@ export class HeaderNav {
     let offset = this.a.getPageOffset(el);
 
     this.controller.scrollTo(offset.top);
+  }
+
+  private onDimensionsClick(id: string) {
+    this.actions.openDimensionsPanel();
+    this.navigate(id);
   }
 }
