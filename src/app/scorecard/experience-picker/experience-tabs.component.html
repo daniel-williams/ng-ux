@@ -12,7 +12,35 @@
         </div>
       </div>
     </div>
-
+  </div>
+</section>
+<section class='experience-details' *ngIf='!!selectedExperience'>
+  <div class='container insights-wrap' *ngIf='selectedExperience'>
+    <div class='row'>
+      <div class='col'>
+        <div class='insight-title'>\ Research Insights</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col summary">{{selectedExperience.summary}}</div>
+    </div>
+    <div class='row'>
+      <div class='col'>
+        <div class='insight' *ngFor='let insight of selectedExperience.insights'>{{insight}}</div>
+      </div>
+    </div>
+  </div>
+  <div class='container top-issues-wrap' *ngIf='selectedExperience.topIssues.length'>
+    <div class='row'>
+      <div class='col'>
+        <div class='top-issues-title'>\ Top Issues {{selectedExperience.topIssues.length}}</div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col'>
+        <div class='top-issue' *ngFor='let topIssue of selectedExperience.topIssues'>{{topIssue.description}}</div>
+      </div>
+    </div>
   </div>
 </section>
 <task-manager [study]='selectedStudy' [experience]='selectedExperience'></task-manager>

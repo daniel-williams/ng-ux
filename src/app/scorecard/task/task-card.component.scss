@@ -2,12 +2,22 @@
   background-color: white;
   box-shadow: 0 6px 13px rgba(0,0,0,0.16);
   padding: 25px;
-  margin-bottom: 30px;
   border: 2px solid transparent;
   transition: border 0.5s ease-in-out;
   cursor: pointer;
+  height: 100%;
 
   &.selected {
     border: 2px solid blue;
+  }
+
+  .task-title {
+    font-size: 20px;
+    line-height: 1;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .description {
+    overflow: hidden;
   }
 }

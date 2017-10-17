@@ -1,15 +1,18 @@
 <div class='container-fluid task-manager' *ngIf='taskList && taskList.length'>
-  <div class="row" style='padding-bottom: 25px;'>
-    <div class='col-3' [@cardState]='cardState' *ngFor="let task of taskList">
-      <task-card [task]='task' [selected]='selectedTask.name === task.name'></task-card>
+  <div class="row task-area">
+    <div class='col-3 task-card-wrap' [@cardState]='cardState' *ngFor="let task of taskList">
+      <task-card
+        [task]='task'
+        [selected]='selectedTask.name === task.name'></task-card>
     </div>
   </div>
   <div class="row">
     <div class="col">
         <section class='feedback-wrap'>
+
           <div class='feedback-heading'>
-            <h2>Visiting an existing Favorite</h2>
-            <div>Visit a lasagna recipe site from your Favorites</div>
+            <h2>{{selectedTask.taskType}}</h2>
+            <div>{{selectedTask.description}}</div>
           </div>
 
           <div style='padding:100px 15px;background-color:white'>

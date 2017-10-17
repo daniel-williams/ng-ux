@@ -66,7 +66,9 @@ let experiences: Experience[] = [
   new Experience({
     id: 1,
     name: ExperienceType.searchAndNavigation,
-    summary: "Search and navigation experiences are robust in both browsers. The scenario around checking the weather got lower scores for Edge because of the inclusion of the Weather Channel app in the default Top Sites on the New Tab Page."
+    summary: "Search and navigation experiences are robust in both browsers. The scenario around checking the weather got lower scores for Edge because of the inclusion of the Weather Channel app in the default Top Sites on the New Tab Page.",
+    insights: [],
+    topIssues: []
   }),
   new Experience({
     id: 2,
