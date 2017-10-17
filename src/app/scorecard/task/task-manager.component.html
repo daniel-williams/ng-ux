@@ -1,7 +1,7 @@
 <div class='container-fluid task-manager' *ngIf='taskList && taskList.length'>
   <div class="row" style='padding-bottom: 25px;'>
     <div class='col-3' [@cardState]='cardState' *ngFor="let task of taskList">
-      <task-card [task]='task'></task-card>
+      <task-card [task]='task' [selected]='selectedTask.name === task.name'></task-card>
     </div>
   </div>
   <div class="row">

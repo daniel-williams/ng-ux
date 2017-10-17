@@ -1,4 +1,4 @@
-<section class='task-card-wrap'>
+<section class='task-card-wrap' [class.selected]='selected' (click)='setSelectedTask()'>
   <h1>{{task.taskType}}</h1>
   <div class='description'>{{task.description}}</div>
   <div class='container-fluid'>

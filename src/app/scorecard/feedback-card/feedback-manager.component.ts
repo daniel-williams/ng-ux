@@ -18,7 +18,7 @@ import { Subject } from 'rxjs/Subject';
 
 
 import { FeedbackActions, Status } from '../../store';
-import { Experience, FeedbackCardData, StudyOptions } from '../types';
+import { FeedbackCardData, StudyOptions, StudyStep } from '../types';
 
 import { FeedbackCard } from './feedback-card.component';
 
@@ -49,7 +49,7 @@ export class FeedbackManager implements OnDestroy {
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
-  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
@@ -68,7 +68,7 @@ export class FeedbackManager implements OnDestroy {
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
-    this.subs.push(this.selectedExperience$.subscribe(x => this.resetFeedbackGrid()));
+    this.subs.push(this.selectedTask$.subscribe(x => this.resetFeedbackGrid()));
   }
 
   ngAfterViewInit() {

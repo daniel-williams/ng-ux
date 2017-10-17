@@ -33,14 +33,18 @@ import { Experience, StudyOptions, StudyStep } from '../types';
 export class TaskManager {
   @Input() study: StudyOptions;
   @Input() experience: Experience;
+  
   @select(['task', 'taskList']) taskList$: Observable<{[key: string]: StudyStep[]}>;
+  @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   private subs: Subscription[] = [];
   private taskListDictionary: {[key: string]: StudyStep[]} = {};
   private taskList: StudyStep[] = [];
+  private selectedTask: StudyStep;
 
   constructor() {
     this.subs.push(this.taskList$.subscribe(x => this.taskListDictionary = x));
+    this.subs.push(this.selectedTask$.subscribe(x => this.selectedTask = x));
   }
 
   ngOnChanges() {

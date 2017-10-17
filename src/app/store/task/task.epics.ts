@@ -22,14 +22,29 @@ export class TaskEpics {
         let { studyId, experienceId } = payload;
 
         return Observable.fromPromise(this.uxss.fetchTasks(studyId, experienceId))
-          .map(result => ({
-            type: TaskActions.FETCH_TASKS_SUCCESS,
-            payload: {
-              studyId,
-              experienceId,
-              tasks: result
+          .flatMap(result => {
+            let actions: Action[] =[];
+            
+            actions.push({
+              type: TaskActions.FETCH_TASKS_SUCCESS,
+              payload: {
+                studyId,
+                experienceId,
+                tasks: result
+              }
+            });
+
+            if(result.length) {
+              let task = result[0];
+
+              actions.push({
+                type: TaskActions.SET_SELECTED_TASK,
+                payload: task
+              });
             }
-          }))
+
+            return actions;
+          })
           .catch(error => Observable.of({
             type: TaskActions.FETCH_TASKS_FAILED,
             payload: {
