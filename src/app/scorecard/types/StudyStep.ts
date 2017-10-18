@@ -1,8 +1,8 @@
 import {
   DimensionType,
-  ExperienceType,
   StepType,
   TaskType,
+  ExperienceType,
 } from './enums';
 
 import {
@@ -13,7 +13,7 @@ import {
 
 
 export class StudyStep {
-  public name: string;
+  public id: number;
   public type: StepType;
   public responseType: CompletedResponse | GradedResponse | AssociativeResponse | null;
   public description: string[];

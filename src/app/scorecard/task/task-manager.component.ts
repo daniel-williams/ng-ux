@@ -11,6 +11,7 @@ import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { Experience, StudyOptions, StudyStep } from '../types';
+import { UxScorecardService } from '../../shared';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class TaskManager {
   @Input() study: StudyOptions;
   @Input() experience: Experience;
   
+  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
   @select(['task', 'taskList']) taskList$: Observable<{[key: string]: StudyStep[]}>;
   @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
@@ -41,10 +43,19 @@ export class TaskManager {
   private taskListDictionary: {[key: string]: StudyStep[]} = {};
   private taskList: StudyStep[] = [];
   private selectedTask: StudyStep;
+  private results: any;
 
-  constructor() {
+  constructor(private uxss: UxScorecardService) {
     this.subs.push(this.taskList$.subscribe(x => this.taskListDictionary = x));
     this.subs.push(this.selectedTask$.subscribe(x => this.selectedTask = x));
+    this.subs.push(this.selectedStudy$.subscribe(study => {
+      if(!study) { return; }
+      
+      this.uxss.fetchScores(study.id).then(x => {
+        this.results = x;
+        console.log('results: ', this.results);
+      })
+    }))
   }
 
   ngOnChanges() {
@@ -55,7 +66,7 @@ export class TaskManager {
 
   get key(): string {
     let studyId = this.study && this.study.id || '';
-    let experienceId = this.experience && this.experience.id || '';
+    let experienceId = this.experience && this.experience.type.id || '';
 
     return `${studyId}-${experienceId}`;
   }

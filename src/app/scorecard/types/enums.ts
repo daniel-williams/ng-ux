@@ -1,5 +1,3 @@
-
-
 export enum DimensionType {
   na = <any>null,
   accessible = <any>'Accessible',
@@ -12,25 +10,10 @@ export enum DimensionType {
   satisfaction = <any>'Satisfaction',
   feedback = <any>'Feedback',
 
-  appIcon = <any>'App Icon',
-  overflowMenu = <any>'Overflow Menu',
-  buttons = <any>'Buttons',
-  layout = <any>'Layout',
-}
-
-export enum ExperienceType {
-  na = <any>null,
-  favorites = <any>'Favorites',
-  tabManagement = <any>'Tabs',
-  appearance = <any>'Appearance',
-  newTabPage = <any>'NTP',
-  searchAndNavigation = <any>'Search'
-  // na = <any>null,
-  // favorites = <any>'Favorites',
-  // tabManagement = <any>'Tab Management',
-  // appearance = <any>'Appearance',
-  // newTabPage = <any>'New Tab Page',
-  // searchAndNavigation = <any>'Search / Navigation'
+  desirableAppIcon = <any>'App Icon',
+  desirableOverflowMenu = <any>'Overflow Menu',
+  desirableButtons = <any>'Buttons',
+  desirableLayout = <any>'Layout',
 }
 
 export enum ResponseType {
@@ -54,11 +37,28 @@ export enum TaskType {
   closeSingleTab = <any>'Close a single tab',
   createNewFavorite = <any>'Create a new Favorite',
   addingFavoritesToFolder = <any>'Adding Favorites to a folder',
-  impressions = <any>'Impressions',
   topSites = <any>'Top sites',
   findNews = <any>'Find news',
   checkWeather = <any>'Check weather',
   newTabSearch = <any>'New tab search',
   enterUrl = <any>'Enter a URL',
   SearchFromCurrentTab = <any>'Search from current tab',
+
+  impressions = <any>'Impressions',
+  appIconImpressions = <any>'App Icon impressions',
+  buttonsImpressions = <any>'Buttons impressions',
+  layoutImpressions = <any>'Layout impressions',
+  overflowContentImpressions = <any>'Overflow content impressions',
+}
+
+export class ExperienceType {
+  public id: number;
+  public title: string;
+  public description: string;
+
+  constructor(id: number, title: string, description?: string) {
+    this.id = id;
+    this.title = title;
+    this.description = description || title;
+  }
 }

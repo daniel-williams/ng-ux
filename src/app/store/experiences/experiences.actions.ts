@@ -30,7 +30,7 @@ export class ExperiencesActions implements OnDestroy {
     this.subs.push(this.selectedExperience$.subscribe(experience => {
       if(this.study && experience) {
         //perform fetches for experience change
-        this.taskActions.fetchTasks(this.study.id, experience.id);
+        this.taskActions.fetchTasks(this.study.id, experience.type.id);
       }
     }));
   }
