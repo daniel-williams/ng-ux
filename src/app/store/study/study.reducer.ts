@@ -1,4 +1,5 @@
 import { Action } from '../Action';
+import { ScoreRollup } from '../../shared';
 import { Study, StudyOptions } from '../../scorecard/types';
 
 import { StudyActions as Actions } from './study.actions';
@@ -15,6 +16,7 @@ export interface IStudyState {
   selectedStudy?: StudyOptions;
   insights?: string[];
   topIssues?: string[];
+  scores?: ScoreRollup;
 }
 
 export const initialStudyState: IStudyState = {
@@ -28,6 +30,7 @@ export const initialStudyState: IStudyState = {
 
   insights: [],
   topIssues: [],
+  scores: null,
 };
 
 export function studyReducer(state: IStudyState = initialStudyState, action: Action) {
@@ -65,6 +68,11 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
     case Actions.FETCH_TOP_ISSUES_SUCCESS: {
       return mergeState(state, {
         topIssues: payload,
+      });
+    }
+    case Actions.FETCH_SCORES_SUCCESS: {
+      return mergeState(state, {
+        scores: payload,
       });
     }
     case Actions.TOGGLE_STUDY_PANEL: {

@@ -72,4 +72,19 @@ export class StudyEpics {
         }));
     });
   }
+
+  fetchScores = (action$: ActionsObservable<Action>, store: Store<IAppState>) => {
+    return action$.ofType(StudyActions.FETCH_SCORES)
+    .mergeMap(({payload}) => {
+      return Observable.fromPromise(this.uxss.fetchScores(payload))
+        .map(result => ({
+          type: StudyActions.FETCH_SCORES_SUCCESS,
+          payload: result
+        }))
+        .catch(error => Observable.of({
+          type: StudyActions.FETCH_SCORES_FAILED,
+          payload: error
+        }));
+    });
+  }
 }

@@ -20,6 +20,10 @@ export class StudyActions implements OnDestroy {
   static FETCH_INSIGHTS_SUCCESS = 'FETCH_INSIGHTS_SUCCESS';
   static FETCH_INSIGHTS_FAILED = 'FETCH_INSIGHTS_FAILED';
 
+  static FETCH_SCORES = 'FETCH_SCORES';
+  static FETCH_SCORES_SUCCESS = 'FETCH_SCORES_SUCCESS';
+  static FETCH_SCORES_FAILED = 'FETCH_SCORES_FAILED';
+
   static FETCH_TOP_ISSUES = 'FETCH_TOP_ISSUES';
   static FETCH_TOP_ISSUES_SUCCESS = 'FETCH_TOP_ISSUES_SUCCESS';
   static FETCH_TOP_ISSUES_FAILED = 'FETCH_TOP_ISSUES_FAILED';
@@ -41,6 +45,7 @@ export class StudyActions implements OnDestroy {
       if(study) {
         // perform fetches for study change
         this.fetchInsights(study.id)
+        this.fetchScores(study.id);
         this.fetchTopIssues(study.id);
         browserActions.fetchBrowsers(study.id);
         experiencesActions.fetchExperiences(study.id);
@@ -76,6 +81,13 @@ export class StudyActions implements OnDestroy {
     this.ngRedux.dispatch({
       type: StudyActions.FETCH_TOP_ISSUES,
       payload: id,
+    });
+  }
+
+  fetchScores(studyId: number): void {
+    this.ngRedux.dispatch({
+      type: StudyActions.FETCH_SCORES,
+      payload: studyId,
     });
   }
 

@@ -204,63 +204,15 @@ export class UxScorecardService {
     });
   }
 
-  fetchScores(studyId: number): Promise<any> {
+  fetchScores(studyId: number): Promise<ScoreRollup> {
     return new Promise((resolve, reject) => {
       let study = this.getStudy(studyId);
 
       if(study) {
         let browsers = this.getBrowsers(study.id);
-        let experienceRollup = study.experiences.map(x => new ExperienceRollup(x.type.id));
-        let browserRollups = browsers.map(x => new BrowserRollup(x.name, experienceRollup.slice()));
-        let scoreRollup = new ScoreRollup(study.id, browserRollups);
+        let scoreRollup = new ScoreRollup(study.id, browsers.map(x => new BrowserRollup(x.name, study)));
 
-        experienceRollup.forEach(exp => {
-          study.groups.forEach(group => {
-            let allExpTasks = group.studySteps.filter(step => step.experienceType && step.experienceType.id === exp.id);
-            let taskInstructions = allExpTasks.filter(x => x.type === StepType.instruction);
-
-            taskInstructions.forEach(x => {
-              let targetTasks = allExpTasks.filter(t => t.taskType === x.taskType);
-              let taskRollup = new TaskRollup(x.id);
-
-              targetTasks
-                .filter(t =>
-                    t.dimensionType === DimensionType.findable ||
-                    t.dimensionType === DimensionType.usable ||
-                    t.dimensionType === DimensionType.predictable ||
-                    t.dimensionType === DimensionType.useful)
-                .forEach(t => {
-                  let d = new ScoredDimension(t.dimensionType.toString());
-
-                  d.add(4.4);
-                  taskRollup.scoredDimensions.push(d);
-                });
-
-              targetTasks
-                .filter(t =>
-                  t.dimensionType === DimensionType.desirable ||
-                  t.dimensionType === DimensionType.desirableAppIcon ||
-                  t.dimensionType === DimensionType.desirableButtons ||
-                  t.dimensionType === DimensionType.desirableLayout ||
-                  t.dimensionType === DimensionType.desirableOverflowMenu)
-                .forEach(t => {
-                  let d = new AssociativeDimension(t.dimensionType.toString());
-
-                  d.addWordMap({
-                    'Familiar': 1,
-                    'Professional': 2
-                  });
-                  taskRollup.associativeDimensions.push(d);
-                });
-
-              exp.taskRollup.push(taskRollup);
-            })
-          });
-        })
-
-        resolve({
-          scoreRollup,
-        });
+        resolve(scoreRollup);
       }
 
       reject();
@@ -302,17 +254,67 @@ export class UxScorecardService {
 }
 
 
+// Rollup classes for calculated values
+export class ScoreRollup {
+  constructor(public id: number, public browserRollups: BrowserRollup[] = []) { }
+}
+
 export class BrowserRollup {
-  constructor(
-    public name: string,
-    public experienceRollup: ExperienceRollup[] = []) { }
+  experienceRollups: ExperienceRollup[] = [];
+
+  constructor(public name: string, private study: Study) {
+      this.experienceRollups = study.experiences.map(x => new ExperienceRollup(x.type.id));
+      this.experienceRollups.forEach(exp => {
+        let expData = Object.keys(study.data).map(key => study.data[key]).filter((x: any) => x.__browser === name);
+
+        study.groups.forEach(group => {
+          let groupData = expData.filter((x: any) => x.__taskGroup === group.title);
+          let allExpTasks = group.studySteps.filter(step => step.experienceType && step.experienceType.id === exp.id);
+          let taskInstructions = allExpTasks.filter(x => x.type === StepType.instruction);
+
+          taskInstructions.forEach(x => {
+            let targetTasks = allExpTasks.filter(t => t.taskType === x.taskType);
+            let taskRollup = new TaskRollup(x.id);
+
+            targetTasks
+              .filter(t =>
+                  t.dimensionType === DimensionType.findable ||
+                  t.dimensionType === DimensionType.usable ||
+                  t.dimensionType === DimensionType.predictable ||
+                  t.dimensionType === DimensionType.useful)
+              .forEach(t => {
+                let d = new ScoredDimension(t.dimensionType.toString());
+
+                groupData.forEach((x: any) => d.add(x.__tasks[t.id]));
+                taskRollup.scoredDimensions.push(d);
+              });
+
+            targetTasks
+              .filter(t =>
+                t.dimensionType === DimensionType.desirable ||
+                t.dimensionType === DimensionType.desirableAppIcon ||
+                t.dimensionType === DimensionType.desirableButtons ||
+                t.dimensionType === DimensionType.desirableLayout ||
+                t.dimensionType === DimensionType.desirableOverflowMenu)
+              .forEach(t => {
+                let d = new AssociativeDimension(t.dimensionType.toString());
+
+                groupData.forEach((x: any) => d.addWordMap(x.__tasks[t.id]));
+                taskRollup.associativeDimensions.push(d);
+              });
+
+            exp.taskRollup.push(taskRollup);
+          })
+        });
+      });
+    }
 
   get average(): number {
-    return this.experienceRollup.length
-      ? this.experienceRollup.reduce((total, item) => {
+    return this.experienceRollups.length
+      ? this.experienceRollups.reduce((total, item) => {
         total += item.score;
         return total;
-      }, 0) / this.experienceRollup.filter(x => x.score !== 0).length
+      }, 0) / this.experienceRollups.filter(x => x.score !== 0).length
       : 0;
   }
 
@@ -321,8 +323,8 @@ export class BrowserRollup {
   }
 
   get wordMap(): IWordMap {
-    return this.experienceRollup.length
-      ? combineWordMaps(this.experienceRollup.map(x => x.wordMap))
+    return this.experienceRollups.length
+      ? combineWordMaps(this.experienceRollups.map(x => x.wordMap))
       : {};
   }
 }
@@ -423,11 +425,6 @@ export class AssociativeDimension {
   }
 }
 
-export class ScoreRollup {
-  constructor(
-    public id: number,
-    public browserRollups: BrowserRollup[] = []) { }
-}
 
 
 export interface IWordMap {
