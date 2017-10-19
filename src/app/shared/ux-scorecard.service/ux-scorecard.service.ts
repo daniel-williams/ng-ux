@@ -207,21 +207,21 @@ export class UxScorecardService {
   fetchScores(studyId: number): Promise<any> {
     return new Promise((resolve, reject) => {
       let study = this.getStudy(studyId);
-      
+
       if(study) {
         let browsers = this.getBrowsers(study.id);
-        let scoredExperiences = study.experiences.map(x => new ScoredExperience(x.type.id));
-        let scoredBrowsers = browsers.map(x => new ScoredBrowser(x.name, scoredExperiences.slice()));
-        let scoreRollup = new ScoreRollup(study.id, scoredBrowsers);
+        let experienceRollup = study.experiences.map(x => new ExperienceRollup(x.type.id));
+        let browserRollups = browsers.map(x => new BrowserRollup(x.name, experienceRollup.slice()));
+        let scoreRollup = new ScoreRollup(study.id, browserRollups);
 
-        scoredExperiences.forEach(exp => {
+        experienceRollup.forEach(exp => {
           study.groups.forEach(group => {
             let allExpTasks = group.studySteps.filter(step => step.experienceType && step.experienceType.id === exp.id);
             let taskInstructions = allExpTasks.filter(x => x.type === StepType.instruction);
-            
+
             taskInstructions.forEach(x => {
               let targetTasks = allExpTasks.filter(t => t.taskType === x.taskType);
-              let scoredTask = new ScoredTask(x.id);
+              let taskRollup = new TaskRollup(x.id);
 
               targetTasks
                 .filter(t =>
@@ -229,18 +229,31 @@ export class UxScorecardService {
                     t.dimensionType === DimensionType.usable ||
                     t.dimensionType === DimensionType.predictable ||
                     t.dimensionType === DimensionType.useful)
-                .forEach(t => scoredTask.scoredDimensions.push(new ScoredDimension(t.dimensionType.toString())));
+                .forEach(t => {
+                  let d = new ScoredDimension(t.dimensionType.toString());
+
+                  d.add(4.4);
+                  taskRollup.scoredDimensions.push(d);
+                });
 
               targetTasks
                 .filter(t =>
                   t.dimensionType === DimensionType.desirable ||
                   t.dimensionType === DimensionType.desirableAppIcon ||
                   t.dimensionType === DimensionType.desirableButtons ||
-                  t.dimensionType === DimensionType.desirableLayout || 
+                  t.dimensionType === DimensionType.desirableLayout ||
                   t.dimensionType === DimensionType.desirableOverflowMenu)
-                .forEach(t => scoredTask.associativeDimensions.push(new AssociativeDimension(t.dimensionType.toString())));
+                .forEach(t => {
+                  let d = new AssociativeDimension(t.dimensionType.toString());
 
-              exp.scoredTasks.push(scoredTask);
+                  d.addWordMap({
+                    'Familiar': 1,
+                    'Professional': 2
+                  });
+                  taskRollup.associativeDimensions.push(d);
+                });
+
+              exp.taskRollup.push(taskRollup);
             })
           });
         })
@@ -289,43 +302,158 @@ export class UxScorecardService {
 }
 
 
-export class ScoredBrowser {
-  public score: number;
-
+export class BrowserRollup {
   constructor(
     public name: string,
-    public scoredExperiences: ScoredExperience[] = []) { }
-}
-export class ScoredExperience {
-  public score: number;
+    public experienceRollup: ExperienceRollup[] = []) { }
 
+  get average(): number {
+    return this.experienceRollup.length
+      ? this.experienceRollup.reduce((total, item) => {
+        total += item.score;
+        return total;
+      }, 0) / this.experienceRollup.filter(x => x.score !== 0).length
+      : 0;
+  }
+
+  get score(): number {
+    return formattedScore(this.average, 1);
+  }
+
+  get wordMap(): IWordMap {
+    return this.experienceRollup.length
+      ? combineWordMaps(this.experienceRollup.map(x => x.wordMap))
+      : {};
+  }
+}
+
+export class ExperienceRollup {
   constructor(
     public id: number,
-    public scoredTasks: ScoredTask[] = []) { }
-}
-export class ScoredTask {
-  public score: number;
+    public taskRollup: TaskRollup[] = []) { }
 
+  get average(): number {
+    return this.taskRollup.length
+      ? this.taskRollup.reduce((total, item) => {
+        total += item.score;
+        return total;
+      }, 0) / this.taskRollup.filter(x => x.score !== 0).length
+      : 0;
+  }
+
+  get score(): number {
+    return formattedScore(this.average, 1);
+  }
+
+  get wordMap(): IWordMap {
+    return this.taskRollup.length
+      ? combineWordMaps(this.taskRollup.map(x => x.wordMap))
+      : {};
+  }
+}
+
+export class TaskRollup {
   constructor(
     public id: number,
     public scoredDimensions: ScoredDimension[] = [],
     public associativeDimensions: AssociativeDimension[] = []) { }
+
+  get average(): number {
+    return this.scoredDimensions.length
+      ? this.scoredDimensions.reduce((total, item) => {
+        total += item.average;
+        return total;
+      }, 0) / this.scoredDimensions.filter(x => x.score !== 0).length
+      : 0;
+  }
+
+  get score(): number {
+    return formattedScore(this.average, 1);
+  }
+
+  get wordMap(): IWordMap {
+    return this.associativeDimensions.length
+      ? combineWordMaps(this.associativeDimensions.map(x => x.wordMap))
+      : {};
+  }
 }
+
 export class ScoredDimension {
-  public score: number;
+  private _scores: number[] = [];
 
-  constructor(
-    public type: string) { }
+  constructor(public type: string) { }
+
+  get total(): number {
+    return this._scores.reduce((total, n) => {
+      total += n;
+      return total;
+    }, 0);
+  }
+
+  get average(): number {
+    return this._scores.length
+    ? this.total / this._scores.length
+    : 0;
+  }
+
+  get score(): number {
+    return formattedScore(this.average, 1);
+  }
+
+  add(n: number) {
+    this._scores.push(n);
+  }
+
+  getRawScores(): number[] {
+    return this._scores.slice();
+  }
 }
-export class AssociativeDimension {
-  public wordMap: {[key: string]: number}
 
-  constructor(
-    public type: string) { }
+export class AssociativeDimension {
+  private _wordMap: IWordMap = {};
+
+  constructor(public type: string) { }
+
+  addWordMap(map: IWordMap): void {
+    this._wordMap = combineWordMaps([this._wordMap, map]);
+  }
+
+  get wordMap(): IWordMap {
+    return Object.assign({}, this._wordMap);
+  }
 }
 
 export class ScoreRollup {
   constructor(
     public id: number,
-    public scoredBrowsers: ScoredBrowser[] = []) { }
+    public browserRollups: BrowserRollup[] = []) { }
+}
+
+
+export interface IWordMap {
+  [key: string]: number
+}
+
+function formattedScore(num: number, precision: number = 1): number {
+  let p = Math.pow(10, precision);
+
+  return num
+    ? Math.round(num * p) / p
+    : 0;
+}
+
+function combineWordMaps(maps: IWordMap[]): IWordMap {
+  let result: IWordMap = {};
+
+  maps.forEach(m => Object.keys(m).forEach(key => {
+    if(typeof m[key] === 'number') {
+      if(result[key]) {
+        result[key] += m[key];
+      } else {
+        result[key] = m[key];
+      }
+    }
+  }));
+
+  return result;
 }

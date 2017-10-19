@@ -97,13 +97,13 @@ export class AppModule {
 
     // setup redux middlewares
     const epicMiddleware = createEpicMiddleware(rootEpic);
-    const loggerMiddleware = createLogger();
+    const loggerMiddleware = false ? [createLogger()] : [];
 
     // create redux store
     const store: Store<IAppState> = createStore(
       rootReducer,
       {},
-      applyMiddleware(...[epicMiddleware, loggerMiddleware])
+      applyMiddleware(...[epicMiddleware, ...loggerMiddleware])
     )
 
     this.ngRedux.provideStore(store);
