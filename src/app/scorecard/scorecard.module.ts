@@ -8,6 +8,7 @@ import { BrowserPanel, BrowserPicker } from './browser-picker';
 import { BrowserSummary } from './browser-summary';
 import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
 import { DimensionDefinitions } from './dimension-definitions';
+import { DimensionDetailsManager } from './dimensions';
 import { ExperienceTabs } from './experience-picker';
 import { Header, HeaderNav } from './header';
 import { ScoreBreakdown } from './score-breakdown';
@@ -30,6 +31,7 @@ import { TopIssues } from './top-issues';
     BrowserPicker,
     BrowserSummary,
     DimensionDefinitions,
+    DimensionDetailsManager,
     ExperienceTabs,
     FeedbackCard,
     FeedbackManager,

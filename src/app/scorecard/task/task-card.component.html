@@ -1,4 +1,12 @@
 <section class='task-card-wrap' [class.selected]='selected' (click)='setSelectedTask()'>
-  <div class='task-title'>{{task.taskType}}</div>
-  <div class='description'>{{task.description}}</div>
+  <div class='task-content-wrap'>
+    <div class='task-title'>{{task.taskType}}</div>
+    <div class='description'>{{task.description}}</div>
+  </div>
+  <div class='score-details' *ngIf='browserScores.length'>
+    <div class='browser-score-wrap' *ngFor='let bs of browserScores'>
+      <div class='icon'><img src='/assets/images/browser-icons/{{bs.name}}.png' /></div>
+      <div class='score'>{{bs.score}}</div>
+    </div>
+  </div>
 </section>

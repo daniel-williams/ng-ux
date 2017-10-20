@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { select } from '@angular-redux/store';
+import { Observable, Subscription } from 'rxjs';
 
+import { ScoreRollup } from '../../shared';
 import { TaskActions } from '../../store';
-import { StudyStep } from '../types';
+import { Experience, StudyStep } from '../types';
 
 
 @Component({
@@ -14,7 +16,37 @@ export class TaskCard {
   @Input() task: StudyStep;
   @Input() selected: boolean;
 
-  constructor(private actions: TaskActions) {}
+  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
+
+  private experience: Experience;
+  private scores: ScoreRollup;
+  private browserScores: {name:string, score:number}[] = [];
+
+  private subs: Subscription[] = [];
+
+  constructor(private actions: TaskActions) {
+    this.subs.push(this.selectedExperience$.subscribe(x => this.experience = x));
+    this.subs.push(this.scores$.subscribe(x => this.scores = x));
+  }
+
+  ngOnChanges() {
+    if(this.experience && this.task && this.scores) {
+      this.browserScores = [];
+      
+      this.scores.browserRollups.forEach(b => {
+        let taskRollup = b.experienceRollups
+          .find(e => e.id === this.experience.type.id).taskRollup
+          .find(t => t.id === this.task.id);
+
+        this.browserScores.push({name: b.name, score: taskRollup.score});
+      })
+    }
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach(x => x.unsubscribe());
+  }
 
   setSelectedTask() {
     this.actions.setSelectedTask(this.task);

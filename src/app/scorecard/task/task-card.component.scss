@@ -1,4 +1,7 @@
 .task-card-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: white;
   box-shadow: 0 6px 13px rgba(0,0,0,0.16);
   padding: 25px;
@@ -11,13 +14,38 @@
     border: 2px solid blue;
   }
 
-  .task-title {
-    font-size: 20px;
-    line-height: 1;
-    font-weight: bold;
-    margin-bottom: 10px;
+  .task-content-wrap {
+    .task-title {
+      font-size: 20px;
+      line-height: 1;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .description {
+      overflow: hidden;
+    }
   }
-  .description {
-    overflow: hidden;
+
+  .score-details {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+
+    .browser-score-wrap {
+      display: flex;
+      justify-content: flex-start;
+
+      .icon {
+        margin-right: 28px;
+
+        img {
+          width: 28px;
+          height: auto;
+        }
+      }
+      .score {
+        font-size: 20px;
+      }
+    }
   }
 }

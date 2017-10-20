@@ -130,7 +130,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
             "Finding the lasagna recipe bookmark was easy."
           ],
           experienceType: ExperienceTypes.Favorites,
@@ -234,8 +233,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to open all the bookmarks in new tabs was easy."
           ],
           experienceType: ExperienceTypes.Tabs,
@@ -336,8 +333,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to change the order of the tabs was easy."
           ],
           experienceType: ExperienceTypes.Tabs,
@@ -438,8 +433,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to move the tabs to a new window was easy."
           ],
           experienceType: ExperienceTypes.Tabs,
@@ -540,8 +533,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to close a browser window was easy."
           ],
           experienceType: ExperienceTypes.Tabs,
@@ -642,8 +633,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to close individual tabs was easy."
           ],
           experienceType: ExperienceTypes.Tabs,
@@ -744,8 +733,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to add a site to my Bookmarks was easy."
           ],
           experienceType: ExperienceTypes.Favorites,
@@ -848,8 +835,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to create a folder of bookmarks was easy."
           ],
           experienceType: ExperienceTypes.Favorites,
@@ -1035,8 +1020,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to get to a frequently visited site from a new tab was easy."
           ],
           experienceType: ExperienceTypes.NewTabPage,
@@ -1137,8 +1120,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to get to the latest news about technology from a new tab was easy."
           ],
           experienceType: ExperienceTypes.NewTabPage,
@@ -1239,8 +1220,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to check the weather in Shanghai in a new tab was easy."
           ],
           experienceType: ExperienceTypes.Search,
@@ -1341,8 +1320,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to search the web from a new tab was easy."
           ],
           experienceType: ExperienceTypes.NewTabPage,
@@ -1443,8 +1420,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to go directly to a site using the Address Bar was easy."
           ],
           experienceType: ExperienceTypes.Search,
@@ -1545,8 +1520,6 @@ let study = new Study({
           type: StepType.question,
           responseType: agreementResponse,
           description: [
-            "Please rate to what extent you agree or disagree with the following statements:",
-            "",
             "Finding how to search the web from an existing tab was easy."
           ],
           experienceType: ExperienceTypes.Search,

@@ -273,7 +273,7 @@ export class BrowserRollup {
           targetTasks
             .filter(t => scoredDimensionTypes.includes(t.dimensionType))
             .forEach(t => {
-              let d = new ScoredDimension(t.dimensionType);
+              let d = new ScoredDimension(t.dimensionType, t.description);
 
               groupData.forEach((x: any) => d.add(x.__tasks[t.id]));
               taskRollup.scoredDimensions.push(d);
@@ -282,7 +282,7 @@ export class BrowserRollup {
           targetTasks
             .filter(t => associativeDimensionTypes.includes(t.dimensionType))
             .forEach(t => {
-              let d = new AssociativeDimension(t.dimensionType.toString());
+              let d = new AssociativeDimension(t.dimensionType, t.description);
 
               groupData.forEach((x: any) => d.addWordMap(x.__tasks[t.id]));
               taskRollup.associativeDimensions.push(d);
@@ -402,9 +402,10 @@ export class TaskRollup {
 }
 
 export class ScoredDimension {
+  public readonly type: string = 'score';
   private _scores: number[] = [];
 
-  constructor(public dimensionType: DimensionType) { }
+  constructor(public dimensionType: DimensionType, public description: string[] = []) { }
 
   get total(): number {
     return this._scores.reduce((total, n) => {
@@ -433,9 +434,10 @@ export class ScoredDimension {
 }
 
 export class AssociativeDimension {
+  public readonly type: string = 'associative';
   private _wordMap: IWordMap = {};
 
-  constructor(public type: string) { }
+  constructor(public dimensionType: DimensionType, public description: string[] = []) { }
 
   addWordMap(map: IWordMap): void {
     this._wordMap = combineWordMaps([this._wordMap, map]);

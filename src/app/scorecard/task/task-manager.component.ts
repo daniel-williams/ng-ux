@@ -10,7 +10,7 @@ import {
 import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { Experience, StudyOptions, StudyStep } from '../types';
+import { Experience, StudyBrowser, StudyOptions, StudyStep } from '../types';
 import { ScoreRollup, UxScorecardService } from '../../shared';
 
 
@@ -35,24 +35,25 @@ export class TaskManager {
   @Input() study: StudyOptions;
   @Input() experience: Experience;
 
-  @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
   @select(['task', 'taskList']) taskList$: Observable<{[key: string]: StudyStep[]}>;
   @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
+  
+  @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
+  @select(['browser', 'browserList']) browserList$: Observable<StudyBrowser[]>;
 
   private subs: Subscription[] = [];
   private taskListDictionary: {[key: string]: StudyStep[]} = {};
   private taskList: StudyStep[] = [];
   private selectedTask: StudyStep;
+
+  private browserList: StudyBrowser[] = [];
   private scores: ScoreRollup;
 
   constructor(private uxss: UxScorecardService) {
     this.subs.push(this.taskList$.subscribe(x => this.taskListDictionary = x));
-    this.subs.push(this.selectedTask$.subscribe(x => {
-      this.selectedTask = x;
-
-      console.log('selected task changed: ', x, this.scores);
-    }));
+    this.subs.push(this.selectedTask$.subscribe(x => this.selectedTask = x));
     this.subs.push(this.scores$.subscribe(x => this.scores = x));
+    this.subs.push(this.browserList$.subscribe(x => this.browserList = x));
   }
 
   ngOnChanges() {
