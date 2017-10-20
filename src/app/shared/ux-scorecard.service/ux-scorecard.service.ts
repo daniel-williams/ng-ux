@@ -18,6 +18,21 @@ import {
 
 
 const videoBaseUrl = '/assets/videos/';
+// TODO djw: decide if these should be part of the study definition
+const scoredDimensionTypes: DimensionType[] = [
+  DimensionType.findable,
+  DimensionType.usable,
+  DimensionType.predictable,
+  DimensionType.useful,
+];
+const associativeDimensionTypes: DimensionType[] = [
+  DimensionType.desirable,
+  DimensionType.desirableAppIcon,
+  DimensionType.desirableButtons,
+  DimensionType.desirableLayout,
+  DimensionType.desirableOverflowMenu,
+];
+
 
 @Injectable()
 export class UxScorecardService {
@@ -28,28 +43,7 @@ export class UxScorecardService {
 
   fetchBrowsers(studyId: number): Promise<StudyBrowser[]> {
     return new Promise((resolve, reject) => {
-      let browsers: StudyBrowser[] = [];
-      let study = this.getStudy(studyId);
-      let totals: { [key: string]: number } = {};
-
-      if(study) {
-        Object.keys(study.data).forEach((participant: any) => {
-          let browserName = study.data[participant].__browser;
-
-          totals[browserName] = !!totals[browserName]
-          ? ++totals[browserName]
-          : 1;
-        });
-
-
-        Object.keys(totals).forEach(key => {
-          browsers.push({name: key, count: totals[key]});
-        });
-
-        resolve(browsers);
-      }
-
-      reject();
+      resolve(this.getBrowsers(studyId));
     });
   }
 
@@ -263,51 +257,42 @@ export class BrowserRollup {
   experienceRollups: ExperienceRollup[] = [];
 
   constructor(public name: string, private study: Study) {
-      this.experienceRollups = study.experiences.map(x => new ExperienceRollup(x.type.id));
-      this.experienceRollups.forEach(exp => {
-        let expData = Object.keys(study.data).map(key => study.data[key]).filter((x: any) => x.__browser === name);
+    this.experienceRollups = study.experiences.map(x => new ExperienceRollup(x.type.id));
+    this.experienceRollups.forEach(exp => {
+      let expData = Object.keys(study.data).map(key => study.data[key]).filter((x: any) => x.__browser === name);
 
-        study.groups.forEach(group => {
-          let groupData = expData.filter((x: any) => x.__taskGroup === group.title);
-          let allExpTasks = group.studySteps.filter(step => step.experienceType && step.experienceType.id === exp.id);
-          let taskInstructions = allExpTasks.filter(x => x.type === StepType.instruction);
+      study.groups.forEach(group => {
+        let groupData = expData.filter((x: any) => x.__taskGroup === group.title);
+        let allExpTasks = group.studySteps.filter(step => step.experienceType && step.experienceType.id === exp.id);
+        let taskInstructions = allExpTasks.filter(x => x.type === StepType.instruction);
 
-          taskInstructions.forEach(x => {
-            let targetTasks = allExpTasks.filter(t => t.taskType === x.taskType);
-            let taskRollup = new TaskRollup(x.id);
+        taskInstructions.forEach(x => {
+          let targetTasks = allExpTasks.filter(t => t.taskType === x.taskType);
+          let taskRollup = new TaskRollup(x.id);
 
-            targetTasks
-              .filter(t =>
-                  t.dimensionType === DimensionType.findable ||
-                  t.dimensionType === DimensionType.usable ||
-                  t.dimensionType === DimensionType.predictable ||
-                  t.dimensionType === DimensionType.useful)
-              .forEach(t => {
-                let d = new ScoredDimension(t.dimensionType.toString());
+          targetTasks
+            .filter(t => scoredDimensionTypes.includes(t.dimensionType))
+            .forEach(t => {
+              let d = new ScoredDimension(t.dimensionType);
 
-                groupData.forEach((x: any) => d.add(x.__tasks[t.id]));
-                taskRollup.scoredDimensions.push(d);
-              });
+              groupData.forEach((x: any) => d.add(x.__tasks[t.id]));
+              taskRollup.scoredDimensions.push(d);
+            });
 
-            targetTasks
-              .filter(t =>
-                t.dimensionType === DimensionType.desirable ||
-                t.dimensionType === DimensionType.desirableAppIcon ||
-                t.dimensionType === DimensionType.desirableButtons ||
-                t.dimensionType === DimensionType.desirableLayout ||
-                t.dimensionType === DimensionType.desirableOverflowMenu)
-              .forEach(t => {
-                let d = new AssociativeDimension(t.dimensionType.toString());
+          targetTasks
+            .filter(t => associativeDimensionTypes.includes(t.dimensionType))
+            .forEach(t => {
+              let d = new AssociativeDimension(t.dimensionType.toString());
 
-                groupData.forEach((x: any) => d.addWordMap(x.__tasks[t.id]));
-                taskRollup.associativeDimensions.push(d);
-              });
+              groupData.forEach((x: any) => d.addWordMap(x.__tasks[t.id]));
+              taskRollup.associativeDimensions.push(d);
+            });
 
-            exp.taskRollup.push(taskRollup);
-          })
-        });
+          exp.taskRollup.push(taskRollup);
+        })
       });
-    }
+    });
+  }
 
   get average(): number {
     return this.experienceRollups.length
@@ -320,6 +305,19 @@ export class BrowserRollup {
 
   get score(): number {
     return formattedScore(this.average, 1);
+  }
+
+  getDimensionAverage(type: DimensionType): number {
+    return this.experienceRollups.length
+      ? this.experienceRollups.reduce((total, item) => {
+        total += item.getDimensionAverage(type);
+        return total;
+      }, 0) / this.experienceRollups.filter(x => x.score !== 0).length
+      : 0;
+  }
+
+  getDimensionScore(type: DimensionType): number {
+    return formattedScore(this.getDimensionAverage(type), 1);
   }
 
   get wordMap(): IWordMap {
@@ -337,7 +335,7 @@ export class ExperienceRollup {
   get average(): number {
     return this.taskRollup.length
       ? this.taskRollup.reduce((total, item) => {
-        total += item.score;
+        total += item.average;
         return total;
       }, 0) / this.taskRollup.filter(x => x.score !== 0).length
       : 0;
@@ -345,6 +343,19 @@ export class ExperienceRollup {
 
   get score(): number {
     return formattedScore(this.average, 1);
+  }
+
+  getDimensionAverage(type: DimensionType): number {
+    return this.taskRollup.length
+      ? this.taskRollup.reduce((total, item) => {
+        total += item.getDimensionAverage(type);
+        return total;
+      }, 0) / this.taskRollup.filter(x => x.score !== 0).length
+      : 0;
+  }
+
+  getDimensionScore(type: DimensionType): number {
+    return formattedScore(this.getDimensionAverage(type), 1);
   }
 
   get wordMap(): IWordMap {
@@ -373,6 +384,16 @@ export class TaskRollup {
     return formattedScore(this.average, 1);
   }
 
+  getDimensionAverage(type: DimensionType): number {
+    let sd = this.scoredDimensions.find(x => x.dimensionType === type);
+
+    return sd ? sd.average : 0;
+  }
+
+  getDimensionScore(type: DimensionType): number {
+    return formattedScore(this.getDimensionAverage(type), 1);
+  }
+
   get wordMap(): IWordMap {
     return this.associativeDimensions.length
       ? combineWordMaps(this.associativeDimensions.map(x => x.wordMap))
@@ -383,7 +404,7 @@ export class TaskRollup {
 export class ScoredDimension {
   private _scores: number[] = [];
 
-  constructor(public type: string) { }
+  constructor(public dimensionType: DimensionType) { }
 
   get total(): number {
     return this._scores.reduce((total, n) => {

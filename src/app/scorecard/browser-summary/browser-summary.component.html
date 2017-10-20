@@ -7,12 +7,12 @@
           <browser-picker></browser-picker>
         </div>
         <div class='summary-cell overall-score'></div>
-        <div class='summary-cell experience' *ngFor='let experience of experiences'>{{experience.name}}</div>
+        <div class='summary-cell experience' *ngFor='let experience of experiences'>{{experience.type.title}}</div>
       </div>
       <div class='summary-row item' *ngFor='let browser of selectedBrowsers'>
         <div class='summary-cell name'>{{browser}}</div>
-        <div class='summary-cell overall-score'>4.x</div>
-        <div class='summary-cell experience' *ngFor='let experience of experiences'>4.x</div>
+        <div class='summary-cell overall-score'>{{getBrowserScore(browser)}}</div>
+        <div class='summary-cell experience' *ngFor='let experience of experiences'>{{getExperienceScore(browser, experience.type.id)}}</div>
       </div>
     </div>
 
