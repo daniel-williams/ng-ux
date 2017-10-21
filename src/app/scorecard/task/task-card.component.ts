@@ -40,7 +40,18 @@ export class TaskCard {
           .find(t => t.id === this.task.id);
 
         this.browserScores.push({name: b.name, score: taskRollup.score});
-      })
+      });
+
+      this.browserScores = this.browserScores.sort((a, b) => {
+        let aName = a.name.toLowerCase();
+        let bName = b.name.toLowerCase();
+        
+        return (aName === 'edge' || (aName < bName && bName !== 'edge'))
+          ? -1
+          : (bName === 'edge' || bName < aName)
+            ? 1
+            : 0;
+      });
     }
   }
 
