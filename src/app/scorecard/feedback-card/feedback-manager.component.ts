@@ -16,9 +16,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
-
 import { FeedbackActions, Status } from '../../store';
-import { FeedbackCardData, StudyOptions, StudyStep } from '../types';
+import { Experience, FeedbackCardData, StudyOptions, StudyStep } from '../types';
 
 import { FeedbackCard } from './feedback-card.component';
 
@@ -48,15 +47,15 @@ export class FeedbackManager implements OnDestroy {
   @Input() cellWidth: string;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
-  @select(['feedback', 'feedbackDataListStatus']) feedbackDataListStatus$: Observable<{[key: string]: Status}>;
+
+  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
   @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
+  private subs: Subscription[] = [];
 
   private feedbackDataList: FeedbackCardData[] = [];
-  private feedbackDataListStatus: Status = Status.notFetched;
-  private subs: Subscription[] = [];
 
   private manualFetch$ = new Subject();
   private cardData: FeedbackCardData[] = [];
@@ -64,11 +63,22 @@ export class FeedbackManager implements OnDestroy {
   private minCellSize = 350;
   private dataKey = '';
 
+  private experience: Experience;
+  private task: StudyStep;
+
   constructor(private feedbackActions: FeedbackActions) {
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
-    this.subs.push(this.selectedTask$.subscribe(x => this.resetFeedbackGrid()));
+    this.subs.push(this.selectedExperience$.subscribe(x => {
+      this.experience = x;
+      this.updateFeedback();
+    }));
+    this.subs.push(this.selectedTask$.subscribe(x => {
+      this.task = x;
+      this.updateFeedback();
+      this.lastCardIndex = 0;
+    }));
   }
 
   ngAfterViewInit() {
@@ -78,11 +88,6 @@ export class FeedbackManager implements OnDestroy {
         setTimeout(() => this.cardData = this.feedbackDataList, 0);
       }
     }));
-
-    this.feedbackActions.fetchFeedback({
-      studyId: this.study.id,
-      browser: this.browser
-    });
 
     // call animate on feedback cards
     this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
@@ -94,15 +99,29 @@ export class FeedbackManager implements OnDestroy {
   }
 
   ngOnChanges() {
-    this.createDataKey();
+    this.updateFeedback();
   }
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
 
+  updateFeedback() {
+    if(this.study && this.browser && this.experience && this.task) {
+      this.createDataKey();
+      
+      this.feedbackActions.fetchFeedback({
+        studyId: this.study.id,
+        browser: this.browser,
+        experienceId: this.experience.type.id,
+        taskId: this.task.id
+      });
+    }
+  }
+
   createDataKey(): void {
     let studyId = this.study && this.study.id || '';
+
     this.dataKey = `${studyId}-${this.browser}`;
   }
 
@@ -115,5 +134,4 @@ export class FeedbackManager implements OnDestroy {
     this.lastCardIndex = 0;
     setTimeout(() => this.cardData = this.feedbackDataList, 0);
   }
-
 }

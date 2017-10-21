@@ -110,8 +110,8 @@ export class UxScorecardService {
     });
   }
 
-  fetchFeedback(options: { studyId: number, browser: string }): Promise<{ studyId: number, browser: string, feedback: FeedbackCardData[] }> {
-    let { studyId, browser } = options;
+  fetchFeedback(options: { studyId: number, browser: string, experienceId: number, taskId: number }): Promise<{ studyId: number, browser: string, experienceId: number, taskId: number, feedback: FeedbackCardData[] }> {
+    let { studyId, browser, experienceId, taskId } = options;
 
     return new Promise((resolve, reject) => {
       let study = this.getStudy(studyId);
@@ -122,10 +122,10 @@ export class UxScorecardService {
 
         Object.keys(study.data).forEach((participant: any) => {
           let data = study.data[participant];
-          if(data.__browser !== 'Edge' || data.__taskGroup !== 'groupA') { return; }
+          if(data.__browser !== browser) { return; }
 
           let feedback: FeedbackCardData = new FeedbackCardData();
-          let tasks: any = data.__tasks.slice(3,13);
+          let tasks: any = data.__tasks.slice(3, 13);
 
           feedback.username = data.Username;
           feedback.scores = [
@@ -133,7 +133,7 @@ export class UxScorecardService {
             { name: 'Usable', value: tasks[3] },
             { name: 'Predictable', value: tasks[4] },
             { name: 'Useful', value: tasks[5] },
-          ]
+          ];
           feedback.terms = Object.keys(tasks[7]).map(term => ({ name: term, isPositive: assocResponse.isPositive(term) }));
           feedback.verbatim = tasks[9];
           feedback.videoUrl = videoBaseUrl + 'UserTesting-' + participant + '.mp4';
@@ -151,6 +151,8 @@ export class UxScorecardService {
         resolve({
           studyId,
           browser,
+          experienceId,
+          taskId,
           feedback: result,
         });
       }

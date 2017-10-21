@@ -12,7 +12,7 @@ export class FeedbackActions {
 
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
-  fetchFeedback(options: { studyId: number, browser: string }): void {
+  fetchFeedback(options: { studyId: number, browser: string, experienceId: number, taskId: number }): void {
     this.ngRedux.dispatch({
       type: FeedbackActions.FETCH_FEEDBACK,
       payload: options,
