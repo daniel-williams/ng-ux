@@ -16,7 +16,7 @@ import { StudyBrowser, StudyOptions } from '../types';
 })
 export class BrowserManager implements OnDestroy {
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  // @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
   private subs: Subscription[] = [];
   
@@ -35,7 +35,7 @@ export class BrowserManager implements OnDestroy {
         this.calculateCellWidth();
       }));
 
-    this.subs.push(this.selectedStudy$.subscribe(x => this.study = x));
+    // this.subs.push(this.selectedStudy$.subscribe(x => this.study = x));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
       this.browserList = x;
       this.browserCount = x.length;

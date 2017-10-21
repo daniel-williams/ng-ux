@@ -42,12 +42,12 @@ import { FeedbackCard } from './feedback-card.component';
   ]
 })
 export class FeedbackManager implements OnDestroy {
-  @Input() study: StudyOptions;
   @Input() browser: string;
   @Input() cellWidth: string;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
 
+  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
   @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
   @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
@@ -63,6 +63,7 @@ export class FeedbackManager implements OnDestroy {
   private minCellSize = 350;
   private dataKey = '';
 
+  private study: StudyOptions;
   private experience: Experience;
   private task: StudyStep;
 
@@ -70,21 +71,34 @@ export class FeedbackManager implements OnDestroy {
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
-    this.subs.push(this.selectedExperience$.subscribe(x => {
-      this.experience = x;
-      this.updateFeedback();
-    }));
+    this.subs.push(this.selectedStudy$.subscribe(x => this.study = x));
+    this.subs.push(this.selectedExperience$.subscribe(x => this.experience = x));
     this.subs.push(this.selectedTask$.subscribe(x => {
       this.task = x;
-      this.updateFeedback();
-      this.lastCardIndex = 0;
+
+      let key = this.getDataKey();
+
+      if(!this.feedbackDataList[key]) {
+        this.feedbackActions.fetchFeedback({
+          studyId: this.study.id,
+          browser: this.browser,
+          experienceId: this.experience.type.id,
+          taskId: this.task.id
+        });
+      } else {
+        this.lastCardIndex = 0;
+        setTimeout(() => this.cardData = this.feedbackDataList[key], 0);
+      }
     }));
   }
 
   ngAfterViewInit() {
     this.subs.push(this.feedbackDataList$.subscribe(x => {
       if(x) {
-        this.feedbackDataList = x[this.dataKey] || [];
+        let key = this.getDataKey();
+
+        this.feedbackDataList = x[key] || [];
+        this.lastCardIndex = 0;
         setTimeout(() => this.cardData = this.feedbackDataList, 0);
       }
     }));
@@ -98,31 +112,17 @@ export class FeedbackManager implements OnDestroy {
     });
   }
 
-  ngOnChanges() {
-    this.updateFeedback();
-  }
-
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  updateFeedback() {
-    if(this.study && this.browser && this.experience && this.task) {
-      this.createDataKey();
-      
-      this.feedbackActions.fetchFeedback({
-        studyId: this.study.id,
-        browser: this.browser,
-        experienceId: this.experience.type.id,
-        taskId: this.task.id
-      });
-    }
-  }
+  getDataKey(): string {
+    let studyId = this.study && this.study.id || '-';
+    let browser = this.browser || '-';
+    let experienceId = this.experience && this.experience.type.id || '-';
+    let taskId = this.task && this.task.id || '-';
 
-  createDataKey(): void {
-    let studyId = this.study && this.study.id || '';
-
-    this.dataKey = `${studyId}-${this.browser}`;
+    return `${studyId}-${browser}-${experienceId}-${taskId}`;
   }
 
   clearItems() {
