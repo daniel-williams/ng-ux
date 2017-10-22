@@ -3,6 +3,7 @@ import {
   AssociativeResponse,
   CompletedResponse,
   GradedResponse,
+  VerbatimResponse,
   NVPair,
   NBPair,
 } from '../../../scorecard/types';
@@ -16,6 +17,8 @@ export class ExperienceTypes {
   public static Appearance = new ExperienceType(5, 'Appearance');
 }
 
+
+export const verbatimResponse = new VerbatimResponse();
 export const yesNoMaybeResponse = new CompletedResponse([
   new NVPair("Yes", 1),
   new NVPair("No", -1),

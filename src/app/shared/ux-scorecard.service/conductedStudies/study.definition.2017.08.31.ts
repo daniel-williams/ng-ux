@@ -1238,7 +1238,7 @@ let study = new Study({
         }, {
           id: 33,
           type: StepType.question,
-          responseType: 'agreementScale',
+          responseType: agreementResponse,
           description: [
               "Checking the weather in Shanghai in a new tab worked the way I expected."
           ],
@@ -1438,7 +1438,7 @@ let study = new Study({
         }, {
           id: 53,
           type: StepType.question,
-          responseType: 'agreementScale',
+          responseType: agreementResponse,
           description: [
             "Going directly to a site using the Address Bar worked the way I expected."
           ],

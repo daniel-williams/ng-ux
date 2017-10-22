@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
-import { FeedbackActions, Status } from '../../store';
+import { Status } from '../../store';
 import { Experience, FeedbackCardData, StudyOptions, StudyStep } from '../types';
 
 import { FeedbackCard } from './feedback-card.component';
@@ -67,7 +67,7 @@ export class FeedbackManager implements OnDestroy {
   private experience: Experience;
   private task: StudyStep;
 
-  constructor(private feedbackActions: FeedbackActions) {
+  constructor() {
     this.clearItems = this.clearItems.bind(this);
     this.resetFeedbackGrid = this.resetFeedbackGrid.bind(this);
 
@@ -78,14 +78,7 @@ export class FeedbackManager implements OnDestroy {
 
       let key = this.getDataKey();
 
-      if(!this.feedbackDataList[key]) {
-        this.feedbackActions.fetchFeedback({
-          studyId: this.study.id,
-          browser: this.browser,
-          experienceId: this.experience.type.id,
-          taskId: this.task.id
-        });
-      } else {
+      if(this.feedbackDataList[key]) {
         this.lastCardIndex = 0;
         setTimeout(() => this.cardData = this.feedbackDataList[key], 0);
       }

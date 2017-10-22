@@ -18,7 +18,8 @@ import {
   desirableResponse,
   satisfactionResponse,
   timeOnTaskResponse,
-  yesNoMaybeResponse
+  yesNoMaybeResponse,
+  verbatimResponse,
 } from './common.types';
 import { studyData } from './study.data.2017.07.07';
 
@@ -205,7 +206,7 @@ let study = new Study({
         }, {
           id: 12,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -308,7 +309,7 @@ let study = new Study({
         }, {
           id: 22,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -408,7 +409,7 @@ let study = new Study({
         }, {
           id: 32,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -508,7 +509,7 @@ let study = new Study({
         }, {
           id: 42,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -608,7 +609,7 @@ let study = new Study({
         }, {
           id: 52,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -708,7 +709,7 @@ let study = new Study({
         }, {
           id: 62,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -808,7 +809,7 @@ let study = new Study({
         }, {
           id: 72,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -910,7 +911,7 @@ let study = new Study({
         }, {
           id: 82,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -995,7 +996,7 @@ let study = new Study({
         }, {
           id: 7,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about why you gave the answers you did."
           ],
@@ -1095,7 +1096,7 @@ let study = new Study({
         }, {
           id: 17,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -1195,7 +1196,7 @@ let study = new Study({
         }, {
           id: 27,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -1255,7 +1256,7 @@ let study = new Study({
         }, {
           id: 33,
           type: StepType.question,
-          responseType: 'agreementScale',
+          responseType: agreementResponse,
           description: [
               "Checking the weather in Shanghai in a new tab worked the way I expected."
           ],
@@ -1295,7 +1296,7 @@ let study = new Study({
         }, {
           id: 37,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -1395,7 +1396,7 @@ let study = new Study({
         }, {
           id: 47,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -1455,7 +1456,7 @@ let study = new Study({
         }, {
           id: 53,
           type: StepType.question,
-          responseType: 'agreementScale',
+          responseType: agreementResponse,
           description: [
             "Going directly to a site using the Address Bar worked the way I expected."
           ],
@@ -1495,7 +1496,7 @@ let study = new Study({
         }, {
           id: 57,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],
@@ -1595,7 +1596,7 @@ let study = new Study({
         }, {
           id: 67,
           type: StepType.question,
-          responseType: desirableResponse,
+          responseType: verbatimResponse,
           description: [
             "Please share a bit about your experience with this task, and why you gave the ratings you did."
           ],

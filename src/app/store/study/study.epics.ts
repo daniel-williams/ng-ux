@@ -3,7 +3,7 @@ import { Store } from 'redux';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 
-import { Action, IAppState, Status, StudyActions } from '../';
+import { Action, IAppState, StudyActions } from '../';
 import { UxScorecardService } from '../../shared';
 
 

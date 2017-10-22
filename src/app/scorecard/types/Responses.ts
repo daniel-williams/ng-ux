@@ -15,27 +15,29 @@ export class NBPair {
 
 abstract class ScaleResponse {
   private items: NVPair[];
-  
+
   constructor(items: NVPair[] = []) {
     this.items = items;
   }
-  
+
   add(item: NVPair) {
     this.items.push(item);
   }
-  
+
   getName(value: number): string | null {
     let item = this.items.find(x => x.value === value);
-    
+
     return item && item.name || null;
   }
-  
+
   getValue(name: string): number | null {
     let item = this.items.find(x => x.name === name);
-    
+
     return item && item.value || null;
   }
 }
+
+export class VerbatimResponse {}
 
 export class GradedResponse extends ScaleResponse {
   private static "type": ResponseType = ResponseType.Completed;

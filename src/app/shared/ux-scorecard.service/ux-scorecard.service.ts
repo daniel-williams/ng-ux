@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { studies } from './conductedStudies';
 import {
   AssociativeResponse,
+  GradedResponse,
   DimensionType,
   Experience,
   FeedbackCardData,
@@ -14,8 +15,11 @@ import {
   StepType,
   StudyStep,
   TaskType,
+  VerbatimResponse,
 } from '../../scorecard/types';
-
+import {
+  desirableResponse,
+} from './conductedStudies/common.types';
 
 const videoBaseUrl = '/assets/videos/';
 // TODO djw: decide if these should be part of the study definition
@@ -110,50 +114,116 @@ export class UxScorecardService {
     });
   }
 
-  fetchFeedback(options: { studyId: number, browser: string, experienceId: number, taskId: number }): Promise<{ studyId: number, browser: string, experienceId: number, taskId: number, feedback: FeedbackCardData[] }> {
-    let { studyId, browser, experienceId, taskId } = options;
+  fetchFeedback(options: { studyId: number, experienceId: number, taskId: number }): Promise<{ studyId: number, experienceId: number, taskId: number, feedback: FeedbackCardData[] }> {
+    let { studyId, experienceId, taskId } = options;
+    // let assocResponse = study.responses[0] as AssociativeResponse; // FIX
 
     return new Promise((resolve, reject) => {
       let study = this.getStudy(studyId);
 
       if(study) {
-        let result: FeedbackCardData[] = [];
-        let assocResponse = study.responses[0] as AssociativeResponse;
+        let groupTasks: IGroupTasks = this.findResponses(study, experienceId, taskId);
+        let taskResponses: {
+          [key: string]: {
+            task: StudyStep,
+            responses: any[],
+          }
+        } = {};
 
-        Object.keys(study.data).forEach((participant: any) => {
-          let data = study.data[participant];
-          if(data.__browser !== browser) { return; }
+        let participantData = Object.keys(study.data)
+          .filter(key => study.data[key]['__taskGroup'] === groupTasks.group)
+          .map(key => {
+            let p = study.data[key]
+            p.userId = key;
+            return p;
+          });
+        let feedbackCardData: FeedbackCardData[] = [];
+        let userDetailsMask: any = {
+          '__browser': undefined,
+          '__session': undefined,
+          '__timestamp': undefined,
+          '__taskGroup': undefined,
+          '__tasks': undefined,
+        };
 
-          let feedback: FeedbackCardData = new FeedbackCardData();
-          let tasks: any = data.__tasks.slice(3, 13);
+        participantData.forEach(data => {
+          let userDetails = Object.assign({}, data, userDetailsMask);
+          let videoOffset: number;
+          let videoDuration: number;
+          let videoUrl: string;
+          let videoPoster: string;
+          let verbatim: string;
+          let terms: {name: string, isPositive: boolean}[] = [];
 
-          feedback.username = data.Username;
-          feedback.scores = [
-            { name: 'Findable', value: tasks[2] },
-            { name: 'Usable', value: tasks[3] },
-            { name: 'Predictable', value: tasks[4] },
-            { name: 'Useful', value: tasks[5] },
-          ];
-          feedback.terms = Object.keys(tasks[7]).map(term => ({ name: term, isPositive: assocResponse.isPositive(term) }));
-          feedback.verbatim = tasks[9];
-          feedback.videoUrl = videoBaseUrl + 'UserTesting-' + participant + '.mp4';
-          feedback.videoPoster = videoBaseUrl + 'edge.poster.png';
-          feedback.videoOffset = tasks[0].offset;
-          feedback.videoDuration = tasks[0].duration;
-          feedback.scoreAverage = Math.round((feedback.scores.reduce((accum, item): number => {
-            accum += item.value;
-            return accum;
-          }, 0) / feedback.scores.length) * 10) / 10;
+          let videoTask = groupTasks.tasks.find(t => t.type === StepType.instruction && t.responseType === null);
+          let verbatimTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof VerbatimResponse);
+          let associateTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof AssociativeResponse);
 
-          result.push(feedback);
+          if(videoTask) {
+            let videoTaskData = data['__tasks'][videoTask.id];
+
+            videoOffset = videoTaskData['offset'];
+            videoDuration = videoTaskData['duration'];
+            if(videoOffset && videoDuration) {
+              videoUrl = videoBaseUrl + 'UserTesting-' + userDetails['userId'] + '.mp4';
+              videoPoster = videoBaseUrl + 'edge.poster.png';
+            }
+          }
+
+          if(verbatimTask) {
+            verbatim = data['__tasks'][verbatimTask.id];
+          }
+
+          if(associateTask) {
+            let associateTaskData = data['__tasks'][associateTask.id];
+
+            Object.keys(associateTaskData).forEach(term => {
+              terms.push({
+                name: term,
+                isPositive: desirableResponse.isPositive(term)
+              });
+            });
+          }
+
+          let feedback = new FeedbackCardData({
+            terms,
+            userDetails: userDetails,
+            videoOffset,
+            videoDuration,
+            videoUrl,
+            videoPoster,
+            verbatim,
+          });
+
+          feedbackCardData.push(feedback);
         });
+
+        console.log(groupTasks, feedbackCardData);
+        // result.username = participant.Username;
+        // result.scores = [
+        //   { name: 'Findable', value: tasks[2] },
+        //   { name: 'Usable', value: tasks[3] },
+        //   { name: 'Predictable', value: tasks[4] },
+        //   { name: 'Useful', value: tasks[5] },
+        // ];
+        // result.terms = Object.keys(tasks[7]).map(term => ({ name: term, isPositive: assocResponse.isPositive(term) }));
+        // result.verbatim = tasks[9];
+        // result.videoUrl = videoBaseUrl + 'UserTesting-' + key + '.mp4';
+        // result.videoPoster = videoBaseUrl + 'edge.poster.png';
+        // result.videoOffset = tasks[0].offset;
+        // result.videoDuration = tasks[0].duration;
+        // result.scoreAverage = Math.round((result.scores.reduce((accum, item): number => {
+        //   accum += item.value;
+        //   return accum;
+        // }, 0) / result.scores.length) * 10) / 10;
+
+        // result.push(result);
 
         resolve({
           studyId,
-          browser,
           experienceId,
           taskId,
-          feedback: result,
+          feedback: feedbackCardData,
         });
       }
 
@@ -246,6 +316,29 @@ export class UxScorecardService {
     if(!study.data) { console.error(`Study data missing for study with id "${studyId}".`); }
 
     return study;
+  }
+
+  private findResponses(study: Study, eId: number, tId: number): IGroupTasks {
+    let result: IGroupTasks;
+    let etype = study.experiences.find(e => e.type.id === eId).type;
+
+    study.groups.forEach(g => {
+      let targetTask = g.studySteps.find(step => step.id === tId && step.experienceType === etype);
+
+      if(targetTask) {
+        let steps: StudyStep[] = [];
+
+        g.studySteps.forEach(step => {
+          if(step.experienceType === etype && step.taskType === targetTask.taskType) {
+            steps.push(step);
+          }
+        });
+
+        result = {group: g.title, tasks: steps};
+      }
+    });
+
+    return result;
   }
 }
 
@@ -478,4 +571,9 @@ function combineWordMaps(maps: IWordMap[]): IWordMap {
   }));
 
   return result;
+}
+
+interface IGroupTasks {
+  group: string;
+  tasks: StudyStep[];
 }

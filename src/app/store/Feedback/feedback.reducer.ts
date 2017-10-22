@@ -25,7 +25,7 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
 
   switch(type) {
     case Actions.FETCH_FEEDBACK: {
-      let key = `${payload.studyId}-${payload.browser}-${payload.experienceId}-${payload.taskId}`;
+      let key = `${payload.studyId}-${payload.experienceId}-${payload.taskId}`;
       let feedbackDataList = Object.assign({}, state.feedbackDataList, {
         [key]: [],
       });
@@ -38,7 +38,7 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
       });
     }
     case Actions.FETCH_FEEDBACK_SUCCESS: {
-      let key = `${payload.studyId}-${payload.browser}-${payload.experienceId}-${payload.taskId}`;
+      let key = `${payload.studyId}-${payload.experienceId}-${payload.taskId}`;
       let feedbackDataList = Object.assign({}, state.feedbackDataList, {
         [key]: payload.feedback,
       });
@@ -51,7 +51,7 @@ export function feedbackReducer(state: IFeedbackState = initialFeedbackState, ac
       });
     }
     case Actions.FETCH_FEEDBACK_FAILED: {
-      let key = `${payload.studyId}-${payload.browser}-${payload.experienceId}-${payload.taskId}`;
+      let key = `${payload.studyId}-${payload.experienceId}-${payload.taskId}`;
       let feedbackDataListStatus = Object.assign({}, state.feedbackDataListStatus, {
         [key]: Status.errorFetching,
       });

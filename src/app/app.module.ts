@@ -98,7 +98,7 @@ export class AppModule {
 
     // setup redux middlewares
     const epicMiddleware = createEpicMiddleware(rootEpic);
-    const loggerMiddleware = true ? [createLogger()] : [];
+    const loggerMiddleware = false ? [createLogger()] : [];
 
     // create redux store
     const store: Store<IAppState> = createStore(
