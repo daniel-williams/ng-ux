@@ -32,7 +32,6 @@ export class TaskActions implements OnDestroy {
     this.subs.push(this.selectedStudy$.subscribe(s => this.study = s));
     this.subs.push(this.selectedExperience$.subscribe(e => this.experience = e));
     this.subs.push(this.selectedTask$.subscribe(t => {
-      console.log('task changed: ', t);
       if(t) {
         // perform fetches for task change
         this.feedbackActions.fetchFeedback(this.study.id, this.experience.type.id, t.id);

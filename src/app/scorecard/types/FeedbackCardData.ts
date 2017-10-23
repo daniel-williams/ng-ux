@@ -16,7 +16,8 @@ export class FeedbackCardData {
   videoUrl: string;
   videoOffset: number;
   videoDuration: number;
-  scores: { name: string, value: number }[];
+  private _scores: { name: string, value: number }[];
+  private _scoreAverage: number;
   terms: { name: string, isPositive: boolean }[];
   new: boolean;
 
@@ -33,9 +34,27 @@ export class FeedbackCardData {
   }
 
   get scoreAverage(): number {
-    return this.scores.reduce((total, item) => {
-      total += item.value;
-      return total;
-    }, 0);
+    return this._scoreAverage;
+  }
+
+  get scores(): { name: string, value: number }[] {
+    return this._scores.slice();
+  }
+  set scores(scores: { name: string, value: number }[]) {
+    this._scores = scores;
+    this._scoreAverage = this._scores.length
+      ? this.formattedScore(this.scores.reduce((total, item) => {
+        total += item.value;
+        return total;
+      }, 0) / this.scores.length, 1)
+      : 0;
+  }
+
+  formattedScore(num: number, precision: number = 1): number {
+    let p = Math.pow(10, precision);
+
+    return num
+      ? Math.round(num * p) / p
+      : 0;
   }
 }

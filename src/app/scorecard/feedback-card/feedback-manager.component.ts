@@ -90,8 +90,15 @@ export class FeedbackManager implements OnDestroy {
       if(x) {
         let key = this.getDataKey();
 
-        this.feedbackDataList = x[key] || [];
+        this.feedbackDataList = [];
         this.lastCardIndex = 0;
+        if(x[key]) {
+          this.feedbackDataList = x[key]
+            .filter(f => f.userDetails['__browser'] === this.browser)
+            .sort((a, b) => {
+              return a.scoreAverage < b.scoreAverage ? -1 : b.scoreAverage < a.scoreAverage ? 1 : 0;
+            });
+        }
         setTimeout(() => this.cardData = this.feedbackDataList, 0);
       }
     }));
@@ -111,11 +118,10 @@ export class FeedbackManager implements OnDestroy {
 
   getDataKey(): string {
     let studyId = this.study && this.study.id || '-';
-    let browser = this.browser || '-';
     let experienceId = this.experience && this.experience.type.id || '-';
     let taskId = this.task && this.task.id || '-';
 
-    return `${studyId}-${browser}-${experienceId}-${taskId}`;
+    return `${studyId}-${experienceId}-${taskId}`;
   }
 
   clearItems() {

@@ -116,7 +116,6 @@ export class UxScorecardService {
 
   fetchFeedback(options: { studyId: number, experienceId: number, taskId: number }): Promise<{ studyId: number, experienceId: number, taskId: number, feedback: FeedbackCardData[] }> {
     let { studyId, experienceId, taskId } = options;
-    // let assocResponse = study.responses[0] as AssociativeResponse; // FIX
 
     return new Promise((resolve, reject) => {
       let study = this.getStudy(studyId);
@@ -139,10 +138,6 @@ export class UxScorecardService {
           });
         let feedbackCardData: FeedbackCardData[] = [];
         let userDetailsMask: any = {
-          '__browser': undefined,
-          '__session': undefined,
-          '__timestamp': undefined,
-          '__taskGroup': undefined,
           '__tasks': undefined,
         };
 
@@ -154,16 +149,19 @@ export class UxScorecardService {
           let videoPoster: string;
           let verbatim: string;
           let terms: {name: string, isPositive: boolean}[] = [];
+          let scores: {name: string, value: number}[] = [];
 
           let videoTask = groupTasks.tasks.find(t => t.type === StepType.instruction && t.responseType === null);
           let verbatimTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof VerbatimResponse);
           let associateTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof AssociativeResponse);
+          let gradedTasks = groupTasks.tasks.filter(t => t.type === StepType.question && scoredDimensionTypes.includes(t.dimensionType));
 
           if(videoTask) {
             let videoTaskData = data['__tasks'][videoTask.id];
 
             videoOffset = videoTaskData['offset'];
             videoDuration = videoTaskData['duration'];
+
             if(videoOffset && videoDuration) {
               videoUrl = videoBaseUrl + 'UserTesting-' + userDetails['userId'] + '.mp4';
               videoPoster = videoBaseUrl + 'edge.poster.png';
@@ -185,7 +183,19 @@ export class UxScorecardService {
             });
           }
 
+          if(gradedTasks.length) {
+            gradedTasks.forEach(t => {
+              let gradedTaskData = data['__tasks'][t.id];
+
+              scores.push({
+                name: t.dimensionType.toString(),
+                value: gradedTaskData,
+              });
+            });
+          }
+
           let feedback = new FeedbackCardData({
+            scores,
             terms,
             userDetails: userDetails,
             videoOffset,
@@ -198,26 +208,7 @@ export class UxScorecardService {
           feedbackCardData.push(feedback);
         });
 
-        console.log(groupTasks, feedbackCardData);
-        // result.username = participant.Username;
-        // result.scores = [
-        //   { name: 'Findable', value: tasks[2] },
-        //   { name: 'Usable', value: tasks[3] },
-        //   { name: 'Predictable', value: tasks[4] },
-        //   { name: 'Useful', value: tasks[5] },
-        // ];
-        // result.terms = Object.keys(tasks[7]).map(term => ({ name: term, isPositive: assocResponse.isPositive(term) }));
-        // result.verbatim = tasks[9];
-        // result.videoUrl = videoBaseUrl + 'UserTesting-' + key + '.mp4';
-        // result.videoPoster = videoBaseUrl + 'edge.poster.png';
-        // result.videoOffset = tasks[0].offset;
-        // result.videoDuration = tasks[0].duration;
-        // result.scoreAverage = Math.round((result.scores.reduce((accum, item): number => {
-        //   accum += item.value;
-        //   return accum;
-        // }, 0) / result.scores.length) * 10) / 10;
-
-        // result.push(result);
+        // console.log(groupTasks, feedbackCardData);
 
         resolve({
           studyId,

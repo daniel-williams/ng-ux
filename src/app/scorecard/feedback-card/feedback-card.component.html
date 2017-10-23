@@ -3,7 +3,7 @@
   <div class='card-inner'>
     <div class="row">
       <div class="col-12">
-        <div class='username'>{{card.username}}</div>
+        <div class='username'>{{card.userDetails['Username']}}</div>
       </div>
     </div>
     <div class="row">
@@ -29,8 +29,8 @@
       </div>
       <div class="col-12">
         <div class='video'>
-          <video-modal src={{card.videoUrl}}>
-            <img src={{card.videoPoster}} class='video-poster'>
+          <video-modal [src]='card.videoUrl' [offset]='card.videoOffset' [duration]='card.videoDuration'>
+            <img [src]='card.videoPoster' class='video-poster'>
           </video-modal>
         </div>
       </div>

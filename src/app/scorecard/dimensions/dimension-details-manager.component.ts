@@ -49,13 +49,15 @@ export class DimensionDetailsManager {
 
   setDimensions() {
     if(this.browser && this.experience && this.task && this.scores) {
-      this.taskRollup = this.scores.browserRollups
-        .find(x => x.name === this.browser.name).experienceRollups
-        .find(x => x.id === this.experience.type.id).taskRollup
-        .find(x => x.id === this.task.id);
+      let browserRollup = this.scores.browserRollups.find(x => x.name === this.browser.name);
+      if(browserRollup && browserRollup.experienceRollups) {
+        this.taskRollup = browserRollup.experienceRollups
+          .find(x => x.id === this.experience.type.id).taskRollup
+          .find(x => x.id === this.task.id);
 
-      if(this.taskRollup) {
-        this.dimensions = [...this.taskRollup.scoredDimensions, ...this.taskRollup.associativeDimensions];
+        if(this.taskRollup) {
+          this.dimensions = [...this.taskRollup.scoredDimensions, ...this.taskRollup.associativeDimensions];
+        }
       }
     }
   }

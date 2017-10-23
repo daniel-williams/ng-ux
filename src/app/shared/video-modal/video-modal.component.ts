@@ -39,7 +39,10 @@ class UIState {
   ],
 })
 export class VideoModalComponent {
-  @Input('src') src: string;
+  @Input() src: string;
+  @Input() offset: number;
+  @Input() duration: number;
+
   @ViewChild('video') videoRef: ElementRef;
 
   private overlayState = UIState.hide;
@@ -54,13 +57,13 @@ export class VideoModalComponent {
   ngOnInit() {
     Observable.fromEvent(window, 'keydown').subscribe((evt: KeyboardEvent) => {
       let isEscape = false;
-      
+
       if ("key" in evt) {
           isEscape = (evt.key == "Escape" || evt.key == "Esc");
       } else {
           isEscape = (evt.keyCode == 27);
       }
-      
+
       if (isEscape) {
         this.closeModal();
       }
@@ -76,7 +79,7 @@ export class VideoModalComponent {
       this.videoState = UIState.show;
 
       this.videoRef.nativeElement.src = this.src;
-      this.videoRef.nativeElement.currentTime = 300;
+      this.videoRef.nativeElement.currentTime = this.offset || 0;
     }, 0);
   }
 

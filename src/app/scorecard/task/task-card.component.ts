@@ -33,7 +33,7 @@ export class TaskCard {
   ngOnChanges() {
     if(this.experience && this.task && this.scores) {
       this.browserScores = [];
-      
+
       this.scores.browserRollups.forEach(b => {
         let taskRollup = b.experienceRollups
           .find(e => e.id === this.experience.type.id).taskRollup
@@ -45,7 +45,7 @@ export class TaskCard {
       this.browserScores = this.browserScores.sort((a, b) => {
         let aName = a.name.toLowerCase();
         let bName = b.name.toLowerCase();
-        
+
         return (aName === 'edge' || (aName < bName && bName !== 'edge'))
           ? -1
           : (bName === 'edge' || bName < aName)
