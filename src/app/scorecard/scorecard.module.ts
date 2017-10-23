@@ -8,8 +8,8 @@ import { BrowserPanel, BrowserPicker } from './browser-picker';
 import { BrowserSummary } from './browser-summary';
 import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
 import { DimensionDefinitions } from './dimension-definitions';
-import { DimensionDetailsManager } from './dimensions';
-import { ExperienceTabs } from './experience-picker';
+import { DimensionDetailsManager, DimensionCardAssociative, DimensionCardGraded } from './dimensions';
+import { ExperienceTabs, ExperienceInsights, ExperienceTopIssues } from './experience-picker';
 import { Header, HeaderNav } from './header';
 import { ScoreBreakdown } from './score-breakdown';
 import { ScoreMeter } from './score-meter';
@@ -32,7 +32,11 @@ import { TopIssues } from './top-issues';
     BrowserSummary,
     DimensionDefinitions,
     DimensionDetailsManager,
+    DimensionCardAssociative,
+    DimensionCardGraded,
     ExperienceTabs,
+    ExperienceInsights,
+    ExperienceTopIssues,
     FeedbackCard,
     FeedbackManager,
     Header,

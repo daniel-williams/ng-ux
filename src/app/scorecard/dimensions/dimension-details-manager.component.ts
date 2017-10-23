@@ -33,6 +33,7 @@ export class DimensionDetailsManager {
 
   private taskRollup: TaskRollup;
   private dimensions: (AssociativeDimension | ScoredDimension)[] = [];
+  private wordCount: number = 0;
 
   constructor() {
     this.subs.push(this.scores$.subscribe(x => this.scores = x));
@@ -57,6 +58,7 @@ export class DimensionDetailsManager {
 
         if(this.taskRollup) {
           this.dimensions = [...this.taskRollup.scoredDimensions, ...this.taskRollup.associativeDimensions];
+          this.wordCount = this.dimensions.length > 1 ? 5 : 0;
         }
       }
     }

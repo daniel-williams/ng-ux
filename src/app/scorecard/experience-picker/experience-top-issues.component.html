@@ -1,0 +1,14 @@
+<section class='experience-details' *ngIf='experience.topIssues.length'>
+  <div class='container top-issues-wrap'>
+    <div class='row'>
+      <div class='col'>
+        <div class='top-issues-title'>\ Top Issues</div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col'>
+        <div class='top-issue' *ngFor='let topIssue of experience.topIssues'>{{topIssue.description}}</div>
+      </div>
+    </div>
+  </div>
+</section>

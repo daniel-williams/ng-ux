@@ -1,0 +1,46 @@
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+  padding-right: 30px;
+  padding-bottom: 30px;
+}
+
+.dimension-card {
+  min-width: 200px;
+  max-width: 400px;
+  height: 100%;
+
+  &.cloud {
+    max-width: 100%;
+  }
+
+  &.dimension-detail {
+    box-shadow: 0 6px 13px rgba(0,0,0,0.16);
+  }
+  .dimension-heading,
+  .dimension-content {
+    padding: 10px;
+  }
+  .dimension-heading {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    background-color: #2f75bb;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+
+    .title {
+      text-transform: uppercase;
+      vertical-align: text-bottom;
+    }
+    .score {
+      text-align: right;
+      font-size: 24px;
+    }
+  }
+  .dimension-content {
+    font-size: 16px;
+  }
+}

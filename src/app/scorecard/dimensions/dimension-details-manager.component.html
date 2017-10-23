@@ -1,18 +1,13 @@
 <div class='browser-wrap'>
   <div class='browser-detail'>
     <div class='name'><img src='/assets/images/browser-icons/{{browser.name}}.png' /></div>
-    <div class='score'>{{taskRollup.score && taskRollup.score.toFixed(1)}}</div>
+    <div class='score' *ngIf='taskRollup.score !== 0'>{{taskRollup.score.toFixed(1)}}</div>
   </div>
   <div class='details-wrap'>
     <div class='row no-gutters justify-content-center'>
-      <div class='col dimension-card dimension-detail' *ngFor='let dimension of dimensions' [class.cloud]="dimension.type === 'associative'">
-        <div class='dimension-heading'>
-          <div class='title'>{{dimension.dimensionType}}</div>
-          <div class='score'>{{dimension.score && dimension.score.toFixed(1)}}</div>
-        </div>
-        <div class='dimension-content'>
-          <div *ngFor='let line of dimension.description'>{{line}}</div>
-        </div>
+      <div class='col' *ngFor='let dimension of dimensions'>
+        <dimension-card-associative *ngIf="dimension.type === 'associative'" [dimension]='dimension' [maxCount]='wordCount'></dimension-card-associative>
+        <dimension-card-graded *ngIf="dimension.type !== 'associative'" [dimension]='dimension'></dimension-card-graded>
       </div>
     </div>
   </div>

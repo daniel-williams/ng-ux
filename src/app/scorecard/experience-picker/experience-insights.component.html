@@ -1,0 +1,17 @@
+<section class='experience-details'>
+  <div class='container insights-wrap'>
+    <div class='row'>
+      <div class='col'>
+        <div class='insight-title'>\ Research Insights</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col summary">{{experience.summary}}</div>
+    </div>
+    <div class='row'>
+      <div class='col'>
+        <div class='insight' *ngFor='let insight of experience.insights'>{{insight}}</div>
+      </div>
+    </div>
+  </div>
+</section>

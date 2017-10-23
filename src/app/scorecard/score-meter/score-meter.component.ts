@@ -51,6 +51,10 @@ export class ScoreMeter {
     this.fill = this.fillRef.nativeElement;
     this.max = this.maxRef.nativeElement;
     this.wrap = this.wrapRef.nativeElement;
+
+    if(this.fill) {
+      this.fill.style.width = '' + Math.round((this.value / this.maxValue) * 100) + '%';
+    }
   }
 
   public animate() {

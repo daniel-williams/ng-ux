@@ -30,16 +30,16 @@ import { FeedbackCard } from './feedback-card.component';
   host: {
     class: 'feedback-manager',
   },
-  animations: [
-    trigger('fade', [
-      transition(':enter', [style({opacity: 0}), animate('.6s ease')])
-    ]),
-    trigger('stagger', [
-      transition(':enter', [
-        query(':enter', stagger('3s', [animateChild()]), {optional: true})
-      ])
-    ])
-  ]
+  // animations: [
+  //   trigger('fade', [
+  //     transition(':enter', [style({opacity: 0}), animate('.6s ease')])
+  //   ]),
+  //   trigger('stagger', [
+  //     transition(':enter', [
+  //       query(':enter', stagger('3s', [animateChild()]), {optional: true})
+  //     ])
+  //   ])
+  // ]
 })
 export class FeedbackManager implements OnDestroy {
   @Input() browser: string;
@@ -59,7 +59,7 @@ export class FeedbackManager implements OnDestroy {
 
   private manualFetch$ = new Subject();
   private cardData: FeedbackCardData[] = [];
-  private lastCardIndex = 0;
+  // private lastCardIndex = 0;
   private minCellSize = 350;
   private dataKey = '';
 
@@ -79,7 +79,7 @@ export class FeedbackManager implements OnDestroy {
       let key = this.getDataKey();
 
       if(this.feedbackDataList[key]) {
-        this.lastCardIndex = 0;
+        // this.lastCardIndex = 0;
         setTimeout(() => this.cardData = this.feedbackDataList[key], 0);
       }
     }));
@@ -91,7 +91,7 @@ export class FeedbackManager implements OnDestroy {
         let key = this.getDataKey();
 
         this.feedbackDataList = [];
-        this.lastCardIndex = 0;
+        // this.lastCardIndex = 0;
         if(x[key]) {
           this.feedbackDataList = x[key]
             .filter(f => f.userDetails['__browser'] === this.browser)
@@ -104,12 +104,12 @@ export class FeedbackManager implements OnDestroy {
     }));
 
     // call animate on feedback cards
-    this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
-      let cards = x.toArray().slice(this.lastCardIndex);
+    // this.feedbackCards.changes.subscribe((x: QueryList<FeedbackCard>) => {
+    //   let cards = x.toArray().slice(this.lastCardIndex);
 
-      cards.forEach((x, index) => x.animate(index * .1 + .2));
-      this.lastCardIndex += cards.length;
-    });
+    //   cards.forEach((x, index) => x.animate(index * .1 + .2));
+    //   this.lastCardIndex += cards.length;
+    // });
   }
 
   ngOnDestroy() {
@@ -130,7 +130,7 @@ export class FeedbackManager implements OnDestroy {
 
   resetFeedbackGrid() {
     this.cardData = [];
-    this.lastCardIndex = 0;
+    // this.lastCardIndex = 0;
     setTimeout(() => this.cardData = this.feedbackDataList, 0);
   }
 }

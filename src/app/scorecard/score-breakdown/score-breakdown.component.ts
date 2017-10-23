@@ -44,7 +44,7 @@ export class ScoreBreakdown {
   private toolTipTop: string = '0';
   private toolTipLeft: string = '0';
 
-  constructor(private a: AnimationService, el: ElementRef) {
+  constructor(el: ElementRef) {
     this.hostEl = el.nativeElement;
   }
 

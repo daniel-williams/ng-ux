@@ -1,0 +1,9 @@
+<div class='dimension-card dimension-detail' [class.cloud]="dimension.type === 'associative'">
+  <div class='dimension-heading'>
+    <div class='title'>{{dimension.dimensionType}}</div>
+    <div class='score'>{{dimension.score}}</div>
+  </div>
+  <div class='dimension-content'>
+    <div *ngFor='let line of dimension.description'>{{line}}</div>
+  </div>
+</div>

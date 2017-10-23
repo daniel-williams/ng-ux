@@ -1,0 +1,31 @@
+.experience-details {
+  background-color: #d8dfe7;
+
+  .insights-wrap {
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    .summary {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .insight-title {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #ef4835;
+    }
+
+    .insight {
+      margin-bottom: 10px;
+      font-size: 20px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

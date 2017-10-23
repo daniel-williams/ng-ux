@@ -8,6 +8,8 @@ import { EllipsisPipe } from './ellipsis.pipe';
 import { InfiniteScrollDirective } from './infinite-scroll.directive';
 import { UxScorecardService } from './ux-scorecard.service';
 import { VideoModalModule } from './video-modal';
+import { WordCloudService } from './word-cloud.service';
+import { WordCloud } from './word-cloud';
 
 
 @NgModule({
@@ -19,6 +21,7 @@ import { VideoModalModule } from './video-modal';
   declarations: [
     EllipsisPipe,
     InfiniteScrollDirective,
+    WordCloud,
   ],
   exports: [
     EllipsisPipe,
@@ -26,9 +29,11 @@ import { VideoModalModule } from './video-modal';
     CommonModule,
     FormsModule,
     VideoModalModule,
+    WordCloud,
   ],
   providers: [
     UxScorecardService,
+    WordCloudService,
   ],
 })
 export class SharedModule {}
