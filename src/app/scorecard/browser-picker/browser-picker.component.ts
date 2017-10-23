@@ -14,7 +14,6 @@ import { StudyBrowser } from '../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrowserPicker implements OnDestroy {
-  @select(['browser', 'showPanel'])  showPanel$: Observable<boolean>;
   @select(['browser', 'browserList'])  browserList$: Observable<StudyBrowser[]>;
   @select(['browser', 'browserListStatus'])  browserListStatus$: Observable<Status>;
   @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
@@ -28,7 +27,6 @@ export class BrowserPicker implements OnDestroy {
   private selectedBrowsers: string[] = [];
 
   constructor(private browserActions: BrowserActions) {
-    this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
     this.subs.push(this.browserList$.subscribe(x => {
       this.browserList = x.sort((a, b) => {
         let aName = a.name.toLowerCase();
@@ -47,13 +45,11 @@ export class BrowserPicker implements OnDestroy {
   }
 
   togglePanel() {
-    this.browserActions.togglePanel();
+    this.showPanel = !this.showPanel;
   }
 
   closePanel() {
-    if(this.showPanel) {
-      this.browserActions.closePanel();
-    }
+    this.showPanel = false;
   }
 
   ngOnDestroy() {

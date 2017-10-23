@@ -19,12 +19,12 @@ import { StudyBrowser } from '../types';
   animations: [
     trigger('panelState', [
       transition(`:enter`, [
-        style({transform: 'scale(0.7)', opacity: 0}),
-        animate('0.2s ease-out', style({ transform: 'scale(1.0)', opacity: 1 }))
+        style({transform: 'scale(1.0)', opacity: 0}),
+        animate('0.2s ease-out', style({ transform: 'scale(1.20)', opacity: 1 }))
       ]),
       transition(`:leave`, [
-        style({ transform: 'scale(1.0)', opacity: 1 }),
-        animate('0.2s ease-out', style({ transform: 'scale(0.7)', opacity: 0 }))
+        style({ transform: 'scale(1.20)', opacity: 1 }),
+        animate('0.2s ease-out', style({ transform: 'scale(1.0)', opacity: 0 }))
       ]),
     ]),
   ],

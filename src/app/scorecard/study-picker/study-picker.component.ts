@@ -13,7 +13,6 @@ import { Study, StudyOptions } from '../types';
   styleUrls: ['./study-picker.component.scss']
 })
 export class StudyPicker implements OnDestroy {
-  @select(['study', 'showPanel']) showPanel$: Observable<boolean>;
   @select(['study', 'studyList']) studyList$: Observable<Study[]>;
   @select(['study', 'studyListStatus']) studyListStatus$: Observable<Status>;
   @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
@@ -27,7 +26,6 @@ export class StudyPicker implements OnDestroy {
     private browserActions: BrowserActions,
     private studyActions: StudyActions) {
 
-    this.subs.push(this.showPanel$.subscribe(x => this.showPanel = x));
     this.subs.push(this.studyList$.subscribe(x => this.studyList = x));
     this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
     this.subs.push(this.studyListStatus$.subscribe(x => {
@@ -38,17 +36,15 @@ export class StudyPicker implements OnDestroy {
   }
 
   togglePanel(evt: any) {
-    this.studyActions.togglePanel();
+    this.showPanel = !this.showPanel;
   }
 
   openPanel(evt: any) {
-    this.studyActions.openPanel();
+    this.showPanel = true;
   }
 
   closePanel(evt: any) {
-    if(this.showPanel) {
-      this.studyActions.closePanel();
-    }
+    this.showPanel = false;
   }
 
   ngOnDestroy() {
