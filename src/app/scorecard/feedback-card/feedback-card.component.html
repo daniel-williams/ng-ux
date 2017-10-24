@@ -6,7 +6,15 @@
         <div class='username'>{{card.userDetails['Username']}}</div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf='card.scoreAverage === 0'>
+      <div class="col">
+        <div class='dimension-title'>{{task.taskType}}</div>
+        <div class='dimension'>
+          <span *ngFor='let term of card.terms;let i = index' [class.negative]='!term.isPositive'>{{term.name}}<span *ngIf='i < card.terms.length - 1'>, </span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf='card.scoreAverage !== 0'>
       <div class="col-md-2">
         <div>Avg.</div>
         <div class='score-average'>{{card.scoreAverage}}</div>
@@ -23,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf='card.scoreAverage !== 0'>
       <div class="col-12">
         <div class='verbatim' [title]='card.verbatim' (click)='toggleComment(card)'>"{{card.verbatim | ellipsis : 100 : !card.toggle}}"</div>
       </div>

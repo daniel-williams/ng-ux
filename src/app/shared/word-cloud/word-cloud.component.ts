@@ -27,7 +27,7 @@ export class WordCloud {
   private maxSize: number = 15;
   private minSize: number = 4;
 
-  constructor(private wordCloudService: WordCloudService) {
+  constructor(private el: ElementRef, private wordCloudService: WordCloudService) {
     this.wc = this.wordCloudService.api;
   }
 
@@ -48,6 +48,7 @@ export class WordCloud {
         list: this.words,
         gridSize: 4,
         weightFactor: 2.5,
+        fontFamily: 'Segoe UI, Times, serif',
         color: function (word: string) {
           let color = '#00a651';
           switch(word) {
@@ -63,7 +64,7 @@ export class WordCloud {
         },
         backgroundColor: 'transparent',
         rotateRatio: 0,
-        drawOutOfBound: true,
+        drawOutOfBound: false,
         shuffle: true,
       };
 

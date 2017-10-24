@@ -60,7 +60,7 @@ export class BrowserSummary implements OnDestroy {
     return this.scores
       ? this.scores.browserRollups
         .find(x => x.name === browserName)
-        .experienceRollups.find(x => x.id === expId).score
-      : '-';
+        .experienceRollups.find(x => x.id === expId).score || ''
+      : '';
   }
 }

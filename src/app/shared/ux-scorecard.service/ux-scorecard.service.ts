@@ -153,7 +153,7 @@ export class UxScorecardService {
 
           let videoTask = groupTasks.tasks.find(t => t.type === StepType.instruction && t.responseType === null);
           let verbatimTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof VerbatimResponse);
-          let associateTask = groupTasks.tasks.find(t => t.type === StepType.question && t.responseType instanceof AssociativeResponse);
+          let associateTask = groupTasks.tasks.find(t => t.responseType instanceof AssociativeResponse);
           let gradedTasks = groupTasks.tasks.filter(t => t.type === StepType.question && scoredDimensionTypes.includes(t.dimensionType));
 
           if(videoTask) {
@@ -174,13 +174,15 @@ export class UxScorecardService {
 
           if(associateTask) {
             let associateTaskData = data['__tasks'][associateTask.id];
-
+            
             Object.keys(associateTaskData).forEach(term => {
               terms.push({
                 name: term,
                 isPositive: desirableResponse.isPositive(term)
               });
             });
+
+            // console.log('associatedTaskData: ', associateTaskData, terms);
           }
 
           if(gradedTasks.length) {
@@ -208,7 +210,8 @@ export class UxScorecardService {
           feedbackCardData.push(feedback);
         });
 
-        // console.log(groupTasks, feedbackCardData);
+        console.log('ids: ', studyId, experienceId, taskId, feedbackCardData);
+
 
         resolve({
           studyId,

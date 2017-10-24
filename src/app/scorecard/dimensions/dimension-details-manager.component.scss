@@ -25,6 +25,20 @@
   .details-wrap {
     width: 100%;
     margin-bottom: 20px;
+
+    .card-wrap {
+      max-width: 50%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .browser-wrap {
+    .details-wrap {
+      .card-wrap {
+        max-width: 100%;
+      }
+    }
   }
 }
 
@@ -39,6 +53,12 @@
 
       .name {
         margin-right: 30px;
+      }
+    }
+
+    .details-wrap {
+      .card-wrap {
+        max-width: 100%;
       }
     }
   }

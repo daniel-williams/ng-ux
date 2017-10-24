@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, ViewChildren, QueryList } from '@angular/
 
 
 import { ScoreBreakdown } from '../score-breakdown';
-import { FeedbackCardData } from '../types';
+import { FeedbackCardData, StudyStep } from '../types';
 
 @Component({
   selector: 'feedback-card',
@@ -11,7 +11,8 @@ import { FeedbackCardData } from '../types';
 })
 export class FeedbackCard {
   @Input('cardData') card: FeedbackCardData;
-
+  @Input() task: StudyStep;
+  
   @ViewChildren(ScoreBreakdown) scoreBreakdownList: QueryList<ScoreBreakdown>;
 
   private breakdown: HTMLElement;

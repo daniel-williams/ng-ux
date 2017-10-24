@@ -59,7 +59,7 @@ export class FeedbackManager implements OnDestroy {
 
   private manualFetch$ = new Subject();
   private cardData: FeedbackCardData[] = [];
-  // private lastCardIndex = 0;
+  private lastCardIndex = 0;
   private minCellSize = 350;
   private dataKey = '';
 
@@ -73,16 +73,7 @@ export class FeedbackManager implements OnDestroy {
 
     this.subs.push(this.selectedStudy$.subscribe(x => this.study = x));
     this.subs.push(this.selectedExperience$.subscribe(x => this.experience = x));
-    this.subs.push(this.selectedTask$.subscribe(x => {
-      this.task = x;
-
-      let key = this.getDataKey();
-
-      if(this.feedbackDataList[key]) {
-        // this.lastCardIndex = 0;
-        setTimeout(() => this.cardData = this.feedbackDataList[key], 0);
-      }
-    }));
+    this.subs.push(this.selectedTask$.subscribe(x => this.task = x));
   }
 
   ngAfterViewInit() {
@@ -91,7 +82,7 @@ export class FeedbackManager implements OnDestroy {
         let key = this.getDataKey();
 
         this.feedbackDataList = [];
-        // this.lastCardIndex = 0;
+        this.lastCardIndex = 0;
         if(x[key]) {
           this.feedbackDataList = x[key]
             .filter(f => f.userDetails['__browser'] === this.browser)
@@ -130,7 +121,7 @@ export class FeedbackManager implements OnDestroy {
 
   resetFeedbackGrid() {
     this.cardData = [];
-    // this.lastCardIndex = 0;
+    this.lastCardIndex = 0;
     setTimeout(() => this.cardData = this.feedbackDataList, 0);
   }
 }

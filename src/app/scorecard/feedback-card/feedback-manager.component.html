@@ -1,4 +1,4 @@
-<h2 style='margin-top:25px;'>{{browser}}</h2>
+<h2 class='title'>{{browser}}</h2>
 <div
   class='grid-layout-manager'>
   <div
@@ -6,7 +6,7 @@
     [ngStyle]='{width:cellWidth}'
     *ngFor='let card of cardData'>
     <div class='grid-item'>
-      <feedback-card [cardData]='card'></feedback-card>
+      <feedback-card [cardData]='card' [task]='task'></feedback-card>
     </div>
   </div>
 </div>

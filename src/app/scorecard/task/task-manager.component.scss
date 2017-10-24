@@ -6,6 +6,14 @@
     align-items: stretch;
     margin-top: -30px;
     margin-bottom: 70px;
+
+    .task-card-wrap {
+      padding-right: 30px;
+      padding-bottom: 30px;
+      width: 100%;
+      min-width: 350px;
+      max-width: 50%;
+    }
   }
 }
 
@@ -20,3 +28,12 @@
 }
 
 
+@media (max-width: 768px) {
+  .task-manager {
+    .task-area {
+      .task-card-wrap {
+        max-width: 100%;
+      }
+    }
+  }
+}

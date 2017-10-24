@@ -4,8 +4,8 @@
     <div class='score' *ngIf='taskRollup.score !== 0'>{{taskRollup.score.toFixed(1)}}</div>
   </div>
   <div class='details-wrap'>
-    <div class='row no-gutters justify-content-center'>
-      <div class='col' *ngFor='let dimension of dimensions'>
+    <div class='row no-gutters'>
+      <div class='card-wrap col' *ngFor='let dimension of dimensions'>
         <dimension-card-associative *ngIf="dimension.type === 'associative'" [dimension]='dimension' [maxCount]='wordCount'></dimension-card-associative>
         <dimension-card-graded *ngIf="dimension.type !== 'associative'" [dimension]='dimension'></dimension-card-graded>
       </div>

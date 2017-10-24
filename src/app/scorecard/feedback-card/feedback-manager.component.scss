@@ -4,6 +4,10 @@
   display: block;
 }
 
+.title {
+  margin-bottom: 25px;
+}
+
 .grid-layout-manager {
   display: flex;
   overflow: hidden;
@@ -11,7 +15,6 @@
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
-  margin-top: 20px;
 
   .grid-wrap {
     position: relative;

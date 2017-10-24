@@ -1,6 +1,6 @@
 <div class='container-fluid task-manager' *ngIf='taskList && taskList.length'>
-  <div class="row task-area">
-    <div class='col-3 task-card-wrap' *ngFor="let task of taskList">
+  <div class="row no-gutters task-area">
+    <div class='col task-card-wrap' *ngFor="let task of taskList">
       <task-card
         [task]='task'
         [selected]='selectedTask.id === task.id'></task-card>

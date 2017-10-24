@@ -938,7 +938,7 @@ let study = new Study({
           dimensionType: DimensionType.na,
         }, {
           id: 3,
-          type: StepType.question,
+          type: StepType.instruction,
           responseType: desirableResponse,
           description: [
             "Which of the following words best describes the icon for this browser?"
@@ -948,7 +948,7 @@ let study = new Study({
           dimensionType: DimensionType.desirableAppIcon,
         }, {
           id: 4,
-          type: StepType.question,
+          type: StepType.instruction,
           responseType: desirableResponse,
           description: [
             "Which of the following words best describes the design of the buttons in this browser?"
@@ -958,7 +958,7 @@ let study = new Study({
           dimensionType: DimensionType.desirableOverflowMenu,
         }, {
           id: 5,
-          type: StepType.question,
+          type: StepType.instruction,
           responseType: desirableResponse,
           description: [
             "Which of the following words best describes the spacing and layout of this browser?"
@@ -968,7 +968,7 @@ let study = new Study({
           dimensionType: DimensionType.desirableButtons,
         }, {
           id: 6,
-          type: StepType.question,
+          type: StepType.instruction,
           responseType: desirableResponse,
           description: [
             "Click the \"…\" button in the upper right hand corner.  What word best describes the appearance of this content?"
