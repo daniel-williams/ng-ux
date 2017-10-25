@@ -28,31 +28,31 @@ let experiences: Experience[] = [
   new Experience({
     type: ExperienceTypes.Search,
     summary: "Search and navigation experiences are robust in both browsers. The scenario around checking the weather got lower scores for Edge because of the inclusion of the Weather Channel app in the default Top Sites on the New Tab Page.",
-    insights: [],
+    insights: ["These experiences for the most part did not differ significantly between RS2 and RS3 pre-release. 'Check the weather in Shanghai' continues to be a problem area, and may have been exacerbated in this build by slow load time due to performance issues with Windows."],
     topIssues: []
   }),
   new Experience({
     type: ExperienceTypes.Tabs,
     summary: "Tab management is an area where Edge received significantly lower scores than Chrome. Both reordering tabs in a window and moving them to a new window were more difficult and less desirable in Edge. Closing tabs was extremely easy in both browsers, although Edge got slightly dinged for including a warning before closing all tabs, which was seen by some users as unnecessary.",
-    insights: [],
+    insights: ["These experiences did not differ significantly between RS2 and RS3 pre-release. Notably, moving tabs within and between windows remained two of the lowest scoring tasks across the board."],
     topIssues: []
   }),
   new Experience({
     type: ExperienceTypes.Favorites,
     summary: "Favorites and Bookmarks were highly usable in both Edge and Chrome. However, Favorites in Edge got a lower percentage of positive ratings for desirability, driven by comments that the Favorites UI felt old and complicated.",
-    insights: [],
+    insights: ["Favorites differed in several ways between RS2 and RS3 pre-release. The tasks 'Visit a Favorite' and 'Open favorites in multiple tabs' saw increased ratings, and many participants had positive comments on the new Hub icon. 'Visit a Favorite' saw a significant increase in Desirability from RS2 to RS3, driven by more ratings of Familiar and Professional and fewer of Complicated. In contrast, the task \"Create a Folder of Favorites\" had lower Usable scores than in RS2, due to a bug which caused the browser to crash when users attempt to create a new folder."],
     topIssues: []
   }),
   new Experience({
     type: ExperienceTypes.NewTabPage,
     summary: "Experiences on the New Tab Page were generally seen as highly usable. Finding news on the NTP was seen significantly more desirable in Edge, but also got low ratings for usefulness across both browsers.",
-    insights: [],
+    insights: ["These experiences were neutral to negative in RS3 pre-release relative to RS2. The task 'Find News' continues to have the lowest Usefulness score out of all of the experiences we tested."],
     topIssues: []
   }),
   new Experience({
     type: ExperienceTypes.Appearance,
     summary: "Chrome's icon and layout were significantly more desirable than Edge's, driven by participants who felt the design was creative and professional. However, Edge's menu design was more desirable than Chrome's, driven by users who felt it was professional and calm.",
-    insights: [],
+    insights: ["Desirability scores for Edge's Appearance & Personality did not differ significantly between RS2 and RS3 pre-release."],
     topIssues: []
   })
 ];
@@ -62,7 +62,13 @@ let study = new Study({
   date: "2017-08-31T00:00:00.000Z",
   title: "August 2017",
   description: "Edge RS3 follow up study",
-  insights: [],
+  insights: [
+    "Tasks related to Favorites were rated higher in RS3 than in the RS2 Benchmark, due to a more understandable icon being implemented for the Hub",
+    "Many tasks received lower ratings in this study than the Edge RS2 Benchmark due to previously unidentified performance and stability issues in this build",
+    "Tab management remains a pain point for participants in this build, as was previously seen in the RS2 Benchmark",
+    "Participants continue to have issues with the relevance of content on the New Tab Page, as was previously seen in the RS2 Benchmark",
+    "The overall Desirability of Edge was mostly unchanged, although Favorites-related tasks saw a positive bump between RS2 and RS3",
+  ],
   topIssues: [],
   experiences: experiences,
   groups: [
