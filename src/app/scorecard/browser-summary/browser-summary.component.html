@@ -9,10 +9,15 @@
         <div class='summary-cell overall-score'></div>
         <div class='summary-cell experience' *ngFor='let experience of experiences'>{{experience.type.title}}</div>
       </div>
-      <div class='summary-row item' *ngFor='let browser of selectedBrowsers'>
-        <div class='summary-cell name'>{{browser}}</div>
-        <div class='summary-cell overall-score'>{{getBrowserScore(browser)}}</div>
-        <div class='summary-cell experience' *ngFor='let experience of experiences'>{{getExperienceScore(browser, experience.type.id)}}</div>
+      <div class='summary-row item' *ngFor='let summary of filteredSummaries'>
+        <div class='summary-cell name'>{{summary.name}}</div>
+        <div class='summary-cell overall-score'>{{summary.score}}</div>
+        <div class='summary-cell experience' *ngFor='let experience of summary.experiences' [class.cloud]='experience.score === 0'>
+          <div class='score' *ngIf='experience.score !== 0'>{{experience.score}}</div>
+          <div class='wordMap' *ngIf='experience.score === 0'>
+            <word-cloud [words]='experience.words'></word-cloud>
+          </div>
+        </div>
       </div>
     </div>
 

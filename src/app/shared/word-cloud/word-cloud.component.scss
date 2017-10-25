@@ -1,10 +1,14 @@
+:host {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+}
 .word-cloud {
   margin: 0 auto;
   width: 100%;
-  // max-width: 750px;
   min-width: 200px;
-  // height: 100%;
-  // min-height: 150px;
-  // max-height: 300px;
   background-color: transparent;
 }

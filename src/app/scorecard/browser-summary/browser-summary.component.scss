@@ -14,9 +14,10 @@
       .summary-cell {
         position: relative;
         display: table-cell;
-        padding: 15px 50px;
+        padding: 0 50px;
         min-width: 100px;
         text-align: center;
+        vertical-align: middle;
 
         &:nth-child(1) {
           text-align: left;
@@ -33,6 +34,9 @@
           padding-left: 0;
           padding-right: 0;
         }
+        &.cloud {
+          padding: 0;
+        }
       }
       &:nth-child(2) .summary-cell:nth-child(1) {
         background-color: #2f75bb;
@@ -40,7 +44,11 @@
       &:nth-child(3) .summary-cell:nth-child(1) {
         background-color: #fcb913;
       }
-
+      &.headings {
+        .summary-cell {
+          padding-bottom: 15px;
+        }
+      }
       &.item {
         box-shadow: 4px 4px 8px 0 rgba(50, 50, 50, 0.2);
 
@@ -55,4 +63,10 @@
       }
     }
   }
+}
+.word-cloud-sizer {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
 }
