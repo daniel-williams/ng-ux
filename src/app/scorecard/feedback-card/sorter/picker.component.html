@@ -1,0 +1,4 @@
+<div class='wrap' (mouseleave)='closePanel()'>
+  <button class='btn btn-outline-primary dropdown-toggle' (click)='togglePanel($event)'>{{title || defaultTitle}}</button>
+  <picker-panel [showPanel]='showPanel' [itemList]='itemList' [selectedItem]='selectedItem' (toggle)='toggleItem($event)'></picker-panel>
+</div>

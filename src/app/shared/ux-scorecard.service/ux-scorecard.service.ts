@@ -210,9 +210,6 @@ export class UxScorecardService {
           feedbackCardData.push(feedback);
         });
 
-        console.log('ids: ', studyId, experienceId, taskId, feedbackCardData);
-
-
         resolve({
           studyId,
           experienceId,

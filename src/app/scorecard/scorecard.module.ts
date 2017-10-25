@@ -6,7 +6,7 @@ import { ScorecardRoutingModule } from './scorecard-routing.module';
 
 import { BrowserPanel, BrowserPicker } from './browser-picker';
 import { BrowserSummary } from './browser-summary';
-import { BrowserManager, FeedbackCard, FeedbackManager } from './feedback-card';
+import { BrowserManager, FeedbackCard, FeedbackManager, Picker, PickerPanel } from './feedback-card';
 import { DimensionDefinitions } from './dimension-definitions';
 import { DimensionDetailsManager, DimensionCardAssociative, DimensionCardGraded } from './dimensions';
 import { ExperienceTabs, ExperienceInsights, ExperienceTopIssues } from './experience-picker';
@@ -41,6 +41,8 @@ import { TopIssues } from './top-issues';
     FeedbackManager,
     Header,
     HeaderNav,
+    Picker,
+    PickerPanel,
     ScoreBreakdown,
     ScoreMeter,
     ScorecardComponent,

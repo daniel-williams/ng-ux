@@ -7,6 +7,13 @@
 .controls-wrap {
   margin-top: 25px;
   margin-bottom: 25px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  .control {
+    margin-right: 30px;
+  }
 }
 
 .feedback-heading {

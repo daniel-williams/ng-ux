@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, SimpleChanges, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
 import {
   animate,
   animateChild,
@@ -44,6 +44,8 @@ import { FeedbackCard } from './feedback-card.component';
 export class FeedbackManager implements OnDestroy {
   @Input() browser: string;
   @Input() cellWidth: string;
+  @Input() feedbackSort: string;
+  @Input() sort: string;
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
 
@@ -84,13 +86,12 @@ export class FeedbackManager implements OnDestroy {
         this.feedbackDataList = [];
         this.lastCardIndex = 0;
         if(x[key]) {
-          this.feedbackDataList = x[key]
-            .filter(f => f.userDetails['__browser'] === this.browser)
-            .sort((a, b) => {
-              return a.scoreAverage < b.scoreAverage ? -1 : b.scoreAverage < a.scoreAverage ? 1 : 0;
-            });
+          this.feedbackDataList = x[key].filter(f => f.userDetails['__browser'] === this.browser);
         }
-        setTimeout(() => this.cardData = this.feedbackDataList, 0);
+        setTimeout(() => {
+          this.cardData = this.feedbackDataList;
+          this.sortFeedback(this.sort);
+        }, 0);
       }
     }));
 
@@ -103,8 +104,67 @@ export class FeedbackManager implements OnDestroy {
     // });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    let newSort = changes['sort'] && changes['sort'].currentValue || null;
+
+    if(newSort) {
+      this.sortFeedback(newSort);
+    }
+  }
+
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
+  }
+
+  sortFeedback(sort: string) {
+    switch(sort) {
+      case 'Avg Score': {
+        this.cardData = this.cardData.sort((a, b) => {
+          let _a = a.scoreAverage;
+          let _b = b.scoreAverage;
+
+          return _a < _b ? -1 : _b < _a ? 1 : 0;
+        });
+        break;
+      }
+      case 'Findable': {
+        this.cardData = this.cardData.sort((a, b) => {
+          let _a = (a.scores.find(x => x.name === 'Findable') || {} as any).value;
+          let _b = (b.scores.find(x => x.name === 'Findable') || {} as any).value;
+
+          return _a < _b ? -1 : _b < _a ? 1 : 0;
+        });
+        break;
+      }
+      case 'Usable': {
+        this.cardData = this.cardData.sort((a, b) => {
+          let _a = (a.scores.find(x => x.name === 'Usable') || {} as any).value;
+          let _b = (b.scores.find(x => x.name === 'Usable') || {} as any).value;
+
+          return _a < _b ? -1 : _b < _a ? 1 : 0;
+        });
+        break;
+      }
+      case 'Predictable': {
+        this.cardData = this.cardData.sort((a, b) => {
+          let _a = (a.scores.find(x => x.name === 'Predictable') || {} as any).value;
+          let _b = (b.scores.find(x => x.name === 'Predictable') || {} as any).value;
+
+          return _a < _b ? -1 : _b < _a ? 1 : 0;
+        });
+        break;
+      }
+      case 'Useful': {
+        this.cardData = this.cardData.sort((a, b) => {
+          let _a = (a.scores.find(x => x.name === 'Useful') || {} as any).value;
+          let _b = (b.scores.find(x => x.name === 'Useful') || {} as any).value;
+
+          return _a < _b ? -1 : _b < _a ? 1 : 0;
+        });
+        break;
+      }
+      default: {}
+    }
   }
 
   getDataKey(): string {

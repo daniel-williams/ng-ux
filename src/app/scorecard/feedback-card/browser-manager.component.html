@@ -7,14 +7,17 @@
       </div>
     </div>
   </div>
-  <div class="row controls-wrap">
-    <div class="col">
+  <div class="controls-wrap">
+    <div class="control">
       <browser-picker></browser-picker>
+    </div>
+    <div class="control">
+      <picker [itemList]='feedbackSortOptions' [selectedItem]='feedbackSort' title='Sort by...' (toggle)='toggleItem($event)'></picker>
     </div>
   </div>
   <div class="row">
     <div class='col' *ngFor='let browser of browserList'>
-      <feedback-manager [browser]='browser' [cellWidth]='cellWidth'></feedback-manager>
+      <feedback-manager [browser]='browser' [cellWidth]='cellWidth' [sort]='feedbackSort'></feedback-manager>
     </div>
   </div>
 </div>

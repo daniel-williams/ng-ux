@@ -1,0 +1,6 @@
+<div *ngIf='showPanel' class="panel" [@state]='state'>
+<div *ngFor='let item of itemList' (click)='toggleItem(item)' class='item'>
+  <i class='fa' [ngClass]="{'fa-check': item === selectedItem}"></i>
+  <span>{{item}}</span>
+</div>
+</div>
