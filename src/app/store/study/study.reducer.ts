@@ -8,12 +8,10 @@ import { Status } from '../Status';
 
 export interface IStudyState {
   error?: string;
-  showPanel?: boolean;
 
   studyList?: Study[];
   studyListStatus?: Status;
 
-  selectedStudy?: StudyOptions;
   insights?: string[];
   topIssues?: string[];
   scores?: ScoreRollup;
@@ -21,12 +19,9 @@ export interface IStudyState {
 
 export const initialStudyState: IStudyState = {
   error: null,
-  showPanel: false,
 
   studyList: [],
   studyListStatus: Status.notFetched,
-
-  selectedStudy: null,
 
   insights: [],
   topIssues: [],
@@ -55,11 +50,6 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
         studyListStatus: Status.errorFetching,
       });
     }
-    case Actions.SET_SELECTED_STUDY: {
-      return mergeState(state, {
-        selectedStudy: payload,
-      });
-    }
     case Actions.FETCH_INSIGHTS_SUCCESS: {
       return mergeState(state, {
         insights: payload,
@@ -73,21 +63,6 @@ export function studyReducer(state: IStudyState = initialStudyState, action: Act
     case Actions.FETCH_SCORES_SUCCESS: {
       return mergeState(state, {
         scores: payload,
-      });
-    }
-    case Actions.TOGGLE_STUDY_PANEL: {
-      return mergeState(state, {
-        showPanel: !state.showPanel,
-      });
-    }
-    case Actions.CLOSE_STUDY_PANEL: {
-      return mergeState(state, {
-        showPanel: false,
-      });
-    }
-    case Actions.OPEN_STUDY_PANEL: {
-      return mergeState(state, {
-        showPanel: true,
       });
     }
     default: {

@@ -16,7 +16,7 @@ import { StudyBrowser } from '../types';
 export class BrowserPicker implements OnDestroy {
   @select(['browser', 'browserList'])  browserList$: Observable<StudyBrowser[]>;
   @select(['browser', 'browserListStatus'])  browserListStatus$: Observable<Status>;
-  @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
+  @select(['user', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
   
   private subs: Subscription[] = [];
 

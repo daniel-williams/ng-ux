@@ -9,14 +9,12 @@ import { TaskActions } from '../task/task.actions';
 
 @Injectable()
 export class ExperiencesActions implements OnDestroy {
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
-  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['user', 'selectedExperience']) selectedExperience$: Observable<Experience>;
 
   static FETCH_EXPERIENCES = 'FETCH_EXPERIENCES';
   static FETCH_EXPERIENCES_SUCCESS = 'FETCH_EXPERIENCES_SUCCESS';
   static FETCH_EXPERIENCES_FAILED = 'FETCH_EXPERIENCES_FAILED';
-
-  static SET_SELECTED_EXPERIENCE = 'SET_SELECTED_EXPERIENCE';
 
   private study: StudyOptions;
   private experience: Experience;
@@ -48,10 +46,4 @@ export class ExperiencesActions implements OnDestroy {
     });
   }
 
-  setSelectedExperience(experience: Experience) {
-    this.ngRedux.dispatch({
-      type: ExperiencesActions.SET_SELECTED_EXPERIENCE,
-      payload: experience
-    });
-  }
 }

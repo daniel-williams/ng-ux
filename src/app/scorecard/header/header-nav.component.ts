@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { GlobalActions } from '../../store';
+import { UserActions } from '../../store';
 import { AnimationService } from '../../core';
 
 
@@ -13,7 +13,10 @@ export class HeaderNav {
 
   private controller: any;
 
-  constructor(private a: AnimationService, private actions: GlobalActions) {
+  constructor(
+    private a: AnimationService,
+    private actions: UserActions) {
+
     this.controller = AnimationService.CreateController();
   }
 

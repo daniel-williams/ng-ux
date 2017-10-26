@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 
-import { Action, IAppState, Status, BrowserActions } from '../';
+import { Action, IAppState, Status, BrowserActions, UserActions } from '../';
 import { UxScorecardService } from '../../shared';
 
 
@@ -36,7 +36,7 @@ export class BrowserEpics {
               });
 
               actions.push({
-                type: BrowserActions.SET_SELECTED_BROWSERS,
+                type: UserActions.SET_SELECTED_BROWSERS,
                 payload: browserNames
               });
             }

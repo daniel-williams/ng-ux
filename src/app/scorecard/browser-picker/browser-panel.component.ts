@@ -8,7 +8,7 @@ import {
   transition,
 } from '@angular/animations';
 
-import { BrowserActions } from '../../store';
+import { UserActions } from '../../store';
 import { StudyBrowser } from '../types';
 
 
@@ -34,7 +34,7 @@ export class BrowserPanel {
   @Input() browserList: string[] = [];
   @Input() selectedBrowsers: string[] = [];
 
-  constructor(private browserActions: BrowserActions) { }
+  constructor(private actions: UserActions) { }
 
   toggleSelected(name: string) {
     let selected = this.selectedBrowsers.slice();
@@ -60,6 +60,6 @@ export class BrowserPanel {
           : 0;
     });
 
-    this.browserActions.setBrowsers(selected);
+    this.actions.setBrowsers(selected);
   }
 }

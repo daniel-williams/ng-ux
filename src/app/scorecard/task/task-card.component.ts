@@ -3,7 +3,7 @@ import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { ScoreRollup } from '../../shared';
-import { TaskActions } from '../../store';
+import { UserActions } from '../../store';
 import { Experience, StudyStep } from '../types';
 
 
@@ -16,7 +16,7 @@ export class TaskCard {
   @Input() task: StudyStep;
   @Input() selected: boolean;
 
-  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['user', 'selectedExperience']) selectedExperience$: Observable<Experience>;
   @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
 
   private experience: Experience;
@@ -25,7 +25,7 @@ export class TaskCard {
 
   private subs: Subscription[] = [];
 
-  constructor(private actions: TaskActions) {
+  constructor(private actions: UserActions) {
     this.subs.push(this.selectedExperience$.subscribe(x => this.experience = x));
     this.subs.push(this.scores$.subscribe(x => this.scores = x));
   }

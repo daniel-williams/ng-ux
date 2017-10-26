@@ -3,7 +3,7 @@ import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BrowserActions, GlobalActions, Status } from '../../store';
+import { BrowserActions, UserActions, Status } from '../../store';
 import { StudyBrowser, StudyOptions } from '../types';
 
 @Component({
@@ -15,34 +15,26 @@ import { StudyBrowser, StudyOptions } from '../types';
   },
 })
 export class BrowserManager implements OnDestroy {
-  @select(['browser', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
-  // @select(['global', 'feedbackSortOptions']) feedbackSortOptions$: Observable<string[]>;
-  @select(['global', 'feedbackSort']) feedbackSort$: Observable<string>;
+  @select(['user', 'feedbackSort']) feedbackSort$: Observable<string>;
+  @select(['user', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
 
   private subs: Subscription[] = [];
 
   private browserCount: number;
   private browserList: string[] = [];
   private cellWidth: string = '100%';
+  private feedbackSort: string;
+  private feedbackSortOptions: string[] = ['Avg Score', 'Findable', 'Usable', 'Predictable', 'Useful'];
   private minCellWidth = 350;
   private study: StudyOptions;
 
-  private feedbackSortOptions: string[] = ['Avg Score', 'Findable', 'Usable', 'Predictable', 'Useful'];
-  private feedbackSort: string;
-
   constructor(
     private browserActions: BrowserActions,
-    private globalActions: GlobalActions) {
+    private userActions: UserActions) {
 
     this.calculateCellWidth = this.calculateCellWidth.bind(this);
 
-    // this.subs.push(this.feedbackSortOptions$.subscribe(x => this.feedbackSortOptions = x));
     this.subs.push(this.feedbackSort$.subscribe(x => this.feedbackSort = x));
-    this.subs.push(Observable
-      .fromEvent(window, 'resize')
-      .throttleTime(200).subscribe(x => {
-        this.calculateCellWidth();
-      }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
       this.browserList = x;
       this.browserCount = x.length;
@@ -50,6 +42,12 @@ export class BrowserManager implements OnDestroy {
     }));
 
     this.calculateCellWidth();
+    // recalculate cell width on browser resize
+    this.subs.push(Observable
+      .fromEvent(window, 'resize')
+      .throttleTime(200).subscribe(x => {
+        this.calculateCellWidth();
+      }));
   }
 
   ngOnDestroy() {
@@ -64,6 +62,6 @@ export class BrowserManager implements OnDestroy {
   }
 
   toggleItem(item: string) {
-    this.globalActions.setFeedbackSort(item);
+    this.userActions.setFeedbackSort(item);
   }
 }

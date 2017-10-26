@@ -8,7 +8,7 @@ import {
   transition,
 } from '@angular/animations';
 
-import { StudyActions } from '../../store';
+import { UserActions } from '../../store';
 import { Study, StudyOptions } from '../types';
 
 
@@ -34,10 +34,10 @@ export class StudyPanel {
   @Input() studyList: Study[];
   @Input() study: StudyOptions;
 
-  constructor(private studyActions: StudyActions) { }
+  constructor(private actions: UserActions) { }
 
   changeStudy(s: StudyOptions) {
-    this.studyActions.setStudy(s);
+    this.actions.setStudy(s);
   }
 
 }

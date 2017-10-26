@@ -10,7 +10,7 @@ import { ExperiencesActions } from '../experiences/experiences.actions';
 
 @Injectable()
 export class StudyActions implements OnDestroy {
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
   static FETCH_STUDY_OPTIONS = 'FETCH_STUDY_OPTIONS';
   static FETCH_STUDIES_SUCCESS = 'FETCH_STUDIES_SUCCESS';
@@ -27,12 +27,6 @@ export class StudyActions implements OnDestroy {
   static FETCH_TOP_ISSUES = 'FETCH_TOP_ISSUES';
   static FETCH_TOP_ISSUES_SUCCESS = 'FETCH_TOP_ISSUES_SUCCESS';
   static FETCH_TOP_ISSUES_FAILED = 'FETCH_TOP_ISSUES_FAILED';
-
-  static SET_SELECTED_STUDY = 'SET_SELECTED_STUDY';
-
-  static TOGGLE_STUDY_PANEL = 'TOGGLE_STUDY_PANEL';
-  static OPEN_STUDY_PANEL = 'OPEN_STUDY_PANEL';
-  static CLOSE_STUDY_PANEL = 'CLOSE_STUDY_PANEL';
 
   private subs: Subscription[] = [];
 
@@ -63,13 +57,6 @@ export class StudyActions implements OnDestroy {
     });
   }
 
-  setStudy(payload: StudyOptions): void {
-    this.ngRedux.dispatch({
-      type: StudyActions.SET_SELECTED_STUDY,
-      payload: payload,
-    });
-  }
-
   fetchInsights(id: number): void {
     this.ngRedux.dispatch({
       type: StudyActions.FETCH_INSIGHTS,
@@ -88,24 +75,6 @@ export class StudyActions implements OnDestroy {
     this.ngRedux.dispatch({
       type: StudyActions.FETCH_SCORES,
       payload: studyId,
-    });
-  }
-
-  togglePanel(): void {
-    this.ngRedux.dispatch({
-      type: StudyActions.TOGGLE_STUDY_PANEL,
-    });
-  }
-
-  openPanel(): void {
-    this.ngRedux.dispatch({
-      type: StudyActions.OPEN_STUDY_PANEL,
-    });
-  }
-
-  closePanel(): void {
-    this.ngRedux.dispatch({
-      type: StudyActions.CLOSE_STUDY_PANEL,
     });
   }
 

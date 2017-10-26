@@ -12,7 +12,7 @@ import { Study, StudyOptions } from '../types';
   styleUrls: ['./top-issues.component.scss']
 })
 export class TopIssues implements OnDestroy {
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
   @select(['study', 'topIssues']) topIssues$: Observable<string[]>;
 
   private subs: Subscription[] = [];

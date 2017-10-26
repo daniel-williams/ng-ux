@@ -15,7 +15,7 @@ import { Study, StudyOptions } from '../types';
 export class StudyPicker implements OnDestroy {
   @select(['study', 'studyList']) studyList$: Observable<Study[]>;
   @select(['study', 'studyListStatus']) studyListStatus$: Observable<Status>;
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
 
   private showPanel: boolean = false;
   private studyList: Study[] = [];

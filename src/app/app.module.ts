@@ -29,11 +29,11 @@ import {
   ExperiencesEpics,
   FeedbackActions,
   FeedbackEpics,
-  GlobalActions,
   StudyActions,
   StudyEpics,
   TaskActions,
   TaskEpics,
+  UserActions,
 } from './store';
 
 
@@ -65,11 +65,11 @@ import {
     ExperiencesEpics,
     FeedbackActions,
     FeedbackEpics,
-    GlobalActions,
     StudyActions,
     StudyEpics,
     TaskActions,
     TaskEpics,
+    UserActions,
   ]
 })
 export class AppModule {

@@ -10,6 +10,7 @@ import { Action } from '../Action';
 import { UxScorecardService } from '../../shared';
 
 import { ExperiencesActions } from './experiences.actions';
+import { UserActions } from '../user/user.actions';
 
 
 @Injectable()
@@ -38,7 +39,7 @@ export class ExperiencesEpics {
               let experience = result[0];
 
               actions.push({
-                type: ExperiencesActions.SET_SELECTED_EXPERIENCE,
+                type: UserActions.SET_SELECTED_EXPERIENCE,
                 payload: experience
               });
             }

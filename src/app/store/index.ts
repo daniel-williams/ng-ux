@@ -5,6 +5,6 @@ export * from './Status';
 export * from './browser';
 export * from './experiences';
 export * from './feedback';
-export * from './global';
 export * from './study';
 export * from './task';
+export * from './user';

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Experience, StudyOptions } from '../types';
 import { ScoreRollup } from '../../shared';
-import { IAppState, Status, ExperiencesActions } from '../../store';
+import { IAppState, Status, ExperiencesActions, IUserState } from '../../store';
 
 @Component({
   selector: 'browser-summary',
@@ -14,39 +14,27 @@ import { IAppState, Status, ExperiencesActions } from '../../store';
   styleUrls: ['./browser-summary.component.scss']
 })
 export class BrowserSummary implements OnDestroy {
-  @select(['browser', 'selectedBrowsers']) selectedBrowsers$: Observable<string[]>;
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
   @select(['experiences', 'experienceList']) experienceList$: Observable<{[key: string]: Experience[]}>;
-  // @select(['experiences', 'experienceListStatus']) experienceListStatus$: Observable<{[key: string]: Status}>;
   @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
-
-  private selectedBrowsers: string[] = [];
-  private selectedStudy: StudyOptions;
-  private experienceList: {[key: string]: Experience[]} = {};
-  private experiences: Experience[] = [];
-  private scores: ScoreRollup = null;
-
+  @select(['user', 'selectedBrowsers']) selectedBrowsers$: Observable<string[]>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  
   private subs: Subscription[] = [];
 
   private browserSummaries: any[] = [];
+  private experiences: Experience[] = [];
   private filteredSummaries: any[] = [];
+  private scores: ScoreRollup = null;
+  private selectedBrowsers: string[] = [];
+  private selectedStudy: StudyOptions;
 
   constructor(private experiencesActions: ExperiencesActions, private ngRedux: NgRedux<IAppState>) {
-    this.subs.push(this.selectedBrowsers$.subscribe(x => {
-      if(x) {
-        this.selectedBrowsers = x;
-        this.setFilteredSummaries();
-      }
-    }));
-    this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
     this.subs.push(this.experienceList$.subscribe(x => {
       if(x && this.selectedStudy) {
-        this.experienceList = x;
-        this.experiences = this.experienceList[this.selectedStudy.id];
+        this.experiences = x[this.selectedStudy.id];
         this.setFilteredSummaries()
       }
     }));
-
     this.subs.push(this.scores$.subscribe(x => {
       if(x) {
         this.scores = x;
@@ -65,6 +53,13 @@ export class BrowserSummary implements OnDestroy {
       }
 
     }));
+    this.subs.push(this.selectedBrowsers$.subscribe(x => {
+      if(x) {
+        this.selectedBrowsers = x;
+        this.setFilteredSummaries();
+      }
+    }));
+    this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
   }
 
   setFilteredSummaries() {
@@ -74,20 +69,6 @@ export class BrowserSummary implements OnDestroy {
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
-
-  // getBrowserScore(browserName: string) {
-  //   return this.scores
-  //     ? this.scores.browserRollups.find(x => x.name === browserName).score
-  //     : '-';
-  // }
-
-  // getExperienceScore(browserName: string, expId: number) {
-  //   return this.scores
-  //     ? this.scores.browserRollups
-  //       .find(x => x.name === browserName)
-  //       .experienceRollups.find(x => x.id === expId).score || ''
-  //     : '';
-  // }
 
   getWords(wm: any): any[] {
     let result = Object.keys(wm).map(x => [x, wm[x]]).sort((a, b) => a[1] < b[1] ? -1 : b[1] < a[1] ? 1 : 0);

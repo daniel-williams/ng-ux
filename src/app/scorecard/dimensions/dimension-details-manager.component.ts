@@ -1,17 +1,11 @@
 import { Component, Input } from '@angular/core';
-import {
-  animate,
-  keyframes,
-  state,
-  style,
-  trigger,
-  transition,
-} from '@angular/animations';
+
 import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { DimensionType, Experience, StudyBrowser, StudyStep } from '../types';
+import { Experience, StudyBrowser, StudyStep } from '../types';
 import { AssociativeDimension, ScoredDimension, ScoreRollup, TaskRollup } from '../../shared';
+
 
 @Component({
   selector: 'dimension-details-manager',
@@ -21,18 +15,17 @@ import { AssociativeDimension, ScoredDimension, ScoreRollup, TaskRollup } from '
 export class DimensionDetailsManager {
   @Input() browser: StudyBrowser;
 
-  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
-  @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
   @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
+  @select(['user', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['user', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   private subs: Subscription[] = [];
 
+  private dimensions: (AssociativeDimension | ScoredDimension)[] = [];
   private experience: Experience;
   private scores: ScoreRollup;
   private task: StudyStep;
-
   private taskRollup: TaskRollup;
-  private dimensions: (AssociativeDimension | ScoredDimension)[] = [];
   private wordCount: number = 0;
 
   constructor() {

@@ -5,11 +5,10 @@ import { BrowserActions as Actions } from './browser.actions';
 
 import { Status } from '../Status';
 
-
 export interface IBrowserState {
   error?: string;
   showPanel?: boolean;
-  selectedBrowsers?: string[];
+
   browserList?: StudyBrowser[];
   browserListStatus?: Status,
 }
@@ -17,7 +16,7 @@ export interface IBrowserState {
 export const initialBrowserState: IBrowserState = {
   error: null,
   showPanel: false,
-  selectedBrowsers: [],
+
   browserList: [],
   browserListStatus: Status.notFetched,
 };
@@ -43,29 +42,6 @@ export function browserReducer(state: IBrowserState = initialBrowserState, actio
         error: payload,
         browserListStatus: Status.errorFetching,
       });
-    }
-    case Actions.SET_SELECTED_BROWSERS: {
-      return mergeState(state, {
-        selectedBrowsers: payload,
-      });
-    }
-    case Actions.TOGGLE_BROWSER_PANEL: {
-      return mergeState(state, {
-        showPanel: !state.showPanel,
-      });
-    }
-    case Actions.CLOSE_BROWSER_PANEL: {
-      return mergeState(state, {
-        showPanel: false,
-      });
-    }
-    case Actions.OPEN_BROWSER_PANEL: {
-      return mergeState(state, {
-        showPanel: true,
-      });
-    }
-    case Actions.RESET: {
-      return mergeState(state, initialBrowserState)
     }
     default: {
       return state;

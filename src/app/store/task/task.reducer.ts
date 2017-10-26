@@ -8,18 +8,14 @@ import { Status } from '../Status';
 
 export interface ITaskState {
   error?: string;
-  showPanel?: boolean;
 
-  selectedTask?: StudyStep,
   taskList?: { [key: string]: StudyStep[] };
   taskListStatus?: { [key: string]: Status },
 }
 
 export const initialTaskState: ITaskState = {
   error: null,
-  showPanel: false,
 
-  selectedTask: null,
   taskList: {},
   taskListStatus: {},
 };
@@ -70,11 +66,6 @@ export function taskReducer(state: ITaskState = initialTaskState, action: Action
       return mergeState(state, {
         error: payload.error,
         taskListStatus: taskListStatus,
-      });
-    }
-    case Actions.SET_SELECTED_TASK: {
-      return mergeState(state, {
-        selectedTask: payload,
       });
     }
     default: {

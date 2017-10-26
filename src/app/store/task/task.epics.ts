@@ -10,6 +10,7 @@ import { Action } from '../Action';
 import { UxScorecardService } from '../../shared';
 
 import { TaskActions } from './task.actions';
+import { UserActions } from '../user/user.actions';
 
 
 @Injectable()
@@ -38,7 +39,7 @@ export class TaskEpics {
               let task = result[0];
 
               actions.push({
-                type: TaskActions.SET_SELECTED_TASK,
+                type: UserActions.SET_SELECTED_TASK,
                 payload: task
               });
             }

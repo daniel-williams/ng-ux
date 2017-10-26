@@ -3,7 +3,7 @@ import { Store } from 'redux';
 import { ActionsObservable } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 
-import { Action, IAppState, StudyActions } from '../';
+import { Action, IAppState, StudyActions, UserActions } from '../';
 import { UxScorecardService } from '../../shared';
 
 
@@ -25,11 +25,10 @@ export class StudyEpics {
 
             // by default, set selected study to the last item (most recent)
             if(result.length) {
-              // let study = result[result.length - 1];
               let study = result[0]; // until we have all data for lastest study
 
               actions.push({
-                type: StudyActions.SET_SELECTED_STUDY,
+                type: UserActions.SET_SELECTED_STUDY,
                 payload: study
               });
             }

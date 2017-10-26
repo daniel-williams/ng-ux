@@ -49,9 +49,9 @@ export class FeedbackManager implements OnDestroy {
 
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
 
-  @select(['study', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
-  @select(['experiences', 'selectedExperience']) selectedExperience$: Observable<Experience>;
-  @select(['task', 'selectedTask']) selectedTask$: Observable<StudyStep>;
+  @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['user', 'selectedExperience']) selectedExperience$: Observable<Experience>;
+  @select(['user', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   @ViewChildren(FeedbackCard) feedbackCards: QueryList<FeedbackCard>;
 
