@@ -29,6 +29,7 @@ export class ScoreMeter {
   @Input() labelWidth: string = '80px';
   @Input() maxValue: number;
   @Input() value: number;
+  @Input() static: boolean = true;
 
   @Input() barColor: string = 'whitesmoke';
   @Input() fillColor: string = '#106ebe';
@@ -53,11 +54,16 @@ export class ScoreMeter {
     this.fill = this.fillRef.nativeElement;
     this.max = this.maxRef.nativeElement;
     this.wrap = this.wrapRef.nativeElement;
-
-    if(this.fill) {
-      this.fill.style.width = '' + Math.round((this.value / this.maxValue) * 100) + '%';
-    }
+    
     this.lblRef.nativeElement.style.width = this.labelWidth;
+    if(this.static) {
+      if(this.fill) {
+        this.fill.style.width = '' + Math.round((this.value / this.maxValue) * 100) + '%';
+      }
+    } else {
+      setTimeout(() => this.animate(), 0);
+      // this.animate();
+    }
   }
 
   public animate() {
