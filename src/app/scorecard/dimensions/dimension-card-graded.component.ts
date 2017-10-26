@@ -10,4 +10,25 @@ import { ScoredDimension } from '../../shared';
 })
 export class DimensionCardGraded {
   @Input() dimension: ScoredDimension;
+
+  private scoreBreakout: {name: string, value: number}[] = [];
+  private scoreCount = 0;
+  private labelWidth = '30px';
+
+  ngAfterViewInit() {
+    this.calcBreakout();
+  }
+
+  ngOnChanges() {
+    this.calcBreakout();
+  }
+
+  calcBreakout() {
+    this.scoreBreakout = this.dimension.scoreBreakout;
+    this.scoreCount = this.scoreBreakout.reduce((accum, item) => {
+      accum = item.value > accum ? item.value : accum;
+      
+      return accum;
+    }, 0);
+  }
 }

@@ -510,6 +510,27 @@ export class ScoredDimension {
     return formattedScore(this.average, 1);
   }
 
+  get scoreBreakout(): {name: string, value: number}[] {
+    let calc: {[key: string]: number} = {
+      '1': 0,
+      '2': 0,
+      '3': 0,
+      '4': 0,
+      '5': 0,
+    };
+
+    this._scores.forEach(score => {
+      calc[score] += 1;
+    });
+
+    let result = Object.keys(calc).map(x => ({name: x, value: calc[x]}));
+    return result;
+  }
+
+  get scoreCount(): number {
+    return this._scores.length;
+  }
+
   add(n: number) {
     this._scores.push(n);
   }

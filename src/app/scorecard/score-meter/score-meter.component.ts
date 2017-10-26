@@ -25,16 +25,18 @@ import { Score } from '../types';
   }
 })
 export class ScoreMeter {
-  @Input('label') label: string;
-  @Input('maxValue') maxValue: number;
-  @Input('value') value: number;
+  @Input() label: string;
+  @Input() labelWidth: string = '80px';
+  @Input() maxValue: number;
+  @Input() value: number;
 
-  @Input('barColor') barColor: string = 'whitesmoke';
-  @Input('fillColor') fillColor: string = '#106ebe';
+  @Input() barColor: string = 'whitesmoke';
+  @Input() fillColor: string = '#106ebe';
 
   // @Output('mouseEnter') mouseEnter: EventEmitter<Score> = new EventEmitter<Score>();
   // @Output('mouseLeave') mouseLeave: EventEmitter<Score> = new EventEmitter<Score>();
 
+  @ViewChild('lblRef') lblRef: ElementRef;
   @ViewChild('fill') fillRef: ElementRef;
   @ViewChild('max') maxRef: ElementRef;
   @ViewChild('wrap') wrapRef: ElementRef;
@@ -55,6 +57,7 @@ export class ScoreMeter {
     if(this.fill) {
       this.fill.style.width = '' + Math.round((this.value / this.maxValue) * 100) + '%';
     }
+    this.lblRef.nativeElement.style.width = this.labelWidth;
   }
 
   public animate() {

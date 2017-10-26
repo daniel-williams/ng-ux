@@ -1,6 +1,7 @@
 <score-meter
   *ngFor='let score of scores'
   [label]='score.name'
+  [labelWidth]='labelWidth'
   [value]='score.value'
   [maxValue]='maxValue'
   ></score-meter>

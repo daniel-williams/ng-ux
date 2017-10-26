@@ -31,6 +31,7 @@ import { ScoreMeter } from '../score-meter';
 export class ScoreBreakdown {
   @Input() scores: Score[] = [];
   @Input() max: number;
+  @Input() labelWidth: string = '80px';
 
   @ViewChild('toolTip') toolTipRef: ElementRef;
   @ViewChildren(ScoreMeter) meters: QueryList<ScoreMeter>;

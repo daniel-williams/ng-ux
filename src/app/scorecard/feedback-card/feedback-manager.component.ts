@@ -127,43 +127,15 @@ export class FeedbackManager implements OnDestroy {
         });
         break;
       }
-      case 'Findable': {
+      default: {
         this.cardData = this.cardData.sort((a, b) => {
-          let _a = (a.scores.find(x => x.name === 'Findable') || {} as any).value;
-          let _b = (b.scores.find(x => x.name === 'Findable') || {} as any).value;
+          let _a = (a.scores.find(x => x.name === sort) || {} as any).value;
+          let _b = (b.scores.find(x => x.name === sort) || {} as any).value;
 
           return _a < _b ? -1 : _b < _a ? 1 : 0;
         });
         break;
       }
-      case 'Usable': {
-        this.cardData = this.cardData.sort((a, b) => {
-          let _a = (a.scores.find(x => x.name === 'Usable') || {} as any).value;
-          let _b = (b.scores.find(x => x.name === 'Usable') || {} as any).value;
-
-          return _a < _b ? -1 : _b < _a ? 1 : 0;
-        });
-        break;
-      }
-      case 'Predictable': {
-        this.cardData = this.cardData.sort((a, b) => {
-          let _a = (a.scores.find(x => x.name === 'Predictable') || {} as any).value;
-          let _b = (b.scores.find(x => x.name === 'Predictable') || {} as any).value;
-
-          return _a < _b ? -1 : _b < _a ? 1 : 0;
-        });
-        break;
-      }
-      case 'Useful': {
-        this.cardData = this.cardData.sort((a, b) => {
-          let _a = (a.scores.find(x => x.name === 'Useful') || {} as any).value;
-          let _b = (b.scores.find(x => x.name === 'Useful') || {} as any).value;
-
-          return _a < _b ? -1 : _b < _a ? 1 : 0;
-        });
-        break;
-      }
-      default: {}
     }
   }
 
