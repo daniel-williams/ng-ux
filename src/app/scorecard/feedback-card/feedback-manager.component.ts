@@ -3,7 +3,7 @@ import { NgRedux, select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { IAppState } from '../../store';
-import { FeedbackCardData } from '../types';
+import { FeedbackCardData, StudyStep } from '../types';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class FeedbackManager implements OnDestroy {
 
   private subs: Subscription[] = [];
 
+  private task: StudyStep;
   private cardData: FeedbackCardData[] = [];
   private feedbackDataList: FeedbackCardData[] = [];
   private minCellSize = 350;
@@ -38,6 +39,8 @@ export class FeedbackManager implements OnDestroy {
       if(x) {
         let { user } = this.ngRedux.getState();
         let key = `${user.selectedStudy.id}-${user.selectedExperience.type.id}-${user.selectedTask.id}`;
+        
+        this.task = user.selectedTask;
 
         this.feedbackDataList = [];
         if(x[key]) {
