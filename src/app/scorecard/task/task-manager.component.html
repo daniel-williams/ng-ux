@@ -3,22 +3,20 @@
     <div class='col task-card-wrap' *ngFor="let task of taskList">
       <task-card
         [task]='task'
-        [selected]='selectedTask.id === task.id'></task-card>
+        [selected]='selectedTask && selectedTask.id === task.id'></task-card>
     </div>
   </div>
   <div class="row">
     <div class="col">
         <section class='feedback-wrap'>
-
           <div class='feedback-heading'>
             <h2>{{selectedTask.taskType}}</h2>
             <div>{{selectedTask.description}}</div>
           </div>
 
-          <div style='padding: 50px 15px;background-color:white'>
-
+          <div class='dimension-details-wrap'>
             <div *ngIf='browserList.length'>
-              <div class='dimension-details-wrap' *ngFor='let browser of browserList'>
+              <div *ngFor='let browser of browserList'>
                 <dimension-details-manager [browser]='browser'></dimension-details-manager>
               </div>
             </div>

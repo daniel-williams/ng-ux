@@ -1,10 +1,9 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { select } from '@angular-redux/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
-import { BrowserActions, UserActions, Status } from '../../store';
-import { StudyBrowser, StudyOptions } from '../types';
+import { UserActions } from '../../store';
+
 
 @Component({
   selector: 'browser-manager',
@@ -26,12 +25,8 @@ export class BrowserManager implements OnDestroy {
   private feedbackSort: string;
   private feedbackSortOptions: string[] = ['Avg Score', 'Findable', 'Usable', 'Predictable', 'Useful'];
   private minCellWidth = 350;
-  private study: StudyOptions;
 
-  constructor(
-    private browserActions: BrowserActions,
-    private userActions: UserActions) {
-
+  constructor(private userActions: UserActions) {
     this.calculateCellWidth = this.calculateCellWidth.bind(this);
 
     this.subs.push(this.feedbackSort$.subscribe(x => this.feedbackSort = x));

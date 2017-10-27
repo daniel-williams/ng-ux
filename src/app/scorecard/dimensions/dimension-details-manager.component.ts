@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 
-import { select } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { Experience, StudyBrowser, StudyStep } from '../types';
-import { AssociativeDimension, ScoredDimension, ScoreRollup, TaskRollup } from '../../shared';
+import { IAppState } from '../../store';
+import { StudyBrowser, StudyStep } from '../types';
+import { AssociativeDimension, ScoredDimension, TaskRollup } from '../../shared';
 
 
 @Component({
@@ -15,26 +16,16 @@ import { AssociativeDimension, ScoredDimension, ScoreRollup, TaskRollup } from '
 export class DimensionDetailsManager {
   @Input() browser: StudyBrowser;
 
-  @select(['study', 'scores']) scores$: Observable<ScoreRollup>;
-  @select(['user', 'selectedExperience']) selectedExperience$: Observable<Experience>;
   @select(['user', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
   private subs: Subscription[] = [];
 
   private dimensions: (AssociativeDimension | ScoredDimension)[] = [];
-  private experience: Experience;
-  private scores: ScoreRollup;
-  private task: StudyStep;
   private taskRollup: TaskRollup;
   private wordCount: number = 0;
 
-  constructor() {
-    this.subs.push(this.scores$.subscribe(x => this.scores = x));
-    this.subs.push(this.selectedExperience$.subscribe(x => this.experience = x));
-    this.subs.push(this.selectedTask$.subscribe(x => {
-      this.task = x;
-      this.setDimensions();
-    }));
+  constructor(private ngRedux: NgRedux<IAppState>) {
+    this.subs.push(this.selectedTask$.subscribe(x => this.setDimensions()));
   }
 
   ngOnChanges() {
@@ -42,12 +33,15 @@ export class DimensionDetailsManager {
   }
 
   setDimensions() {
-    if(this.browser && this.experience && this.task && this.scores) {
-      let browserRollup = this.scores.browserRollups.find(x => x.name === this.browser.name);
+    let { experiences, study, user } = this.ngRedux.getState();
+
+    if(this.browser && user.selectedExperience && user.selectedTask && study.scores) {
+      let browserRollup = study.scores.browserRollups.find(x => x.name === this.browser.name);
+
       if(browserRollup && browserRollup.experienceRollups) {
         this.taskRollup = browserRollup.experienceRollups
-          .find(x => x.id === this.experience.type.id).taskRollup
-          .find(x => x.id === this.task.id);
+          .find(x => x.id === user.selectedExperience.type.id).taskRollup
+          .find(x => x.id === user.selectedTask.id);
 
         if(this.taskRollup) {
           this.dimensions = [...this.taskRollup.scoredDimensions, ...this.taskRollup.associativeDimensions];

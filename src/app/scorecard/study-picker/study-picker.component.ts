@@ -13,9 +13,8 @@ import { Study, StudyOptions } from '../types';
   styleUrls: ['./study-picker.component.scss']
 })
 export class StudyPicker implements OnDestroy {
-  @select(['study', 'studyList']) studyList$: Observable<Study[]>;
-  @select(['study', 'studyListStatus']) studyListStatus$: Observable<Status>;
   @select(['user', 'selectedStudy']) selectedStudy$: Observable<StudyOptions>;
+  @select(['study', 'studyList']) studyList$: Observable<Study[]>;
 
   private showPanel: boolean = false;
   private studyList: Study[] = [];
@@ -28,11 +27,6 @@ export class StudyPicker implements OnDestroy {
 
     this.subs.push(this.studyList$.subscribe(x => this.studyList = x));
     this.subs.push(this.selectedStudy$.subscribe(study => this.selectedStudy = study));
-    this.subs.push(this.studyListStatus$.subscribe(x => {
-      if(x === Status.notFetched) {
-        this.studyActions.fetchStudyOptions();
-      }
-    }));
   }
 
   togglePanel(evt: any) {

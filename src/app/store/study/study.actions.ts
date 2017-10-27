@@ -37,12 +37,14 @@ export class StudyActions implements OnDestroy {
 
     this.subs.push(this.selectedStudy$.subscribe(study => {
       if(study) {
+        let id = study.id;
+
         // perform fetches for study change
-        this.fetchInsights(study.id)
-        this.fetchScores(study.id);
-        this.fetchTopIssues(study.id);
-        browserActions.fetchBrowsers(study.id);
-        experiencesActions.fetchExperiences(study.id);
+        this.fetchInsights(id)
+        this.fetchScores(id);
+        this.fetchTopIssues(id);
+        browserActions.fetchBrowsers(id);
+        experiencesActions.fetchExperiences(id);
       }
     }));
   }

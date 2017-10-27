@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { IAppState, UserActions } from '../../store';
+import { UserActions } from '../../store';
 
 
 @Component({
@@ -14,11 +14,10 @@ export class DimensionDefinitions implements OnDestroy {
   @select(['user', 'showDimensionPanel']) showDimensionPanel$: Observable<boolean>;
 
   private subs: Subscription[] = [];
+
   private opened: boolean = true;
 
-  constructor(
-    private actions: UserActions,
-    private ngRedux: NgRedux<IAppState>) {
+  constructor(private actions: UserActions) {
 
     this.subs.push(this.showDimensionPanel$.subscribe(x => this.opened = x));
   }

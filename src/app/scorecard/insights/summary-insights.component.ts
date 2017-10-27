@@ -12,6 +12,7 @@ export class SummaryInsight implements OnDestroy {
   @select(['study', 'insights']) insights$: Observable<string[]>;
 
   private subs: Subscription[] = [];
+
   private insights: string[] = [];
 
   constructor() {

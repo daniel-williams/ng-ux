@@ -15,9 +15,9 @@
   </div>
 </section>
 <div class='exp-content-wrap'>
-  <div [@state]='state' *ngFor='let exp of [selectedExperience]'>
+  <div [@state] *ngFor='let exp of [selectedExperience]'>
     <experience-insights *ngIf='selectedExperience' [experience]='selectedExperience'></experience-insights>
     <experience-top-issues *ngIf='selectedExperience' [experience]='selectedExperience'></experience-top-issues>
-    <task-manager [study]='selectedStudy' [experience]='selectedExperience'></task-manager>
+    <task-manager></task-manager>
   </div>
 </div>
