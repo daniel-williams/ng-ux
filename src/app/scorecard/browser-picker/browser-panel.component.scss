@@ -18,6 +18,10 @@
       background-color: whitesmoke;
       cursor: pointer;
     }
+    &.one:hover {
+      background-color: white;
+      cursor: default;
+    }
     i {
       width: 20px;
       margin-left: 10px;

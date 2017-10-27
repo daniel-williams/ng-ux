@@ -60,6 +60,8 @@ export class BrowserPanel {
           : 0;
     });
 
-    this.actions.setBrowsers(selected);
+    if(selected.length > 0) {
+      this.actions.setBrowsers(selected);
+    }
   }
 }
