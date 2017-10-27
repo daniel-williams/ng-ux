@@ -10,7 +10,10 @@ import { Experience, StudyStep } from '../types';
 @Component({
   selector: 'task-card',
   templateUrl: './task-card.component.html',
-  styleUrls: ['./task-card.component.scss']
+  styleUrls: ['./task-card.component.scss'],
+  host: {
+    class: 'task-card',
+  }
 })
 export class TaskCard {
   @Input() task: StudyStep;

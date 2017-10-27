@@ -21,6 +21,9 @@ export class TaskManager {
   private selectedTask: StudyStep;
   private taskList: StudyStep[] = [];
 
+  private cellWidth: string = '100%';
+  private minCellWidth = 350;
+
   constructor(private ngRedux: NgRedux<IAppState>) {
     this.subs.push(this.selectedTask$.subscribe(x => this.selectedTask = x));
     this.subs.push(this.taskList$.subscribe(x => {
@@ -30,11 +33,27 @@ export class TaskManager {
 
         this.taskList = x[key] || [];
         this.browserList = appState.browser.browserList;
+        this.calculateCellWidth();
       }
     }));
+
+    this.calculateCellWidth();
+    // recalculate cell width on browser resize
+    this.subs.push(Observable
+      .fromEvent(window, 'resize')
+      .throttleTime(200).subscribe(x => {
+        this.calculateCellWidth();
+      }));
   }
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
+  }
+
+  calculateCellWidth(): void {
+    let paneWidth = Math.floor(window.innerWidth);
+    let cellCount = Math.min(this.taskList.length, Math.max(1, Math.floor(paneWidth / this.minCellWidth)));
+
+    this.cellWidth = '' + ((1 / cellCount) * 100) + '%';
   }
 }

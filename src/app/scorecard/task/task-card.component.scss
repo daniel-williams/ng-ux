@@ -1,3 +1,9 @@
+:host,
+.task-card {
+  position: relative;
+  display: block;
+  min-height: 220px;
+}
 .task-card-wrap {
   display: flex;
   flex-direction: column;
@@ -7,7 +13,7 @@
   padding: 25px;
   border: 2px solid transparent;
   cursor: pointer;
-  height: 100%;
+  min-height: 220px;
 
   &.selected {
     border: 2px solid blue;
