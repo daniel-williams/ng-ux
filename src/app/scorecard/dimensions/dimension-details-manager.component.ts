@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 import { NgRedux, select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
@@ -18,18 +18,42 @@ export class DimensionDetailsManager {
 
   @select(['user', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
+  @ViewChild('container') containerRef: ElementRef;
   private subs: Subscription[] = [];
 
   private dimensions: (AssociativeDimension | ScoredDimension)[] = [];
   private taskRollup: TaskRollup;
   private wordCount: number = 0;
 
-  constructor(private ngRedux: NgRedux<IAppState>) {
+  private cellWidth: string = '100%';
+  private minCellWidth = 300;
+
+  constructor(private el: ElementRef, private ngRedux: NgRedux<IAppState>) {
     this.subs.push(this.selectedTask$.subscribe(x => this.setDimensions()));
+
+    // recalculate cell width on browser resize
+    this.subs.push(Observable
+      .fromEvent(window, 'resize')
+      .throttleTime(200).subscribe(x => {
+        this.calculateCellWidth();
+      }));
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.calculateCellWidth(), 0);
   }
 
   ngOnChanges() {
     this.setDimensions();
+  }
+
+  calculateCellWidth(): void {
+    if(this.containerRef) {
+      let paneWidth = Math.floor(this.containerRef.nativeElement.clientWidth);
+      let cellCount = Math.min(this.dimensions.length, Math.max(1, Math.floor(paneWidth / this.minCellWidth)));
+
+      this.cellWidth = '' + ((1 / cellCount) * 100) + '%';
+    }
   }
 
   setDimensions() {

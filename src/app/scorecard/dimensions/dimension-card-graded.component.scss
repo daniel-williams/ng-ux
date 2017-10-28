@@ -1,15 +1,10 @@
 :host {
   position: relative;
   display: block;
-  height: 100%;
-  padding-right: 30px;
-  padding-bottom: 30px;
 }
 
 .dimension-card {
   min-width: 200px;
-  max-width: 400px;
-  height: 100%;
 
   &.cloud {
     max-width: 100%;
@@ -23,7 +18,7 @@
     padding: 10px;
   }
   .dimension-breakout {
-    padding: 10px 10px 10px 0;
+    padding-right: 10px;
 
     .breakout-title {
       margin-left: 10px;
@@ -52,4 +47,10 @@
   .dimension-content {
     font-size: 16px;
   }
+}
+.dimension-content-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
 }

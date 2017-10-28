@@ -2,10 +2,12 @@
   <div class='dimension-heading'>
     <div class='title'>{{dimension.dimensionType}}</div>
   </div>
-  <div class='dimension-content'>
-    <div *ngFor='let line of dimension.description'>{{line}}</div>
-  </div>
-  <div class='word-cloud-wrap'>
-    <word-cloud [words]='words'></word-cloud>
+  <div class='dimension-content-wrap'>
+    <div class='dimension-content'>
+      <div *ngFor='let line of dimension.description'>{{line}}</div>
+    </div>
+    <div class='word-cloud-wrap'>
+      <word-cloud [words]='words'></word-cloud>
+    </div>
   </div>
 </div>

@@ -174,15 +174,13 @@ export class UxScorecardService {
 
           if(associateTask) {
             let associateTaskData = data['__tasks'][associateTask.id];
-            
+
             Object.keys(associateTaskData).forEach(term => {
               terms.push({
                 name: term,
                 isPositive: desirableResponse.isPositive(term)
               });
             });
-
-            // console.log('associatedTaskData: ', associateTaskData, terms);
           }
 
           if(gradedTasks.length) {

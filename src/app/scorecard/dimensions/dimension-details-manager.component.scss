@@ -32,6 +32,22 @@
   }
 }
 
+.grid-layout-manager {
+  display: flex;
+  overflow: hidden;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+
+  .grid-item {
+    position: relative;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    min-height: 250px;
+  }
+}
+
 @media (max-width: 1024px) {
   .browser-wrap {
     .details-wrap {

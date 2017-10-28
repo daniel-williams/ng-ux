@@ -3,11 +3,13 @@
     <div class='title'>{{dimension.dimensionType}}</div>
     <div class='score'>{{dimension.score}}</div>
   </div>
-  <div class='dimension-content'>
-    <div *ngFor='let line of dimension.description'>{{line}}</div>
-  </div>
-  <div class='dimension-breakout'>
-    <div class='breakout-title'>Score distribution</div>
-    <score-breakdown [scores]='scoreBreakout' [max]='scoreCount' [labelWidth]='labelWidth' [static]='false'></score-breakdown>
+  <div class='dimension-content-wrap'>
+    <div class='dimension-content'>
+      <div *ngFor='let line of dimension.description'>{{line}}</div>
+    </div>
+    <div class='dimension-breakout'>
+      <div class='breakout-title'>Score distribution</div>
+      <score-breakdown [scores]='scoreBreakout' [max]='scoreCount' [labelWidth]='labelWidth' [static]='false'></score-breakdown>
+    </div>
   </div>
 </div>
