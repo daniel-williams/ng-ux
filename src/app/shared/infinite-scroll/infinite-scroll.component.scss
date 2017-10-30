@@ -1,0 +1,15 @@
+:host, .infinite-scroll {
+  position: relative;
+  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .content, .trigger {
+    position: relative;
+    display: block;
+  }
+}
+.active {
+  background-color: rgba(0, 255, 0, 0.2);
+}

@@ -1,0 +1,9 @@
+<div class='content'>
+  <ng-content></ng-content>
+</div>
+<div class='trigger' #trigger>
+  <div *ngIf='debug'>
+    <div class='item'>scrollTop: {{scrollTop}}</div>
+    <div class='item'>viewHeight: {{viewHeight}}</div>
+    <div class='item'>triggerOffset: {{triggerOffset}}</div>
+</div>

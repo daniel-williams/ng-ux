@@ -79,7 +79,7 @@ export class InfiniteScrollDirective implements AfterViewInit {
           x.then((data) => {
             let current = this.getCurrentScrollPostion();
             let shouldTrigger = this.isPassedThreshold(current);
-  
+
             if(shouldTrigger) {
               this._triggerRequest$.next('manual');
             }

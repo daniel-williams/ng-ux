@@ -22,6 +22,7 @@ export class BrowserManager implements OnDestroy {
   private browserCount: number;
   private browserList: string[] = [];
   private cellWidth: string = '100%';
+  private cellCount: number = 1;
   private feedbackSort: string;
   private feedbackSortOptions: string[] = ['Avg Score', 'Findable', 'Usable', 'Predictable', 'Useful'];
   private minCellWidth = 350;
@@ -51,9 +52,9 @@ export class BrowserManager implements OnDestroy {
 
   calculateCellWidth(): void {
     let paneWidth = Math.floor(window.innerWidth / this.browserCount);
-    let cellCount = Math.max(1, Math.floor(paneWidth / this.minCellWidth));
 
-    this.cellWidth = '' + ((1 / cellCount) * 100) + '%';
+    this.cellCount = Math.max(1, Math.floor(paneWidth / this.minCellWidth));
+    this.cellWidth = '' + ((1 / this.cellCount) * 100) + '%';
   }
 
   toggleItem(item: string) {
