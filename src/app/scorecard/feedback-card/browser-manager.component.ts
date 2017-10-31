@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -17,6 +17,8 @@ export class BrowserManager implements OnDestroy {
   @select(['user', 'feedbackSort']) feedbackSort$: Observable<string>;
   @select(['user', 'selectedBrowsers'])  selectedBrowsers$: Observable<string[]>;
 
+  @ViewChild('feedbackContainer') feedbackContainerRef: ElementRef;
+
   private subs: Subscription[] = [];
 
   private browserCount: number;
@@ -27,8 +29,13 @@ export class BrowserManager implements OnDestroy {
   private feedbackSortOptions: string[] = ['Avg Score', 'Findable', 'Usable', 'Predictable', 'Useful'];
   private minCellWidth = 350;
 
-  constructor(private userActions: UserActions) {
-    this.calculateCellWidth = this.calculateCellWidth.bind(this);
+  private feedbackContainer: HTMLElement;
+  private managerWidth: string = '100%';
+
+  constructor(private userActions: UserActions) { }
+
+  ngAfterViewInit() {
+    this.feedbackContainer =  this.feedbackContainerRef.nativeElement;
 
     this.subs.push(this.feedbackSort$.subscribe(x => this.feedbackSort = x));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
@@ -37,21 +44,23 @@ export class BrowserManager implements OnDestroy {
       this.calculateCellWidth();
     }));
 
-    this.calculateCellWidth();
     // recalculate cell width on browser resize
-    this.subs.push(Observable
-      .fromEvent(window, 'resize')
-      .throttleTime(200).subscribe(x => {
-        this.calculateCellWidth();
-      }));
+    this.subs.push(Observable.fromEvent(window, 'resize')
+      .throttleTime(200)
+      .subscribe(this.calculateCellWidth));
+
+    this.calculateCellWidth();
   }
 
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  calculateCellWidth(): void {
-    let paneWidth = Math.floor(window.innerWidth / this.browserCount);
+  calculateCellWidth = (): void => {
+    let containerWidth = this.feedbackContainer.clientWidth;
+    let paneWidth = Math.floor(containerWidth / this.browserCount);
+
+    setTimeout(() => this.managerWidth = '' + (paneWidth - 15) + 'px', 0);
 
     this.cellCount = Math.max(1, Math.floor(paneWidth / this.minCellWidth));
     this.cellWidth = '' + ((1 / this.cellCount) * 100) + '%';

@@ -1,6 +1,7 @@
 <h2 class='title'>{{browser}}</h2>
 <div class='grid-layout-manager'>
   <div
+    [@state]
     [ngStyle]='{width:cellWidth}'
     *ngFor='let card of cardData'>
     <div class='grid-item'>

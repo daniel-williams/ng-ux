@@ -37,14 +37,6 @@ export class InfiniteScroll {
     this.triggerEl = this.triggerRef.nativeElement;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    let enabledChange = changes['enabled'];
-
-    if(enabledChange) {
-      console.log('enabled chnaged: ', enabledChange.currentValue);
-    }
-  }
-
   ngOnDestroy() {
     this.subs.forEach(x => x.unsubscribe());
   }
@@ -78,7 +70,6 @@ export class InfiniteScroll {
 
     this.notify$ = this.manual$.merge(this.scrollEvent$, this.resizeEvent$);
     this.subs.push(this.notify$.filter(() => this.enabled).subscribe(() => {
-      console.log('emitting');
       this.inViewport.emit();
     }));
   }

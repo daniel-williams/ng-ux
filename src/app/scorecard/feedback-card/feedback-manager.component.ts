@@ -1,6 +1,14 @@
 import { Component, Input, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  trigger,
+  transition,
+} from '@angular/animations';
 
 import { IAppState } from '../../store';
 import { FeedbackCardData, StudyStep } from '../types';
@@ -14,6 +22,14 @@ import { FeedbackCardData, StudyStep } from '../types';
   host: {
     class: 'feedback-manager',
   },
+  animations: [
+    trigger('state', [
+      transition(':enter', [
+        style({transform: 'translateX(100px)', opacity: 0}),
+        animate('0.2s ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+    ]),
+  ],
 })
 export class FeedbackManager implements OnDestroy {
   @Input() browser: string;
@@ -51,13 +67,11 @@ export class FeedbackManager implements OnDestroy {
       }
     }));
     this.subs.push(this.selectedTask$.subscribe(x => {
-      console.log('selected task changed: ', x);
       if(x) {
         let { user, feedback } = this.ngRedux.getState();
         let key = `${user.selectedStudy.id}-${user.selectedExperience.type.id}-${x.id}`;
 
         if(feedback.feedbackDataList[key]) {
-          console.log('new feedback found');
           this.feedbackDataList = feedback.feedbackDataList[key].filter(f => f.userDetails['__browser'] === this.browser);
         }
         this.sortFeedback();
@@ -112,9 +126,20 @@ export class FeedbackManager implements OnDestroy {
     let startIndex = this.lastShownIndex;
     let endIndex = startIndex + this.cellCount;
     let newCardData = this.feedbackDataList.slice(startIndex, endIndex);
+    let delayCounter = 0;
 
     this.lastShownIndex = endIndex;
+
+    while(newCardData.length) {
+      let item = newCardData.splice(0,1)[0];
+
+      setTimeout(() => {
+        this.cardData.push(item);
+      }, 100 * delayCounter);
+      delayCounter += 1;
+    }
     setTimeout(() => this.cardData = this.cardData.concat(newCardData), 0);
+
     if(endIndex === this.feedbackDataList.length) {
       this.enableInfiniteScroll = false;
     }

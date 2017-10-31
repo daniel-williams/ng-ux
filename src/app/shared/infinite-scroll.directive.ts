@@ -70,7 +70,6 @@ export class InfiniteScrollDirective implements AfterViewInit {
   private setupCallbackRequests() {
     let callbackRequests$ = this._triggerRequest$.asObservable();
     callbackRequests$
-      // .do((data) => console.log('callback request source: ', data))
       .map((x) => {
         return this.callback();
       })
