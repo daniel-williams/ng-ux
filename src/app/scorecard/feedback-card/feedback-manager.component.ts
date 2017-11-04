@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -40,18 +40,26 @@ export class FeedbackManager implements OnDestroy {
   @select(['feedback', 'feedbackDataList']) feedbackDataList$: Observable<{[key: string]: FeedbackCardData[]}>;
   @select(['user', 'selectedTask']) selectedTask$: Observable<StudyStep>;
 
+  @ViewChild('title') titleRef: ElementRef;
+  @ViewChild('titleWrap') titleWrapRef: ElementRef;
+
   private subs: Subscription[] = [];
 
-  private task: StudyStep;
   private cardData: FeedbackCardData[] = [];
+  private enableInfiniteScroll = true;
   private feedbackDataList: FeedbackCardData[] = [];
   private lastShownIndex = 0;
   private minCellSize = 350;
-  private enableInfiniteScroll = true;
+  private task: StudyStep;
+  private title: HTMLElement;
+  private titleWrap: HTMLElement;
 
   constructor(private ngRedux: NgRedux<IAppState>) { }
 
   ngAfterViewInit() {
+    this.title = this.titleRef.nativeElement;
+    this.titleWrap = this.titleWrapRef.nativeElement;
+
     this.subs.push(this.feedbackDataList$.subscribe(x => {
       if(x) {
         let { user } = this.ngRedux.getState();
@@ -66,6 +74,7 @@ export class FeedbackManager implements OnDestroy {
         this.sortFeedback();
       }
     }));
+
     this.subs.push(this.selectedTask$.subscribe(x => {
       if(x) {
         let { user, feedback } = this.ngRedux.getState();
@@ -77,6 +86,11 @@ export class FeedbackManager implements OnDestroy {
         this.sortFeedback();
       }
     }));
+
+    // recalculate cell width on browser resize
+    this.subs.push(Observable.fromEvent(window, 'scroll')
+    .throttleTime(200)
+    .subscribe(() => this.updateStickyStatus()));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -97,7 +111,19 @@ export class FeedbackManager implements OnDestroy {
     this.subs.forEach(x => x.unsubscribe());
   }
 
-  sortFeedback() {
+  updateStickyStatus = () => {
+    let top = this.titleWrap.getBoundingClientRect().top;
+
+    this.title.style.width = '' + this.titleWrap.getBoundingClientRect().width + 'px';
+
+    if(top <=0) {
+      this.title.classList.add('stick');
+    } else {
+      this.title.classList.remove('stick');
+    }
+  }
+
+  sortFeedback = () => {
     switch(this.sort) {
       case 'Avg Score': {
         this.feedbackDataList = this.feedbackDataList.sort((a, b) => {

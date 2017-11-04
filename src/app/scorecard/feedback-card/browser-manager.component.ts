@@ -37,11 +37,19 @@ export class BrowserManager implements OnDestroy {
   ngAfterViewInit() {
     this.feedbackContainer =  this.feedbackContainerRef.nativeElement;
 
-    this.subs.push(this.feedbackSort$.subscribe(x => this.feedbackSort = x));
+    this.subs.push(this.feedbackSort$.subscribe(x => {
+      if(x) {
+        setTimeout(() => this.feedbackSort = x, 0);
+      }
+    }));
     this.subs.push(this.selectedBrowsers$.subscribe(x => {
-      this.browserList = x;
-      this.browserCount = x.length;
-      this.calculateCellWidth();
+      if(x) {
+        setTimeout(() => {
+          this.browserList = x;
+          this.browserCount = x.length;
+          this.calculateCellWidth();
+        }, 0);
+      }
     }));
 
     // recalculate cell width on browser resize
