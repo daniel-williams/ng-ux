@@ -81,10 +81,15 @@ export class FeedbackManager implements OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     let newSort = changes['sort'] && changes['sort'].currentValue || null;
+    let newCellCount = changes['cellCount'] && changes['cellCount'].currentValue || null;
 
     if(newSort) {
       this.sort = newSort;
       this.sortFeedback();
+    }
+
+    if(newCellCount) {
+      setTimeout(this.showMore, 0);
     }
   }
 
@@ -123,8 +128,9 @@ export class FeedbackManager implements OnDestroy {
   }
 
   showMore = () => {
+    let adds = this.lastShownIndex % this.cellCount;
     let startIndex = this.lastShownIndex;
-    let endIndex = startIndex + this.cellCount;
+    let endIndex = startIndex + (adds || this.cellCount);
     let newCardData = this.feedbackDataList.slice(startIndex, endIndex);
     let delayCounter = 0;
 
