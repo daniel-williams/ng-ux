@@ -59,6 +59,7 @@ export class FeedbackManager implements OnDestroy {
   ngAfterViewInit() {
     this.title = this.titleRef.nativeElement;
     this.titleWrap = this.titleWrapRef.nativeElement;
+    this.updateStickyStatus();
 
     this.subs.push(this.feedbackDataList$.subscribe(x => {
       if(x) {
@@ -87,10 +88,14 @@ export class FeedbackManager implements OnDestroy {
       }
     }));
 
-    // recalculate cell width on browser resize
     this.subs.push(Observable.fromEvent(window, 'scroll')
-    .throttleTime(200)
-    .subscribe(() => this.updateStickyStatus()));
+      .subscribe(this.updateStickyStatus)
+    );
+
+    this.subs.push(Observable.fromEvent(window, 'resize')
+      .debounceTime(100)
+      .subscribe(this.updateStickyStatus)
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -121,7 +126,7 @@ export class FeedbackManager implements OnDestroy {
     } else {
       this.title.classList.remove('stick');
     }
-  }
+  };
 
   sortFeedback = () => {
     switch(this.sort) {
@@ -145,13 +150,17 @@ export class FeedbackManager implements OnDestroy {
       }
     }
     this.resetGrid();
-  }
+  };
+
+  private getScrollTop = (): number => {
+    return window.scrollY;
+  };
 
   resetGrid = () => {
     this.lastShownIndex = 0;
     this.cardData = [];
     this.enableInfiniteScroll = true;
-  }
+  };
 
   showMore = () => {
     let adds = this.lastShownIndex % this.cellCount;
@@ -175,5 +184,5 @@ export class FeedbackManager implements OnDestroy {
     if(endIndex === this.feedbackDataList.length) {
       this.enableInfiniteScroll = false;
     }
-  }
+  };
 }

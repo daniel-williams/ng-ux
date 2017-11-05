@@ -54,7 +54,7 @@ export class BrowserManager implements OnDestroy {
 
     // recalculate cell width on browser resize
     this.subs.push(Observable.fromEvent(window, 'resize')
-      .throttleTime(200)
+      .debounceTime(100)
       .subscribe(this.calculateCellWidth));
 
     this.calculateCellWidth();
@@ -72,7 +72,7 @@ export class BrowserManager implements OnDestroy {
 
     this.cellCount = Math.max(1, Math.floor(paneWidth / this.minCellWidth));
     this.cellWidth = '' + ((1 / this.cellCount) * 100) + '%';
-  }
+  };
 
   toggleItem(item: string) {
     this.userActions.setFeedbackSort(item);

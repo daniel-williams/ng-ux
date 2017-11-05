@@ -7,10 +7,13 @@
 .title-wrap {
   position: relative;
 }
+.title {
+  padding-left: 15px;
+}
 .title.stick {
   position: fixed;
   display: block;
-  padding: 25px 0;
+  padding: 25px 0 25px 15px;
   top: 0;
   z-index: 1000;
   background-color: rgba(255,255,255,0.9);
